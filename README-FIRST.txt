@@ -138,3 +138,5 @@ V14 — OWNER PIN UPDATE
 - Removed the visible default PIN hint from the Owner login screen.
 - Owner PIN is no longer displayed anywhere in the UI.
 - Owner PIN value was updated privately in the application code.
+
+GitHub Pages deployment trigger.
