@@ -1,14 +1,9 @@
 /*
-  LIVE CHAT CONFIGURATION
+  JC'S BIRTHDAY — SUPABASE REALTIME CONFIG
 
-  Railway:
-  - If the whole app is hosted on Railway, leave this as "".
-
-  GitHub Pages + Railway backend:
-  - Deploy this same project to Railway.
-  - Copy the Railway public URL, for example:
-      https://your-project.up.railway.app
-  - Put it below:
-      window.JC_CHAT_SERVER_URL = "https://your-project.up.railway.app";
+  These are frontend-safe public project values.
+  Never put a service_role key, database password, or other secret here.
 */
-window.JC_CHAT_SERVER_URL = "";
+
+window.JC_SUPABASE_URL = "https://hxcscbxxijjntvvgdmll.supabase.co";
+window.JC_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_ZUQwDL4M_K8oEJzo6sCqHA_PGgNPsbQ";

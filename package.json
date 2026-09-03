@@ -1,14 +1,8 @@
 {
-  "name": "jcs-birthday-v10-live-chat",
+  "name": "jcs-birthday-v9",
   "version": "1.0.0",
   "private": true,
-  "description": "JC's Birthday virtual gift builder with realtime online count and live chat",
   "scripts": {
     "start": "node server.js"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.21.2",
-    "socket.io": "^4.8.1"
   }
 }

@@ -2561,6 +2561,20 @@ main{
   .background-panel-footer .btn{flex:1}
 }
 
+
+/* =========================================================
+   V16 SAFE CHAT
+   ========================================================= */
+.chat-safety-note{
+  padding:8px 14px;
+  background:#EEF2F1;
+  border-bottom:1px solid rgba(62,80,102,.07);
+  color:#6F7B8C;
+  font-size:7px;
+  line-height:1.45;
+  font-weight:700;
+}
+
 </style>
 </head>
 <body>
@@ -2805,6 +2819,8 @@ main{
     <button class="chat-close" id="chatCloseBtn" type="button" aria-label="Close chat">✕</button>
   </div>
 
+  <div class="chat-safety-note">🛡️ Keep it kind — abusive or inappropriate language is automatically blocked.</div>
+
   <div class="chat-name-row">
     <label for="chatNameInput">Chat as</label>
     <input id="chatNameInput" maxlength="40" placeholder="Your name">
@@ -2906,6 +2922,7 @@ main{
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="chat-config.js"></script>
 <script>
 (() => {
@@ -2959,8 +2976,17 @@ main{
   let backgroundHistoryPushed = false;
 
   const CHAT_NAME_KEY = "jc.birthday.chat.name.v1";
-  const CHAT_SERVER_URL = String(window.JC_CHAT_SERVER_URL || "").trim().replace(/\/+$/,"");
-  let chatSocket = null;
+  const SUPABASE_URL = String(window.JC_SUPABASE_URL || "").trim().replace(/\/+$/,"");
+  const SUPABASE_PUBLISHABLE_KEY = String(window.JC_SUPABASE_PUBLISHABLE_KEY || "").trim();
+  const CHAT_CHANNEL_NAME = "jcs-birthday-live-v1";
+
+  const chatClientId = (window.crypto && crypto.randomUUID)
+    ? crypto.randomUUID()
+    : `guest-${Date.now()}-${Math.random().toString(36).slice(2,10)}`;
+
+  let supabaseClient = null;
+  let chatChannel = null;
+  let chatConnected = false;
   let chatOpen = false;
   let chatUnread = 0;
   let chatTypingTimer = null;
@@ -3084,28 +3110,158 @@ main{
   }
 
 
+
+  // ---------------------------------------------------------
+  // CHAT SAFETY FILTER
+  // Covers common English + Filipino/Tagalog profanity/abuse.
+  // It also normalizes punctuation, repeated letters, spaces,
+  // and basic leetspeak before checking.
+  // ---------------------------------------------------------
+  const CHAT_BLOCKED_TERMS = [
+    // Filipino / Tagalog / common PH profanity & abuse
+    "gago","gaga","bobo","tanga","tangina","putangina","putanginamo",
+    "putanginanyo","puta","pota","ulol","inutil","leche","letse","lintik",
+    "hayopka","tarantado","tarantada","bwisit","bwesit","pakshet",
+    "pakshit","punyeta","punyeta","yawa","yati","buang","piste",
+    "pisti","ogag","engot","ungas","siraulo","siraulo","kantot",
+    "kantutan","iyot","iyotan","jakol","jakulan","burat","titi","pekpek",
+    "puke","kupal","ulupong",
+
+    // English profanity / abuse
+    "fuck","fucker","fucking","motherfucker","motherfucking",
+    "shit","bullshit","bitch","bitches","bastard","asshole","dickhead",
+    "dumbass","jackass","prick","cunt","slut","whore","hoe",
+    "cock","dick","pussy","wanker","twat","retard","retarded"
+  ];
+
+  const CHAT_BLOCKED_PHRASES = [
+    // Filipino phrases
+    "gago ka","gaga ka","bobo ka","tanga ka","ulol ka","inutil ka",
+    "putang ina","putang ina mo","putangina mo","putangina nyo",
+    "puta ka","hayop ka","tarantado ka","tarantada ka","sira ulo",
+    "sira ulo ka","bwisit ka","bwesit ka","leche ka","letse ka",
+    "yawa ka","piste ka",
+
+    // English abusive phrases
+    "fuck you","fuck off","go fuck yourself","piece of shit",
+    "son of a bitch","you bitch","stupid bitch","dumb bitch",
+    "shut the fuck up","screw you"
+  ];
+
+  function normalizeSafetyText(value){
+    return String(value || "")
+      .normalize("NFKD")
+      .toLowerCase()
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[0@]/g, "o")
+      .replace(/[1!|]/g, "i")
+      .replace(/[3]/g, "e")
+      .replace(/[4]/g, "a")
+      .replace(/[5$]/g, "s")
+      .replace(/[7]/g, "t")
+      .replace(/[8]/g, "b")
+      .replace(/(.)\1{2,}/g, "$1$1")
+      .replace(/[^a-z0-9\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function compactSafetyText(value){
+    return normalizeSafetyText(value).replace(/\s+/g, "");
+  }
+
+  function containsBlockedChatLanguage(value){
+    const normalized = normalizeSafetyText(value);
+    const compact = compactSafetyText(value);
+
+    if(!normalized) return false;
+
+    for(const phrase of CHAT_BLOCKED_PHRASES){
+      const phraseNorm = normalizeSafetyText(phrase);
+      const phraseCompact = phraseNorm.replace(/\s+/g, "");
+
+      if(
+        normalized.includes(phraseNorm) ||
+        compact.includes(phraseCompact)
+      ){
+        return true;
+      }
+    }
+
+    const words = normalized.split(/\s+/).filter(Boolean);
+
+    for(const term of CHAT_BLOCKED_TERMS){
+      const termNorm = normalizeSafetyText(term);
+      const termCompact = termNorm.replace(/\s+/g, "");
+
+      // Match complete words where possible so innocent words such as
+      // "class" are not blocked because they contain "ass".
+      if(words.includes(termNorm)) return true;
+
+      // Catch spaced/obfuscated versions like g a g o / p.u.t.a.n.g.i.n.a.
+      if(termCompact.length >= 4 && compact.includes(termCompact)){
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function safeIncomingChatMessage(msg){
+    if(!msg) return null;
+
+    const name = String(msg.name || "Guest").slice(0,40);
+    const text = String(msg.text || "").slice(0,500);
+
+    if(containsBlockedChatLanguage(name) || containsBlockedChatLanguage(text)){
+      return {
+        type:"system",
+        text:"🛡️ A message was blocked by the chat safety filter.",
+        createdAt:msg.createdAt || new Date().toISOString()
+      };
+    }
+
+    return msg;
+  }
+
   function preferredChatName(){
     const inputName = $("chatNameInput") ? $("chatNameInput").value.trim() : "";
     return inputName || chatName || (giver && giver.name) || "Guest";
   }
 
+  async function refreshChatPresence(){
+    if(!chatChannel || !chatConnected) return;
+
+    try{
+      const rawName = preferredChatName();
+      const safeName = containsBlockedChatLanguage(rawName) ? "Guest" : rawName;
+
+      await chatChannel.track({
+        clientId: chatClientId,
+        name: safeName,
+        onlineAt: new Date().toISOString()
+      });
+    }catch{}
+  }
+
   function saveChatName(name){
     chatName = String(name || "").trim().slice(0,40);
+
     if(chatName){
       localStorage.setItem(CHAT_NAME_KEY, chatName);
     }
+
     if($("chatNameInput") && $("chatNameInput").value !== chatName){
       $("chatNameInput").value = chatName;
     }
-    if(chatSocket && chatSocket.connected && chatName){
-      chatSocket.emit("chat:set-name", {name:chatName});
-    }
+
+    refreshChatPresence();
   }
 
   function syncChatNameFromGiver(){
     if(giver && giver.name && !chatName){
       saveChatName(giver.name);
-    } else if($("chatNameInput") && !$("chatNameInput").value && giver && giver.name){
+    }else if($("chatNameInput") && !$("chatNameInput").value && giver && giver.name){
       $("chatNameInput").value = giver.name;
     }
   }
@@ -3120,6 +3276,28 @@ main{
     $("onlineCount").textContent = Number.isFinite(Number(count)) ? Number(count) : 0;
   }
 
+  function updateOnlineCountFromPresence(){
+    if(!chatChannel){
+      setOnlineCount(0);
+      return;
+    }
+
+    try{
+      const state = chatChannel.presenceState();
+      let total = 0;
+
+      Object.values(state || {}).forEach(presences => {
+        if(Array.isArray(presences)){
+          total += presences.length;
+        }
+      });
+
+      setOnlineCount(total);
+    }catch{
+      setOnlineCount(0);
+    }
+  }
+
   function updateUnread(){
     const badge = $("chatUnread");
     badge.textContent = chatUnread > 99 ? "99+" : String(chatUnread);
@@ -3131,11 +3309,14 @@ main{
     $("chatPanel").classList.remove("hidden");
     chatUnread = 0;
     updateUnread();
+
     requestAnimationFrame(() => {
       $("chatMessages").scrollTop = $("chatMessages").scrollHeight;
+
       if(!$("chatNameInput").value){
         $("chatNameInput").value = chatName || (giver && giver.name) || "";
       }
+
       $("chatInput").focus();
     });
   }
@@ -3147,19 +3328,25 @@ main{
 
   function chatTimeLabel(iso){
     try{
-      return new Date(iso || Date.now()).toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
-    }catch{return "";}
+      return new Date(iso || Date.now()).toLocaleTimeString([], {
+        hour:"2-digit",
+        minute:"2-digit"
+      });
+    }catch{
+      return "";
+    }
   }
 
   function appendChatMessage(msg, mineOverride=null){
     if(!msg) return;
+
     $("chatEmpty").classList.add("hidden");
 
     const row = document.createElement("div");
     const system = msg.type === "system";
     const mine = mineOverride !== null
       ? mineOverride
-      : (!system && chatSocket && msg.socketId === chatSocket.id);
+      : (!system && msg.clientId === chatClientId);
 
     row.className = "chat-msg " + (system ? "system" : (mine ? "mine" : "other"));
 
@@ -3201,97 +3388,159 @@ main{
     $("chatEmpty").classList.remove("hidden");
   }
 
-  function resolveChatServer(){
-    if(CHAT_SERVER_URL) return CHAT_SERVER_URL;
+  function showTyping(name){
+    clearTimeout(chatTypingClearTimer);
 
-    if(location.protocol === "http:" || location.protocol === "https:"){
-      if(location.hostname.endsWith("github.io")) return "";
-      return location.origin;
-    }
+    $("chatTyping").textContent = `${name || "Someone"} is typing…`;
 
-    return "";
+    chatTypingClearTimer = setTimeout(() => {
+      $("chatTyping").textContent = "";
+    }, 1300);
   }
 
-  function loadSocketClient(base){
-    return new Promise((resolve,reject) => {
-      if(window.io){ resolve(); return; }
+  async function sendRealtimeBroadcast(event, payload){
+    if(!chatChannel || !chatConnected) return false;
 
-      const script = document.createElement("script");
-      script.async = true;
-      script.src = `${base}/socket.io/socket.io.js`;
-      script.onload = () => window.io ? resolve() : reject(new Error("Socket client unavailable"));
-      script.onerror = () => reject(new Error("Could not load realtime chat"));
-      document.head.appendChild(script);
-    });
+    try{
+      const result = await chatChannel.send({
+        type:"broadcast",
+        event,
+        payload
+      });
+
+      return result === "ok" || result === "OK";
+    }catch{
+      return false;
+    }
   }
 
   async function initRealtimeChat(){
-    const base = resolveChatServer();
-
-    if(!base){
+    if(!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY){
       setOnlineCount(0);
-      setChatStatus("Set your Railway chat URL in chat-config.js", false);
+      setChatStatus("Supabase chat configuration is missing", false);
+      return;
+    }
+
+    if(!window.supabase || typeof window.supabase.createClient !== "function"){
+      setOnlineCount(0);
+      setChatStatus("Could not load Supabase Realtime", false);
       return;
     }
 
     setChatStatus("Connecting…", false);
 
     try{
-      await loadSocketClient(base);
+      supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY,
+        {
+          auth:{
+            persistSession:false,
+            autoRefreshToken:false,
+            detectSessionInUrl:false
+          }
+        }
+      );
 
-      chatSocket = window.io(base, {
-        transports:["websocket","polling"],
-        reconnection:true,
-        reconnectionAttempts:Infinity
+      chatChannel = supabaseClient.channel(CHAT_CHANNEL_NAME, {
+        config:{
+          broadcast:{self:true},
+          presence:{key:chatClientId}
+        }
       });
 
-      chatSocket.on("connect", () => {
-        setChatStatus("Live chat connected", true);
-        if(chatName) chatSocket.emit("chat:set-name", {name:chatName});
-      });
+      chatChannel
+        .on("broadcast", {event:"chat-message"}, ({payload}) => {
+          const safeMessage = safeIncomingChatMessage(payload);
+          if(safeMessage) appendChatMessage(safeMessage);
+        })
+        .on("broadcast", {event:"typing"}, ({payload}) => {
+          if(!payload || payload.clientId === chatClientId) return;
+          if(payload.typing) showTyping(payload.name);
+          else $("chatTyping").textContent = "";
+        })
+        .on("broadcast", {event:"system-message"}, ({payload}) => {
+          if(!payload || payload.clientId === chatClientId) return;
 
-      chatSocket.on("disconnect", () => {
-        setChatStatus("Reconnecting…", false);
-      });
+          appendChatMessage({
+            type:"system",
+            text:payload.text || "",
+            createdAt:payload.createdAt
+          });
+        })
+        .on("presence", {event:"sync"}, () => {
+          updateOnlineCountFromPresence();
+        })
+        .on("presence", {event:"join"}, ({newPresences}) => {
+          updateOnlineCountFromPresence();
 
-      chatSocket.on("connect_error", () => {
-        setChatStatus("Chat server unavailable", false);
-      });
+          const joined = Array.isArray(newPresences) ? newPresences[0] : null;
 
-      chatSocket.on("presence:count", count => {
-        setOnlineCount(count);
-      });
+          if(joined && joined.clientId !== chatClientId && joined.name){
+            appendChatMessage({
+              type:"system",
+              text:`${joined.name} joined the birthday chat 🎉`,
+              createdAt:new Date().toISOString()
+            });
+          }
+        })
+        .on("presence", {event:"leave"}, ({leftPresences}) => {
+          updateOnlineCountFromPresence();
 
-      chatSocket.on("chat:history", list => {
-        clearChatMessages();
-        (Array.isArray(list) ? list : []).forEach(msg => appendChatMessage(msg));
-      });
+          const left = Array.isArray(leftPresences) ? leftPresences[0] : null;
 
-      chatSocket.on("chat:message", msg => {
-        appendChatMessage(msg);
-      });
+          if(left && left.clientId !== chatClientId && left.name){
+            appendChatMessage({
+              type:"system",
+              text:`${left.name} left the chat`,
+              createdAt:new Date().toISOString()
+            });
+          }
+        })
+        .subscribe(async status => {
+          if(status === "SUBSCRIBED"){
+            chatConnected = true;
+            setChatStatus("Live chat connected", true);
 
-      chatSocket.on("chat:system", msg => {
-        appendChatMessage({type:"system", text:msg.text || String(msg), createdAt:msg.createdAt});
-      });
+            await refreshChatPresence();
+            updateOnlineCountFromPresence();
+            return;
+          }
 
-      chatSocket.on("chat:typing", data => {
-        clearTimeout(chatTypingClearTimer);
-        const name = data && data.name ? data.name : "Someone";
-        $("chatTyping").textContent = `${name} is typing…`;
-        chatTypingClearTimer = setTimeout(() => $("chatTyping").textContent = "", 1300);
-      });
+          if(status === "CHANNEL_ERROR"){
+            chatConnected = false;
+            setOnlineCount(0);
+            setChatStatus("Supabase Realtime connection error", false);
+            return;
+          }
+
+          if(status === "TIMED_OUT"){
+            chatConnected = false;
+            setOnlineCount(0);
+            setChatStatus("Realtime connection timed out", false);
+            return;
+          }
+
+          if(status === "CLOSED"){
+            chatConnected = false;
+            setOnlineCount(0);
+            setChatStatus("Realtime chat disconnected", false);
+          }
+        });
+
     }catch(err){
+      chatConnected = false;
       setOnlineCount(0);
-      setChatStatus("Live chat needs Railway deployment", false);
+      setChatStatus("Supabase Realtime unavailable", false);
     }
   }
 
-  function sendChatMessage(){
+  async function sendChatMessage(){
     const text = $("chatInput").value.trim();
     if(!text) return;
 
     const name = preferredChatName();
+
     if(!name || name === "Guest"){
       if(!$("chatNameInput").value.trim()){
         $("chatNameInput").focus();
@@ -3300,17 +3549,48 @@ main{
       }
     }
 
-    saveChatName(name);
-
-    if(!chatSocket || !chatSocket.connected){
-      toast("Live chat is not connected yet");
+    if(containsBlockedChatLanguage(name)){
+      toast("Please use an appropriate chat name");
+      $("chatNameInput").focus();
       return;
     }
 
-    chatSocket.emit("chat:message", {name, text});
+    if(containsBlockedChatLanguage(text)){
+      toast("That message contains language that is not allowed");
+      $("chatInput").focus();
+      return;
+    }
+
+    saveChatName(name);
+
+    if(!chatChannel || !chatConnected){
+      toast("Live chat is still connecting");
+      return;
+    }
+
+    const message = {
+      id:`${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
+      clientId:chatClientId,
+      name,
+      text:text.slice(0,500),
+      createdAt:new Date().toISOString()
+    };
+
+    const sent = await sendRealtimeBroadcast("chat-message", message);
+
+    if(!sent){
+      toast("Message could not be sent");
+      return;
+    }
+
     $("chatInput").value = "";
     $("chatTyping").textContent = "";
-    chatSocket.emit("chat:typing", {name, typing:false});
+
+    sendRealtimeBroadcast("typing", {
+      clientId:chatClientId,
+      name,
+      typing:false
+    });
   }
 
   function renderHome(){
@@ -4862,13 +5142,25 @@ main{
     });
 
     $("chatInput").addEventListener("input", () => {
-      if(!chatSocket || !chatSocket.connected) return;
+      if(!chatChannel || !chatConnected) return;
+
       const name = preferredChatName();
-      chatSocket.emit("chat:typing", {name, typing:true});
+
+      sendRealtimeBroadcast("typing", {
+        clientId:chatClientId,
+        name,
+        typing:true
+      });
+
       clearTimeout(chatTypingTimer);
+
       chatTypingTimer = setTimeout(() => {
-        if(chatSocket && chatSocket.connected){
-          chatSocket.emit("chat:typing", {name, typing:false});
+        if(chatChannel && chatConnected){
+          sendRealtimeBroadcast("typing", {
+            clientId:chatClientId,
+            name,
+            typing:false
+          });
         }
       }, 700);
     });
@@ -5017,6 +5309,15 @@ main{
   $("chatNameInput").value = chatName || "";
   updateUnread();
   initRealtimeChat();
+
+  window.addEventListener("beforeunload", () => {
+    try{
+      if(chatChannel){
+        chatChannel.untrack();
+        chatChannel.unsubscribe();
+      }
+    }catch{}
+  });
 })();
 </script>
 </body>
