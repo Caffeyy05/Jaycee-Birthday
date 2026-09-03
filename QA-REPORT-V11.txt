@@ -1,0 +1,20 @@
+JC's Birthday! — V11 Birthday Song QA
+========================================
+
+Static/structural checks:
+- Sing a Birthday Song appears as a gift choice
+- Dedicated recording screen exists
+- Record / Stop controls exist
+- Recording timer exists
+- 90-second cap exists
+- Audio preview controls exist
+- Replay button exists
+- Record Again button exists
+- Upload Audio fallback exists
+- Send button starts disabled
+- Saved Birthday Box gift includes an audio player
+- Existing drag/drop builders remain
+- Existing live chat remains
+
+Microphone recording requires browser permission and a secure context
+(HTTPS or localhost). The upload-audio path is available for deterministic QA.

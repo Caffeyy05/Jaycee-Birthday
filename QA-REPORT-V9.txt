@@ -1,0 +1,82 @@
+JC's Birthday! — V9 FINAL QA REPORT
+====================================
+
+Automated checks passed: 40
+Automated checks failed: 0
+
+Important bugs specifically tested:
+- Full text typed CHARACTER-BY-CHARACTER stays in the field.
+- Text input keeps focus after a complete sentence.
+- Money currency name accepts full text.
+- Money value accepts full text.
+- Money message accepts a full sentence.
+- Money input keeps focus after typing.
+- Upload Image creates a real draggable image object.
+- Make Sticker creates a circular draggable sticker.
+- Our Photo Together accepts an uploaded memory photo.
+- Uploaded photos keep direct corner resize handles.
+- Saved uploaded-photo gifts reopen visually in Birthday Box.
+
+Responsive layouts tested:
+- 1440 × 900 desktop
+- 1024 × 768 laptop
+- 768 × 900 tablet/small laptop
+- 390 × 844 phone portrait
+
+Responsive checks:
+- No body horizontal clipping at tested widths.
+- Edit panel remains fully inside the viewport.
+- Medium layouts keep the canvas accessible.
+- Portrait phone canvas fits the editor instead of collapsing/cutting off.
+- Mobile All Elements sheet opens and includes photo upload/sticker tools.
+
+Gift modes now included:
+- Birthday Cake
+- Flower Bouquet
+- Birthday Card
+- Draw Something
+- Gift Box
+- Custom Money
+- Our Photo Together
+
+Detailed automated checks:
+[PASS] Homepage title branding
+[PASS] Seven gift modes available
+[PASS] Card text asset can be added
+[PASS] Text editor accepts full sentence without losing focus — Happy birthday Jaycee! This entire sentence should type normally.
+[PASS] Canvas text updates for full sentence — Happy birthday Jaycee! This entire sentence should type normally.
+[PASS] Text input still focused after typing
+[PASS] Direct resize handles present
+[PASS] Paper money base added
+[PASS] Money currency field accepts full text — JAYCEE BIRTHDAY BUCKS
+[PASS] Money value field accepts full text — 1000000
+[PASS] Money note field accepts full sentence — Valid for unlimited birthday happiness
+[PASS] Money note retains focus after typing
+[PASS] Upload Image appears in every builder
+[PASS] Uploaded image becomes canvas object
+[PASS] Uploaded image has direct resize handles
+[PASS] Make Sticker appears in every builder
+[PASS] Sticker upload becomes sticker object
+[PASS] Our Photo Together gift choice exists
+[PASS] Photo Together builder title
+[PASS] Photo Together has Add Our Photo
+[PASS] Photo Together accepts uploaded memory photo
+[PASS] 1024 no body horizontal clipping — ({'left': 598.609375, 'right': 957, 'width': 358.390625, 'display': 'block'}, {'cw': 502, 'sw': 740, 'overflow': 'auto', 'canvasW': 720, 'canvasH': 540})
+[PASS] 1024 Edit panel fully inside viewport — {'left': 598.609375, 'right': 957, 'width': 358.390625, 'display': 'block'}
+[PASS] 1024 canvas stays accessible without body clipping — {'cw': 502, 'sw': 740, 'overflow': 'auto', 'canvasW': 720, 'canvasH': 540}
+[PASS] 768 no body horizontal clipping — ({'left': 14, 'right': 744, 'width': 730, 'display': 'block'}, {'cw': 700, 'sw': 740, 'overflow': 'auto', 'canvasW': 720, 'canvasH': 540})
+[PASS] 768 Edit panel fully inside viewport — {'left': 14, 'right': 744, 'width': 730, 'display': 'block'}
+[PASS] 768 canvas stays accessible without body clipping — {'cw': 700, 'sw': 740, 'overflow': 'auto', 'canvasW': 720, 'canvasH': 540}
+[PASS] mobile no body horizontal clipping — ({'left': 8, 'right': 372, 'width': 364, 'display': 'block'}, {'cw': 334, 'sw': 334, 'overflow': 'hidden', 'canvasW': 314, 'canvasH': 235.5})
+[PASS] mobile Edit panel fully inside viewport — {'left': 8, 'right': 372, 'width': 364, 'display': 'block'}
+[PASS] mobile canvas fits editor without being cut — {'cw': 334, 'sw': 334, 'overflow': 'hidden', 'canvasW': 314, 'canvasH': 235.5}
+[PASS] Mobile All Elements button visible
+[PASS] All Elements sheet opens
+[PASS] All Elements includes upload and sticker
+[PASS] Send gift reaches wrapped success screen
+[PASS] Gift count increments
+[PASS] Owner PIN opens Birthday Box
+[PASS] Saved uploaded-photo gift appears in Birthday Box
+[PASS] Saved gift opens visual viewer
+[PASS] Saved uploaded image renders in gift viewer
+[PASS] All seven builder choices are clickable

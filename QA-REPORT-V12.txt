@@ -1,0 +1,36 @@
+JC's Birthday! — V12 Targeted Drawing QA
+==========================================
+
+Fixes implemented:
+- Full-size draw canvas: 100% width and height of design board
+- Pointer capture for continuous held strokes
+- Pointerleave no longer ends a stroke
+- Coordinates clamp to all canvas edges
+- Browser long-press context menu blocked on drawing canvas
+- Browser drag gesture blocked on drawing canvas
+- Draw mode clears/prevents the dashed desktop drop state
+- Mobile/tablet element buttons are not HTML draggable
+- Responsive asset swipe/long-hold is guarded from accidental click/upload
+- Desktop drag/drop remains available
+- V11 Birthday Song retained
+- V10 online counter/live chat retained
+
+- Hidden-layout initialization guarded: drawing canvas waits until the board has real dimensions
+
+
+ACTUAL BROWSER RUNTIME QA
+-------------------------
+Tested in a mobile-size Chromium browser (390 × 844).
+
+11/11 runtime checks passed:
+- Drawing canvas visible
+- Canvas covers the complete white board width
+- Canvas covers the complete white board height
+- Canvas backing store uses real board dimensions
+- Draw mode is active correctly
+- Ink reaches the left edge
+- Ink reaches the right edge
+- 650 ms held touch does NOT open a file picker
+- No stuck dashed drag/drop state after holding
+- Mobile element buttons are not HTML draggable
+- No runtime JavaScript errors during the tested drawing flow
