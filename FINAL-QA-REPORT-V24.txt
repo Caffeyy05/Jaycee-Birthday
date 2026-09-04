@@ -1,0 +1,117 @@
+JC's Birthday V24 — ACTUAL GIFT VIEWER FIX — FINAL QA
+
+Primary V24 fix: owner Birthday Box now reopens the original creator with the saved payload instead of only rendering a metadata table.
+
+Important testing note: these are package, syntax, state-hydration, integration, media-path, and responsive checks. The managed Chromium environment available here blocks general navigation/audio capture, so final live-device interaction should still be checked with SYSTEM-CHECK.html after deployment.
+
+PASS: index.html: JavaScript syntax
+PASS: index.html: responsive CSS
+PASS: modes/bouquet.html: JavaScript syntax
+PASS: modes/bouquet.html: responsive CSS
+PASS: modes/cake.html: JavaScript syntax
+PASS: modes/cake.html: responsive CSS
+PASS: modes/card.html: JavaScript syntax
+PASS: modes/card.html: responsive CSS
+PASS: modes/gift-box.html: JavaScript syntax
+PASS: modes/gift-box.html: responsive CSS
+PASS: modes/photo-together.html: JavaScript syntax
+PASS: modes/photo-together.html: responsive CSS
+PASS: modes/song.html: JavaScript syntax
+PASS: modes/song.html: responsive CSS
+PASS: SYSTEM-CHECK.html: JavaScript syntax
+PASS: SYSTEM-CHECK.html: responsive CSS
+PASS: Actual gift viewer view exists
+PASS: Actual gift viewer iframe exists
+PASS: Viewer hydrates saved payload
+PASS: Viewer shows loading state
+PASS: Viewer has replay preview
+PASS: Viewer back to Birthday Box
+PASS: Viewer fallback details remain
+PASS: Old detail-only dialog removed
+PASS: Open gift routes to actual viewer
+PASS: Viewer iframe message is source-scoped
+PASS: Viewer waits for hydrated acknowledgement
+PASS: Local/remote media collector retained
+PASS: IndexedDB local-first retained
+PASS: Pending sync retained
+PASS: Supabase table retained
+PASS: Owner PIN retained
+PASS: Public chat removed
+PASS: Drawing removed
+PASS: Custom Money removed
+PASS: Homepage portrait retained
+PASS: cake.html: hydrate handler exists
+PASS: cake.html: viewer class support
+PASS: cake.html: hydration acknowledgement
+PASS: cake.html: integrated send still exists
+PASS: cake.html: viewer stage-only CSS
+PASS: bouquet.html: hydrate handler exists
+PASS: bouquet.html: viewer class support
+PASS: bouquet.html: hydration acknowledgement
+PASS: bouquet.html: integrated send still exists
+PASS: bouquet.html: viewer stage-only CSS
+PASS: card.html: hydrate handler exists
+PASS: card.html: viewer class support
+PASS: card.html: hydration acknowledgement
+PASS: card.html: integrated send still exists
+PASS: card.html: viewer stage-only CSS
+PASS: gift-box.html: hydrate handler exists
+PASS: gift-box.html: viewer class support
+PASS: gift-box.html: hydration acknowledgement
+PASS: gift-box.html: integrated send still exists
+PASS: gift-box.html: viewer stage-only CSS
+PASS: photo-together.html: hydrate handler exists
+PASS: photo-together.html: viewer class support
+PASS: photo-together.html: hydration acknowledgement
+PASS: photo-together.html: integrated send still exists
+PASS: photo-together.html: viewer stage-only CSS
+PASS: song.html: hydrate handler exists
+PASS: song.html: viewer class support
+PASS: song.html: hydration acknowledgement
+PASS: song.html: integrated send still exists
+PASS: song.html: viewer stage-only CSS
+PASS: cake.html: preserve new THREE.WebGLRenderer
+PASS: cake.html: preserve state.decor=new Set
+PASS: cake.html: preserve buildCake()
+PASS: cake.html: preserve syncDesktopUI()
+PASS: bouquet.html: preserve wrapSvgText
+PASS: bouquet.html: preserve startDrag
+PASS: bouquet.html: preserve render();
+PASS: bouquet.html: preserve state.items=Array.isArray(p.items)
+PASS: card.html: preserve openCardBtn
+PASS: card.html: preserve coverPhotoInput
+PASS: card.html: preserve insidePhotoInput
+PASS: card.html: preserve state.open=false;render()
+PASS: gift-box.html: preserve customSurprises
+PASS: gift-box.html: preserve data-effect="fireworks"
+PASS: gift-box.html: preserve state.open=true;render();triggerOpenEffect()
+PASS: photo-together.html: preserve startPan
+PASS: photo-together.html: preserve data-layout="film"
+PASS: photo-together.html: preserve state.slots=Array.isArray(p.slots)
+PASS: photo-together.html: preserve triggerReveal
+PASS: song.html: preserve MediaRecorder
+PASS: song.html: preserve togglePause
+PASS: song.html: preserve setAudioBlob
+PASS: song.html: preserve Press play to hear the saved birthday recording.
+PASS: Package contains index.html
+PASS: Package contains README-FIRST.txt
+PASS: Package contains SYSTEM-CHECK.html
+PASS: Package contains START-LOCAL-TEST.bat
+PASS: Package contains local-server.js
+PASS: Package contains supabase-config.js
+PASS: Package contains SUPABASE-SETUP.sql
+PASS: Package contains SUPABASE-REPAIR.sql
+PASS: Package contains assets/jaycee.jpg
+PASS: Package contains modes/cake.html
+PASS: Package contains modes/bouquet.html
+PASS: Package contains modes/card.html
+PASS: Package contains modes/gift-box.html
+PASS: Package contains modes/photo-together.html
+PASS: Package contains modes/song.html
+PASS: Cake saved payload has full visual state
+PASS: Song saved audio URL hydration supported
+PASS: Song saved Blob hydration supported
+PASS: Card saved media hydration supported
+PASS: Photo Together saved crop hydration supported
+
+FINAL RESULT: 109/109 checks passed.

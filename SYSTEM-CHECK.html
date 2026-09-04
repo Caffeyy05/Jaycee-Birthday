@@ -80,7 +80,7 @@ h1{font-size:clamp(30px,6vw,52px);letter-spacing:-.05em;margin:4px 0 8px}.lead{c
   set('Microphone API',navigator.mediaDevices?.getUserMedia&&window.MediaRecorder?'pass':'warn',navigator.mediaDevices?.getUserMedia&&window.MediaRecorder?'getUserMedia + MediaRecorder are available. Use the Test microphone button below.':'This browser does not expose microphone recording here. Audio upload can still work.',
     `<div class="actions"><button id="micTestBtn">Test microphone</button></div><audio id="micAudio" controls hidden></audio>`);
   const idbOk=await idbTest();set('Local gift backup',idbOk?'pass':'fail',idbOk?'IndexedDB can store gifts, photos, and recorded audio locally.':'IndexedDB write/read failed in this browser.');
-  const files=['modes/cake.html','modes/bouquet.html','modes/card.html','modes/gift-box.html','modes/photo-together.html','modes/song.html','assets/jaycee.jpg'];
+  const files=['index.html','modes/cake.html','modes/bouquet.html','modes/card.html','modes/gift-box.html','modes/photo-together.html','modes/song.html','assets/jaycee.jpg'];
   const checks=await Promise.all(files.map(fetchOk));set('All creator files + birthday photo',checks.every(Boolean)?'pass':'fail',checks.every(Boolean)?'All six creators and assets are reachable.':'Missing: '+files.filter((_,i)=>!checks[i]).join(', '));
   const tb=await supabaseTable();set('Supabase Birthday Box table',tb.ok?'pass':tb.setup?'warn':'fail',tb.text);
   const st=await supabaseStorage();set('Supabase media Storage',st.ok?'pass':'warn',st.text);
