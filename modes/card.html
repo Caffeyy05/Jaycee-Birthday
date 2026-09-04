@@ -679,6 +679,8 @@ body.viewer .open-box-btn{display:block!important}
 (() => {
   const $ = id => document.getElementById(id);
   const $$ = s => [...document.querySelectorAll(s)];
+  // V25 submit hotfix: viewer state must be available to all send/edit handlers.
+  const jcViewer = new URLSearchParams(location.search).get("viewer") === "1";
 
   const palettes = {
     blush:["#E9C8D2","#F5E6EB","#3E5066"],
