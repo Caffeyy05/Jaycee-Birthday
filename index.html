@@ -2575,6 +2575,13 @@ main{
   font-weight:700;
 }
 
+
+/* V17 SHARED SUPABASE BIRTHDAY BOX */
+.shared-box-status{margin-top:5px;font-size:8px;line-height:1.4;color:#7A8593;font-weight:700}
+.shared-box-status.connected{color:#3F7656}
+.shared-box-status.error{color:#A24D5B}
+.saved-card.cloud-new{animation:cloudGiftIn .45s ease both}
+@keyframes cloudGiftIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
@@ -2762,7 +2769,7 @@ main{
 
     <section class="view" id="inboxView">
       <div class="frame inbox-card">
-        <div class="inbox-head"><div><div class="ey">My birthday box 🎁</div><h2>Gifts for Jaycee</h2></div><div class="row"><button class="btn soft" id="inboxBackBtn">Back</button><button class="btn soft" id="exportBtn">Export</button><button class="btn danger" id="clearAllBtn">Clear all</button></div></div>
+        <div class="inbox-head"><div><div class="ey">My birthday box 🎁</div><h2>Gifts for Jaycee</h2><div class="shared-box-status" id="sharedBoxStatus">Connecting to shared Birthday Box…</div></div><div class="row"><button class="btn soft" id="inboxBackBtn">Back</button><button class="btn soft" id="exportBtn">Export</button><button class="btn soft" id="clearAllBtn">Refresh</button></div></div>
         <div class="inbox-main"><div class="inbox-grid" id="savedGiftGrid"></div><div class="empty hidden" id="emptyState"><div><div style="font-size:56px">🎁</div><h3 style="margin:12px 0 0">No gifts yet</h3><p class="owner-note">Once someone creates a gift, it will appear here.</p></div></div></div>
       </div>
     </section>
@@ -2923,7 +2930,7 @@ main{
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="chat-config.js"></script>
+<script src="chat-config.js?v=17"></script>
 <script>
 (() => {
   "use strict";
@@ -2993,6 +3000,12 @@ main{
   let chatTypingClearTimer = null;
   let chatName = localStorage.getItem(CHAT_NAME_KEY) || "";
 
+  const SHARED_GIFTS_TABLE = "birthday_gifts";
+  const SHARED_MEDIA_BUCKET = "birthday-gifts-media";
+  let sharedGiftBoxReady = false;
+  let sharedGiftChannel = null;
+  let sharedGiftSaveBusy = false;
+
   const MAX_SONG_SECONDS = 90;
   const MAX_SONG_BYTES = 2300000;
   let songRecorder = null;
@@ -3009,20 +3022,240 @@ main{
   let pendingUploadKind = null;
   let pendingUploadPos = null;
 
-  function loadGifts(){
-    try { return JSON.parse(localStorage.getItem(STORAGE_GIFTS)) || []; }
-    catch { return []; }
+  function ensureGiftId(gift){
+    if(!gift) return gift;
+    if(!gift.giftId){
+      gift.giftId = (window.crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : `gift-${Date.now()}-${Math.random().toString(36).slice(2,10)}`;
+    }
+    return gift;
   }
-  function saveGifts(){
+
+  function loadGifts(){
     try {
-      localStorage.setItem(STORAGE_GIFTS, JSON.stringify(gifts));
-      $("giftCount").textContent = gifts.length;
-      return true;
-    } catch(err) {
-      toast("Browser storage is full. Try a shorter voice recording.");
-      return false;
+      return (JSON.parse(localStorage.getItem(STORAGE_GIFTS)) || []).map(ensureGiftId);
+    } catch {
+      return [];
     }
   }
+
+  function saveGifts(){
+    gifts.forEach(ensureGiftId);
+    try { localStorage.setItem(STORAGE_GIFTS, JSON.stringify(gifts)); } catch {}
+    $("giftCount").textContent = gifts.length;
+    return true;
+  }
+
+  function setSharedBoxStatus(text, mode=""){
+    const el = $("sharedBoxStatus");
+    if(!el) return;
+    el.textContent = text;
+    el.classList.toggle("connected", mode === "connected");
+    el.classList.toggle("error", mode === "error");
+  }
+
+  function dataUrlMime(dataUrl){
+    const m = String(dataUrl || "").match(/^data:([^;,]+)[;,]/i);
+    return m ? m[1].toLowerCase() : "application/octet-stream";
+  }
+
+  function extensionForMime(mime){
+    return ({
+      "image/jpeg":"jpg","image/png":"png","image/webp":"webp","image/gif":"gif",
+      "audio/webm":"webm","audio/ogg":"ogg","audio/mpeg":"mp3","audio/mp4":"m4a",
+      "audio/wav":"wav","audio/x-wav":"wav"
+    })[mime] || "bin";
+  }
+
+  async function dataUrlToBlob(dataUrl){
+    const response = await fetch(dataUrl);
+    return await response.blob();
+  }
+
+  async function uploadGiftMedia(dataUrl, giftId, label){
+    if(!supabaseClient || !String(dataUrl || "").startsWith("data:")) return dataUrl;
+
+    const mime = dataUrlMime(dataUrl);
+    const blob = await dataUrlToBlob(dataUrl);
+    const ext = extensionForMime(mime);
+    const fileName = `${giftId}/${Date.now()}-${Math.random().toString(36).slice(2,9)}-${label}.${ext}`;
+
+    const { error } = await supabaseClient.storage
+      .from(SHARED_MEDIA_BUCKET)
+      .upload(fileName, blob, {
+        contentType:mime,
+        cacheControl:"31536000",
+        upsert:false
+      });
+
+    if(error) throw error;
+
+    const { data } = supabaseClient.storage
+      .from(SHARED_MEDIA_BUCKET)
+      .getPublicUrl(fileName);
+
+    if(!data || !data.publicUrl) throw new Error("Could not create media URL");
+    return data.publicUrl;
+  }
+
+  async function prepareGiftForCloud(originalGift){
+    const gift = deepClone(ensureGiftId(originalGift));
+
+    if(Array.isArray(gift.objects)){
+      for(let i=0;i<gift.objects.length;i++){
+        const obj = gift.objects[i];
+        if(obj && obj.kind === "image" && String(obj.src || "").startsWith("data:")){
+          obj.src = await uploadGiftMedia(obj.src, gift.giftId, `image-${i}`);
+        }
+      }
+    }
+
+    if(String(gift.drawingData || "").startsWith("data:")){
+      gift.drawingData = await uploadGiftMedia(gift.drawingData, gift.giftId, "drawing");
+    }
+
+    if(String(gift.audioData || "").startsWith("data:")){
+      gift.audioData = await uploadGiftMedia(gift.audioData, gift.giftId, "voice");
+    }
+
+    return gift;
+  }
+
+  function cloudRowToGift(row, withPayload=false){
+    if(!row) return null;
+    const meta = {
+      giftId:row.gift_id,
+      giftType:row.gift_type,
+      giftName:row.gift_name,
+      icon:row.icon,
+      from:row.from_name,
+      note:row.note || "",
+      spent:row.spent_seconds,
+      createdAt:row.created_at,
+      _shared:true,
+      _payloadLoaded:false
+    };
+
+    if(withPayload && row.gift_payload){
+      return Object.assign(meta, row.gift_payload, {
+        giftId:row.gift_id,
+        _shared:true,
+        _payloadLoaded:true
+      });
+    }
+
+    return meta;
+  }
+
+  async function saveGiftToSharedBox(localGift){
+    if(!supabaseClient) throw new Error("Supabase client is unavailable");
+
+    const gift = await prepareGiftForCloud(localGift);
+    const row = {
+      gift_id:gift.giftId,
+      gift_type:gift.giftType,
+      gift_name:gift.giftName,
+      icon:gift.icon,
+      from_name:gift.from,
+      note:gift.note || "",
+      spent_seconds:gift.spent,
+      gift_payload:gift
+    };
+
+    const { data, error } = await supabaseClient
+      .from(SHARED_GIFTS_TABLE)
+      .insert(row)
+      .select("gift_id,created_at")
+      .single();
+
+    if(error) throw error;
+
+    gift.createdAt = data && data.created_at ? data.created_at : gift.createdAt;
+    gift._shared = true;
+    gift._payloadLoaded = true;
+    return gift;
+  }
+
+  async function fetchSharedGiftCount(){
+    if(!supabaseClient) return null;
+    const { count, error } = await supabaseClient
+      .from(SHARED_GIFTS_TABLE)
+      .select("gift_id", {count:"exact", head:true});
+
+    if(error) throw error;
+    $("giftCount").textContent = Number(count || 0);
+    return Number(count || 0);
+  }
+
+  async function fetchSharedGiftList(){
+    if(!supabaseClient) throw new Error("Supabase client is unavailable");
+    setSharedBoxStatus("Loading shared gifts…");
+
+    const { data, error } = await supabaseClient
+      .from(SHARED_GIFTS_TABLE)
+      .select("gift_id,gift_type,gift_name,icon,from_name,note,spent_seconds,created_at")
+      .order("created_at", {ascending:false})
+      .limit(500);
+
+    if(error) throw error;
+
+    gifts = (data || []).map(row => cloudRowToGift(row, false)).filter(Boolean);
+    saveGifts();
+    setSharedBoxStatus(`${gifts.length} shared gift${gifts.length === 1 ? "" : "s"} synced`, "connected");
+    return gifts;
+  }
+
+  async function fetchSharedGiftPayload(giftId){
+    if(!supabaseClient) throw new Error("Supabase client is unavailable");
+
+    const { data, error } = await supabaseClient
+      .from(SHARED_GIFTS_TABLE)
+      .select("*")
+      .eq("gift_id", giftId)
+      .single();
+
+    if(error) throw error;
+    return cloudRowToGift(data, true);
+  }
+
+  async function initSharedGiftBox(){
+    if(!supabaseClient){
+      setSharedBoxStatus("Shared Birthday Box is unavailable", "error");
+      return;
+    }
+
+    try{
+      await fetchSharedGiftCount();
+      sharedGiftBoxReady = true;
+
+      sharedGiftChannel = supabaseClient
+        .channel("jcs-birthday-gifts-live-v1")
+        .on("postgres_changes", {
+          event:"INSERT",
+          schema:"public",
+          table:SHARED_GIFTS_TABLE
+        }, payload => {
+          const incoming = cloudRowToGift(payload.new, false);
+          if(!incoming) return;
+
+          if(!gifts.some(g => g.giftId === incoming.giftId)){
+            gifts.unshift(incoming);
+            saveGifts();
+            if($("inboxView").classList.contains("active")) renderInbox(false);
+          }
+
+          fetchSharedGiftCount().catch(() => {});
+        })
+        .subscribe();
+
+    }catch(err){
+      sharedGiftBoxReady = false;
+      setSharedBoxStatus("Shared Box needs the one-time Supabase SQL setup", "error");
+      saveGifts();
+    }
+  }
+
   function toast(msg){
     const t = $("toast");
     t.textContent = msg;
@@ -4871,7 +5104,7 @@ main{
     await acceptSongBlob(file,duration,"upload");
   }
 
-  function sendSongGift(){
+  async function sendSongGift(){
     if(songRecorder&&songRecorder.state==="recording"){
       toast("Stop the recording first");
       return;
@@ -4884,6 +5117,9 @@ main{
     stopTimer();
 
     const gift={
+      giftId:(window.crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : `gift-${Date.now()}-${Math.random().toString(36).slice(2,10)}`,
       giftType:"song",
       giftName:getType("song").name,
       icon:getType("song").icon,
@@ -4898,16 +5134,33 @@ main{
       drawingData:null
     };
 
-    gifts.unshift(gift);
-    if(!saveGifts()){
-      gifts.shift();
-      return;
-    }
+    if(sharedGiftSaveBusy) return;
+    sharedGiftSaveBusy = true;
+    $("songSendBtn").disabled = true;
 
-    $("timeModal").classList.add("hidden");
-    $("successMessage").textContent=`Thanks, ${giver.name}. Your birthday song is now waiting in Jaycee’s Birthday Box.`;
-    resetSongRecording();
-    showView("successView");
+    try{
+      const cloudGift = await saveGiftToSharedBox(gift);
+      gifts = gifts.filter(g => g.giftId !== cloudGift.giftId);
+      gifts.unshift(cloudGift);
+      saveGifts();
+      fetchSharedGiftCount().catch(() => {});
+      $("timeModal").classList.add("hidden");
+      $("successMessage").textContent =
+        `Thanks, ${giver.name}. Your birthday song is saved in Jaycee’s shared Birthday Box.`;
+      resetSongRecording();
+      showView("successView");
+    }catch(err){
+      gifts.unshift(gift);
+      saveGifts();
+      $("timeModal").classList.add("hidden");
+      $("successMessage").textContent =
+        "Your birthday song was kept on this device, but the shared Birthday Box could not save it yet.";
+      resetSongRecording();
+      showView("successView");
+    }finally{
+      sharedGiftSaveBusy = false;
+      $("songSendBtn").disabled = !songAudioData;
+    }
   }
 
   function attachCanvasEvents(){
@@ -4979,6 +5232,9 @@ main{
       try { drawingData = $("drawCanvas").toDataURL('image/png'); } catch {}
     }
     return {
+      giftId:(window.crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : `gift-${Date.now()}-${Math.random().toString(36).slice(2,10)}`,
       giftType: selectedType,
       giftName: getType(selectedType).name,
       icon: getType(selectedType).icon,
@@ -4995,17 +5251,46 @@ main{
     };
   }
 
-  function sendGift(){
+  async function sendGift(){
+    if(sharedGiftSaveBusy) return;
+
     stopTimer();
-    const gift = captureGift();
-    gifts.unshift(gift);
-    saveGifts();
-    $("timeModal").classList.add('hidden');
-    $("successMessage").textContent = `Thanks, ${giver.name}. Your ${gift.giftName.toLowerCase()} is now waiting in Jaycee’s Birthday Box.`;
-    showView('successView');
+    sharedGiftSaveBusy = true;
+    $("sendGiftBtn").disabled = true;
+    const localGift = captureGift();
+
+    try{
+      const cloudGift = await saveGiftToSharedBox(localGift);
+      gifts = gifts.filter(g => g.giftId !== cloudGift.giftId);
+      gifts.unshift(cloudGift);
+      saveGifts();
+      fetchSharedGiftCount().catch(() => {});
+      $("timeModal").classList.add("hidden");
+      $("successMessage").textContent =
+        `Thanks, ${giver.name}. Your ${cloudGift.giftName.toLowerCase()} is saved in Jaycee’s shared Birthday Box.`;
+      showView("successView");
+    }catch(err){
+      gifts.unshift(localGift);
+      saveGifts();
+      $("timeModal").classList.add("hidden");
+      $("successMessage").textContent =
+        "Your gift was kept on this device, but the shared Birthday Box could not save it yet. Run the Supabase setup once.";
+      showView("successView");
+    }finally{
+      sharedGiftSaveBusy = false;
+      $("sendGiftBtn").disabled = false;
+    }
   }
 
-  function renderInbox(){
+  async function renderInbox(syncFirst=true){
+    if(syncFirst && supabaseClient){
+      try{
+        await fetchSharedGiftList();
+      }catch(err){
+        setSharedBoxStatus("Could not sync shared gifts — showing this browser’s cache", "error");
+      }
+    }
+
     if(!gifts.length){
       $("savedGiftGrid").innerHTML = '';
       $("emptyState").classList.remove('hidden');
@@ -5089,23 +5374,51 @@ main{
     });
   }
 
-  function openGift(index){
+  async function openGift(index){
     openedGiftIndex = index;
-    const g = gifts[index];
+    let g = gifts[index];
     if(!g) return;
+
+    if(g._shared && !g._payloadLoaded){
+      try{
+        const fullGift = await fetchSharedGiftPayload(g.giftId);
+        gifts[index] = fullGift;
+        g = fullGift;
+        saveGifts();
+      }catch(err){
+        toast("Could not load that shared gift");
+        return;
+      }
+    }
+
     $("detailTypeEy").textContent = g.giftName;
     $("detailTitle").textContent = `From ${g.from}`;
     $("detailMeta").textContent = `${new Date(g.createdAt).toLocaleString()}${g.spent !== null ? ` • ${Math.max(1, Math.round(g.spent / 60))} minute(s) spent` : ''}`;
-    $("detailNote").textContent = g.note || 'No note left with this gift.';
+    $("detailNote").textContent = g.note || "No note left with this gift.";
     renderGiftIntoStage($("detailStage"), g);
-    showView('detailView');
+    showView("detailView");
   }
 
-  function exportGifts(){
-    const blob = new Blob([JSON.stringify(gifts, null, 2)], { type: 'application/json' });
-    const a = document.createElement('a');
+  async function exportGifts(){
+    let exportData = gifts;
+
+    if(supabaseClient){
+      try{
+        const { data, error } = await supabaseClient
+          .from(SHARED_GIFTS_TABLE)
+          .select("gift_payload")
+          .order("created_at", {ascending:false})
+          .limit(500);
+
+        if(error) throw error;
+        exportData = (data || []).map(row => row.gift_payload).filter(Boolean);
+      }catch{}
+    }
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], {type:"application/json"});
+    const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = 'jaycee-birthday-gifts.json';
+    a.download = "jaycee-birthday-shared-gifts.json";
     a.click();
     URL.revokeObjectURL(a.href);
   }
@@ -5276,7 +5589,19 @@ main{
     $("inboxBackBtn").onclick = () => showView('homeView');
     $("closeDetailBtn").onclick = renderInbox;
     $("exportBtn").onclick = exportGifts;
-    $("clearAllBtn").onclick = () => { if(confirm('Delete all saved gifts on this device?')){ gifts = []; saveGifts(); renderInbox(); } };
+    $("clearAllBtn").onclick = async () => {
+      if(supabaseClient){
+        try{
+          await fetchSharedGiftList();
+          renderInbox(false);
+          toast("Birthday Box refreshed");
+        }catch{
+          toast("Could not refresh the shared Birthday Box");
+        }
+      }else{
+        renderInbox(false);
+      }
+    };
     $("selectModeBtn").onclick = () => setDrawMode('select');
     $("drawModeBtn").onclick = () => setDrawMode('draw');
 
@@ -5308,13 +5633,18 @@ main{
 
   $("chatNameInput").value = chatName || "";
   updateUnread();
-  initRealtimeChat();
+  initRealtimeChat().finally(() => {
+    initSharedGiftBox();
+  });
 
   window.addEventListener("beforeunload", () => {
     try{
       if(chatChannel){
         chatChannel.untrack();
         chatChannel.unsubscribe();
+      }
+      if(sharedGiftChannel){
+        sharedGiftChannel.unsubscribe();
       }
     }catch{}
   });
