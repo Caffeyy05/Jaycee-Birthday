@@ -404,7 +404,7 @@ body.integrated .field label,body.integrated .range-row label,body.integrated .r
 @media(max-width:430px){body.integrated .choice,body.integrated .m-choice,body.integrated .mobile-choice{font-size:10px!important}}
 
 
-/* V24 saved-gift viewer mode */
+/* V25 saved-gift read-only viewer mode */
 body.viewer{padding-bottom:0!important;min-height:100dvh!important;background:#EEF2F1!important;overflow:auto!important}
 body.viewer > header{display:none!important}
 body.viewer .workspace{display:block!important;min-height:100dvh!important;padding:0!important;margin:0!important;width:100%!important;max-width:none!important}
@@ -417,6 +417,38 @@ body.viewer #stage{min-height:100dvh!important;height:100dvh!important}
 body.viewer .open-card-btn,body.viewer .open-box-btn{display:block!important;min-height:46px!important;font-size:11px!important}
 body.viewer .preview-panel{display:block}
 @media(max-width:820px){body.viewer{padding-bottom:0!important}body.viewer .card-stage,body.viewer .gift-stage,body.viewer .photo-stage,body.viewer .bouquet-stage,body.viewer .booth,body.viewer #stage{min-height:100dvh!important;height:100dvh!important;padding-top:10px!important}}
+
+
+/* V25: saved Birthday Box gifts are strictly read-only results. */
+body.viewer input,
+body.viewer textarea,
+body.viewer select,
+body.viewer input[type="range"],
+body.viewer .upload-btn,
+body.viewer [contenteditable="true"],
+body.viewer .record-controls,
+body.viewer #uploadAudioBtn,
+body.viewer #retakeBtn,
+body.viewer #useRecordingBtn,
+body.viewer .creator-edit-only,
+body.viewer .creator-send-only,
+body.viewer .creator-preview-only,
+body.viewer #resetBtn,
+body.viewer #previewBtn,
+body.viewer #sendBtn,
+body.viewer #mobileResetBtn,
+body.viewer #mobilePreviewBtn,
+body.viewer #mobilePreview,
+body.viewer #mobileCustomizeBtn,
+body.viewer .mobile-sheet-actions,
+body.viewer .mobile-sheet-close{display:none!important}
+body.viewer .slot{cursor:default!important}
+body.viewer .surprise-item,
+body.viewer .flower,
+body.viewer .photo-item{cursor:default!important}
+body.viewer .preview-panel{display:block!important}
+body.viewer .open-card-btn,
+body.viewer .open-box-btn{display:block!important}
 
 </style>
 </head>
@@ -543,7 +575,7 @@ body.viewer .preview-panel{display:block}
 
       <div class="stage-footer">
         <small>Your work stays here until you send or leave the editor.</small>
-        <button class="btn primary" id="sendBtn">Preview & send 💌</button>
+        <button class="btn primary" id="sendBtn">Send card 💌</button>
       </div>
     </section>
 
@@ -610,7 +642,7 @@ body.viewer .preview-panel{display:block}
   <div class="mobile-actionbar">
     <button id="mobileCustomizeBtn"><span>⚙️</span><b>Customize</b></button>
     <button id="mobileOpenBtn"><span>💌</span><b>Open card</b></button>
-    <button id="mobilePreviewBtn" class="primary-mobile"><span>🎁</span><b>Preview</b></button>
+    <button id="mobilePreviewBtn" class="primary-mobile"><span>🎁</span><b>Send</b></button>
   </div>
 
   <div class="mobile-sheet hidden" id="mobileSheet" aria-hidden="true">
@@ -799,7 +831,7 @@ body.viewer .preview-panel{display:block}
 
     $("openCardBtn").onclick=toggleOpen;
     $("previewBtn").onclick=openPreview;
-    $("sendBtn").onclick=openPreview;
+    $("sendBtn").onclick=()=>$("fakeSend")?.click();
     $("resetBtn").onclick=resetAll;
     $("keepEditing").onclick=()=>$("previewModal").classList.add("hidden");
     
@@ -811,6 +843,7 @@ body.viewer .preview-panel{display:block}
     }
 
     function jcSendToMain(payload){
+      if(jcViewer)return false;
       if(jcIntegrated() && window.parent && window.parent !== window){
         window.parent.postMessage({source:"jc-special-mode",action:"submit",giftType:"card",payload},"*");
         const b=$("fakeSend"); if(b){ b.disabled=true; b.textContent="Sending…"; }
@@ -842,6 +875,7 @@ body.viewer .preview-panel{display:block}
         const m=e.data||{};
         if(m.source!=="jc-main") return;
         if(m.action==="open-preview" && typeof openPreview==="function") openPreview();
+        if(m.action==="send-now") $("fakeSend")?.click();
         if(m.action==="context" && m.context){
           
         }
@@ -1052,7 +1086,7 @@ $("fakeSend").onclick=()=>{
 
   $("mobileCustomizeBtn").onclick=()=>openMobileSheet(state.editorTab);
   $("mobileOpenBtn").onclick=toggleOpen;
-  $("mobilePreviewBtn").onclick=openPreview;
+  $("mobilePreviewBtn").onclick=()=>$("fakeSend")?.click();
   $("mobileSheetBackdrop").onclick=closeMobileSheet;
   $("mobileSheetClose").onclick=closeMobileSheet;
   $("sheetGrabber").onclick=closeMobileSheet;

@@ -1,28 +1,40 @@
-JC's Birthday V24 — ACTUAL GIFT VIEWER FIXED
+JC's Birthday V25 — READ-ONLY BIRTHDAY BOX + SEND-ONLY CREATOR FLOW
 
-This build fixes the owner Birthday Box viewer.
+MAIN FIXES
+1. Birthday Box saved gifts are now strictly READ-ONLY results.
+   - No Reset
+   - No editor side panels
+   - No upload controls
+   - No text fields
+   - No send button
+   - No preview/send modal
+   - No rearranging Bouquet flowers
+   - No repositioning Photo Together crops
+   - No recording/retake controls inside saved Song gifts
 
-WHAT WAS WRONG IN V23
-The owner clicked “Open gift” and only saw a metadata summary (Shape, Tiers, Flavor, etc.). The saved creator state was stored, but the Birthday Box did not reconstruct the actual gift experience.
+2. Result interactions that make sense are preserved:
+   - Cake can still be viewed/rotated
+   - Card can still be opened/closed
+   - Gift Box can still be opened/closed
+   - Saved Song can still be played
+   - Saved visual gift animations remain visible
 
-WHAT V24 DOES
-- “Open gift” now opens a dedicated full-screen Saved Gift Viewer.
-- The exact saved payload is sent back into the original gift creator.
-- The creator hydrates/restores the saved state.
-- Cake reopens as the actual interactive 3D cake and can still be rotated.
-- Bouquet redraws the actual arranged bouquet and message card.
-- Birthday Card restores cover/inside photos/text and can be opened.
-- Gift Box restores its design/surprises and plays the opening reveal.
-- Our Photo Together restores photos, crops, layout, filters, caption, and reveal.
-- Sing a Birthday Song restores the saved audio player, stage, sender, message, and effects.
-- A collapsible “Gift info / backup details” section remains under the real viewer as a fallback.
-- Local IndexedDB Blob media and Supabase Storage URL media are both supported.
-- The Supabase/offline-first V23 fixes remain intact.
-- Your homepage photo remains in assets/jaycee.jpg.
-- Only the six final approved gift modes remain.
+3. Creator flow is now SEND-ONLY.
+   - The separate visible Preview buttons are removed/hidden.
+   - Bottom/mobile action says Send, not Preview.
+   - Send directly submits the current finished gift.
+   - Timer expiry says Send gift, not Preview & send.
+   - Existing preview code remains internally for compatibility but is not exposed in the normal flow.
 
-IMPORTANT SUPABASE SETUP
-Cross-device delivery still requires SUPABASE-SETUP.sql to be run once in your Supabase SQL Editor. V24 will still save locally first if Supabase is unavailable.
+4. All V24/V23 reliability features remain:
+   - actual saved gift hydration in Birthday Box
+   - offline-first IndexedDB
+   - local photos/audio
+   - pending Supabase retry sync
+   - shared/local Birthday Box merge
+   - Supabase setup/repair files
+   - original homepage image
+   - six final gift modes only
 
-DEPLOY THE ENTIRE FOLDER
-Do not replace only index.html. Copy all files/folders to the Git repo root.
+IMPORTANT
+Deploy the WHOLE V25 package, not only index.html.

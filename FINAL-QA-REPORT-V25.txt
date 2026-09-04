@@ -1,0 +1,123 @@
+JC's Birthday V25 — READ-ONLY BOX + SEND-ONLY FLOW — FINAL QA
+
+Primary user-requested behavior:
+- Birthday Box opens the saved RESULT only.
+- Saved gifts cannot be reset, edited, rearranged, re-recorded, or resent.
+- Result interactions such as opening a card/box and playing audio remain.
+- Normal creator flow exposes SEND only; separate Preview buttons are hidden.
+
+PASS: index.html: JavaScript syntax
+PASS: index.html: responsive CSS
+PASS: SYSTEM-CHECK.html: JavaScript syntax
+PASS: SYSTEM-CHECK.html: responsive CSS
+PASS: modes/bouquet.html: JavaScript syntax
+PASS: modes/bouquet.html: responsive CSS
+PASS: modes/cake.html: JavaScript syntax
+PASS: modes/cake.html: responsive CSS
+PASS: modes/card.html: JavaScript syntax
+PASS: modes/card.html: responsive CSS
+PASS: modes/gift-box.html: JavaScript syntax
+PASS: modes/gift-box.html: responsive CSS
+PASS: modes/photo-together.html: JavaScript syntax
+PASS: modes/photo-together.html: responsive CSS
+PASS: modes/song.html: JavaScript syntax
+PASS: modes/song.html: responsive CSS
+PASS: Owner viewer has read-only badge
+PASS: Owner replay/preview control is hidden
+PASS: Owner viewer no longer invokes open-preview
+PASS: Timer says Send gift
+PASS: Timer uses send-now
+PASS: Actual gift hydration remains
+PASS: Birthday Box iframe remains
+PASS: Offline-first remains
+PASS: Pending sync remains
+PASS: Supabase table remains
+PASS: Homepage image remains
+PASS: cake.html: visible send label
+PASS: cake.html: old Preview & send removed
+PASS: cake.html: parent send-now handler
+PASS: cake.html: direct send binding
+PASS: cake.html: viewer send hard-block
+PASS: cake.html: viewer edit controls hidden
+PASS: cake.html: viewer reset hidden
+PASS: cake.html: viewer send hidden
+PASS: cake.html: viewer preview hidden
+PASS: cake.html: hydration remains
+PASS: bouquet.html: visible send label
+PASS: bouquet.html: old Preview & send removed
+PASS: bouquet.html: parent send-now handler
+PASS: bouquet.html: direct send binding
+PASS: bouquet.html: viewer send hard-block
+PASS: bouquet.html: viewer edit controls hidden
+PASS: bouquet.html: viewer reset hidden
+PASS: bouquet.html: viewer send hidden
+PASS: bouquet.html: viewer preview hidden
+PASS: bouquet.html: hydration remains
+PASS: card.html: visible send label
+PASS: card.html: old Preview & send removed
+PASS: card.html: parent send-now handler
+PASS: card.html: direct send binding
+PASS: card.html: viewer send hard-block
+PASS: card.html: viewer edit controls hidden
+PASS: card.html: viewer reset hidden
+PASS: card.html: viewer send hidden
+PASS: card.html: viewer preview hidden
+PASS: card.html: hydration remains
+PASS: gift-box.html: visible send label
+PASS: gift-box.html: old Preview & send removed
+PASS: gift-box.html: parent send-now handler
+PASS: gift-box.html: direct send binding
+PASS: gift-box.html: viewer send hard-block
+PASS: gift-box.html: viewer edit controls hidden
+PASS: gift-box.html: viewer reset hidden
+PASS: gift-box.html: viewer send hidden
+PASS: gift-box.html: viewer preview hidden
+PASS: gift-box.html: hydration remains
+PASS: photo-together.html: visible send label
+PASS: photo-together.html: old Preview & send removed
+PASS: photo-together.html: parent send-now handler
+PASS: photo-together.html: direct send binding
+PASS: photo-together.html: viewer send hard-block
+PASS: photo-together.html: viewer edit controls hidden
+PASS: photo-together.html: viewer reset hidden
+PASS: photo-together.html: viewer send hidden
+PASS: photo-together.html: viewer preview hidden
+PASS: photo-together.html: hydration remains
+PASS: song.html: visible send label
+PASS: song.html: old Preview & send removed
+PASS: song.html: parent send-now handler
+PASS: song.html: direct send binding
+PASS: song.html: viewer send hard-block
+PASS: song.html: viewer edit controls hidden
+PASS: song.html: viewer reset hidden
+PASS: song.html: viewer send hidden
+PASS: song.html: viewer preview hidden
+PASS: song.html: hydration remains
+PASS: Bouquet viewer cannot rearrange flowers
+PASS: Photo viewer cannot reposition crop
+PASS: Song viewer cannot start recording
+PASS: Song viewer cannot retake
+PASS: Song viewer still shows saved audio
+PASS: Cake 3D renderer preserved
+PASS: Card open/close preserved
+PASS: Gift Box open/close preserved
+PASS: Gift Box MEGA fireworks preserved
+PASS: Our Photo Together layouts preserved
+PASS: Song MediaRecorder preserved
+PASS: Package contains index.html
+PASS: Package contains README-FIRST.txt
+PASS: Package contains SYSTEM-CHECK.html
+PASS: Package contains START-LOCAL-TEST.bat
+PASS: Package contains local-server.js
+PASS: Package contains supabase-config.js
+PASS: Package contains SUPABASE-SETUP.sql
+PASS: Package contains SUPABASE-REPAIR.sql
+PASS: Package contains assets/jaycee.jpg
+PASS: Package contains modes/cake.html
+PASS: Package contains modes/bouquet.html
+PASS: Package contains modes/card.html
+PASS: Package contains modes/gift-box.html
+PASS: Package contains modes/photo-together.html
+PASS: Package contains modes/song.html
+
+FINAL RESULT: 113/113 checks passed.

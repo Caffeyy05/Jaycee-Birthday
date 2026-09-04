@@ -98,10 +98,14 @@ body.editing{overflow:hidden}.editing .site-header{display:none}.editing main{pa
 .dialog{position:fixed;inset:0;z-index:200;background:rgba(38,49,65,.44);backdrop-filter:blur(8px);display:grid;place-items:center;padding:16px}.dialog.hidden{display:none}.dialog-card{width:min(500px,100%);max-height:min(86dvh,760px);overflow:auto;padding:24px;border-radius:24px;background:#F9FBFA;border:1px solid rgba(255,255,255,.95);box-shadow:0 30px 90px rgba(28,38,53,.25)}.dialog-card h2{font-size:27px;letter-spacing:-.04em;margin:6px 0 8px}.dialog-card p{font-size:13px;line-height:1.6;color:var(--muted)}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:16px}.dialog-actions .btn{min-height:46px}.pin-input{width:100%;height:50px;border-radius:14px;border:1px solid var(--line);background:#fff;padding:0 13px;font-size:18px;letter-spacing:.1em}.detail-media{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}.detail-media img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;border:1px solid var(--line)}.detail-media audio{width:100%;grid-column:1/-1}.detail-summary{margin-top:12px;display:grid;gap:7px}.detail-row{display:grid;grid-template-columns:120px 1fr;gap:10px;padding:9px 0;border-top:1px solid rgba(62,80,102,.08);font-size:12px}.detail-row b{color:#657487}.detail-note{padding:12px;border-radius:14px;background:#EEF2F1;font-size:13px;white-space:pre-wrap;line-height:1.6}
 
 
-/* V24: owner opens the actual saved gift, not only a metadata table */
+/* V25: owner opens the actual saved gift, not only a metadata table */
 .gift-viewer-shell{padding:0;overflow:hidden;min-height:calc(100dvh - 92px);display:grid;grid-template-rows:auto minmax(0,1fr)}
 .gift-viewer-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);background:rgba(249,251,250,.96)}
 .gift-viewer-title{min-width:0;display:flex;align-items:center;gap:11px}.gift-viewer-title .viewer-icon{font-size:32px;line-height:1}.gift-viewer-title h2{font-size:22px;letter-spacing:-.04em;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gift-viewer-title p{font-size:11px;color:var(--muted);margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:720px}
+
+.viewer-readonly-badge{display:inline-flex;align-items:center;min-height:28px;padding:0 9px;border-radius:999px;background:#EEF2F1;color:#607084;font-size:9px;font-weight:800;white-space:nowrap}
+@media(max-width:700px){.viewer-readonly-badge{font-size:8px;min-height:26px}}
+
 .gift-viewer-actions{display:flex;gap:8px;flex-wrap:wrap}.gift-viewer-frame-wrap{position:relative;min-height:0;background:#EEF2F1}.gift-viewer-frame{display:block;width:100%;height:100%;min-height:680px;border:0;background:#EEF2F1}
 .gift-viewer-loading{position:absolute;inset:0;z-index:3;display:grid;place-items:center;background:linear-gradient(145deg,#F6F8F7,#E8EEEC);text-align:center;padding:20px}.gift-viewer-loading.hidden{display:none}.gift-viewer-loading span{display:block;font-size:44px}.gift-viewer-loading b{display:block;margin-top:8px;font-size:15px}.gift-viewer-loading small{display:block;margin-top:4px;color:var(--muted);font-size:11px}
 .gift-fallback{padding:14px 16px;border-top:1px solid var(--line);background:#fff}.gift-fallback summary{cursor:pointer;font-weight:800;font-size:12px}.gift-fallback .detail-summary{margin-top:10px}
@@ -255,12 +259,12 @@ body.editing{overflow:hidden}.editing .site-header{display:none}.editing main{pa
           <div><h2 id="giftViewerHeading">Birthday Gift</h2><p id="giftViewerMeta">Opening the actual saved gift…</p></div>
         </div>
         <div class="gift-viewer-actions">
-          <button class="btn soft" id="giftViewerReplayBtn">Replay / Preview</button>
+          <button class="btn soft hidden" id="giftViewerReplayBtn" aria-hidden="true" tabindex="-1">Replay</button>
           <button class="btn" id="giftViewerBackBtn">← Birthday Box</button>
         </div>
       </div>
       <div class="gift-viewer-frame-wrap">
-        <div class="gift-viewer-loading" id="giftViewerLoading"><div><span id="giftViewerLoadingIcon">🎁</span><b>Opening the actual gift…</b><small>The saved design is being restored.</small></div></div>
+        <div class="gift-viewer-loading" id="giftViewerLoading"><div><span id="giftViewerLoadingIcon">🎁</span><b>Opening the actual gift…</b><small>Read-only result — the sender’s saved gift cannot be edited here.</small></div></div>
         <iframe id="giftViewerFrame" class="gift-viewer-frame" title="Saved birthday gift" allow="microphone" referrerpolicy="no-referrer"></iframe>
       </div>
       <details class="gift-fallback"><summary>Gift info / backup details</summary><div id="giftViewerFallback"></div></details>
@@ -274,7 +278,7 @@ body.editing{overflow:hidden}.editing .site-header{display:none}.editing main{pa
 </div>
 
 <div class="dialog hidden" id="timeDialog" role="dialog" aria-modal="true" aria-labelledby="timeDialogTitle">
-  <div class="dialog-card"><div style="font-size:48px">⏰</div><h2 id="timeDialogTitle">Your timer is up</h2><p>Your work is still right where you left it. You can preview and send now, or keep adding finishing touches.</p><div class="dialog-actions"><button class="btn soft" id="keepFinishingBtn">Keep finishing</button><button class="btn primary" id="timePreviewBtn">Preview & send</button></div></div>
+  <div class="dialog-card"><div style="font-size:48px">⏰</div><h2 id="timeDialogTitle">Your timer is up</h2><p>Your work is still right where you left it. You can send it now, or keep adding finishing touches.</p><div class="dialog-actions"><button class="btn soft" id="keepFinishingBtn">Keep finishing</button><button class="btn primary" id="timePreviewBtn">Send gift</button></div></div>
 </div>
 
 <div class="dialog hidden" id="leaveDialog" role="dialog" aria-modal="true" aria-labelledby="leaveDialogTitle">
@@ -316,7 +320,7 @@ body.editing{overflow:hidden}.editing .site-header{display:none}.editing main{pa
   'use strict';
   const $=id=>document.getElementById(id); const $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const OWNER_PIN='09052002';
-  const TABLE='birthday_gifts', BUCKET='birthday-gifts-media', LOCAL_KEY='jc.v24.local-gifts', LOCAL_DB='jc-birthday-v23', LOCAL_STORE='gifts';
+  const TABLE='birthday_gifts', BUCKET='birthday-gifts-media', LOCAL_KEY='jc.v25.local-gifts', LOCAL_DB='jc-birthday-v23', LOCAL_STORE='gifts';
   const GIFTS=[
     {id:'cake',icon:'🎂',name:'3D Birthday Cake',short:'Cake',path:'modes/cake.html',desc:'Build an interactive 3D cake with flavors, frosting, decorations, candles, and scenes.'},
     {id:'bouquet',icon:'💐',name:'Flower Bouquet',short:'Bouquet',path:'modes/bouquet.html',desc:'Arrange flowers, wrapping, ribbon, color mood, and a personal bouquet card.'},
@@ -361,7 +365,7 @@ body.editing{overflow:hidden}.editing .site-header{display:none}.editing main{pa
     const name=$('giverName').value.trim();if(!name){toast('Please enter your name first.');$('giverName').focus();return}
     giver={name,note:$('giftNote').value.trim()};const g=gift(selectedGift);
     $('editorTitle').textContent=g.name;$('editorByline').textContent=`From ${giver.name}`;
-    $('modeFrame').title=`${g.name} creator`;$('modeFrame').src=`${g.path}?integrated=1&v=24`;
+    $('modeFrame').title=`${g.name} creator`;$('modeFrame').src=`${g.path}?integrated=1&v=25`;
     showView('editorView');startTimer();
   }
   function closeEditorNow(){stopTimer();$('modeFrame').src='about:blank';showView('homeView')}
@@ -681,7 +685,7 @@ body.editing{overflow:hidden}.editing .site-header{display:none}.editing main{pa
     renderViewerFallback(row);$('giftViewerLoading').classList.remove('hidden');
     showView('giftViewerView');
     if(!path){$('giftViewerLoading').innerHTML='<div><span>⚠️</span><b>Viewer unavailable</b><small>Use the backup details below.</small></div>';return}
-    $('giftViewerFrame').src=`${path}?integrated=1&viewer=1&v=24&gift=${encodeURIComponent(row.gift_id||'')}`;
+    $('giftViewerFrame').src=`${path}?integrated=1&viewer=1&v=25&gift=${encodeURIComponent(row.gift_id||'')}`;
   }
   function closeGiftViewer(){
     currentViewerGift=null;$('giftViewerFrame').src='about:blank';$('giftViewerLoading').classList.remove('hidden');clearDetailObjectUrls();showView('boxView');
@@ -693,13 +697,13 @@ body.editing{overflow:hidden}.editing .site-header{display:none}.editing main{pa
   $('startForm').onsubmit=e=>{e.preventDefault();launchEditor()};
   $$('.time-btn').forEach(b=>b.onclick=()=>{selectedTime=Number(b.dataset.time);$$('.time-btn').forEach(x=>x.classList.toggle('active',x===b))});
   $('editorBackBtn').onclick=()=>openDialog('leaveDialog');$('leaveGiftBtn').onclick=()=>{closeDialog('leaveDialog',false);closeEditorNow()};$('editorHelpBtn').onclick=()=>openDialog('helpDialog');
-  $('keepFinishingBtn').onclick=()=>{closeDialog('timeDialog');timerExpired=true;$('timerPill').textContent='00:00'};$('timePreviewBtn').onclick=()=>{closeDialog('timeDialog');$('modeFrame').contentWindow?.postMessage({source:'jc-main',action:'open-preview'},'*')};
+  $('keepFinishingBtn').onclick=()=>{closeDialog('timeDialog');timerExpired=true;$('timerPill').textContent='00:00'};$('timePreviewBtn').onclick=()=>{closeDialog('timeDialog');$('modeFrame').contentWindow?.postMessage({source:'jc-main',action:'send-now'},'*')};
   $('makeAnotherBtn').onclick=()=>openStart(selectedGift);$('successHomeBtn').onclick=()=>showView('homeView');
   $('ownerBtn').onclick=()=>openDialog('ownerDialog','ownerPin');
   $('ownerOpenBtn').onclick=async()=>{if($('ownerPin').value!==OWNER_PIN){toast('Wrong PIN.');$('ownerPin').select();return}boxUnlocked=true;closeDialog('ownerDialog',false);showView('boxView');await loadBox()};
   $('refreshBoxBtn').onclick=async()=>{await initSupabase(true);await loadBox()};
   $('boxHomeBtn').onclick=()=>showView('homeView');
-  $('giftViewerBackBtn').onclick=closeGiftViewer;$('giftViewerReplayBtn').onclick=()=>{$('giftViewerFrame').contentWindow?.postMessage({source:'jc-main',action:'open-preview',viewer:true},'*')};
+  $('giftViewerBackBtn').onclick=closeGiftViewer;$('giftViewerReplayBtn').onclick=()=>{};
   $('backendHelpBtn').onclick=()=>openDialog('setupDialog','openSqlBtn');
   $('systemCheckBtn').onclick=()=>window.open('SYSTEM-CHECK.html','_blank');$('openSqlBtn').onclick=()=>window.open('SUPABASE-SETUP.sql','_blank');
   $('retryBackendBtn').onclick=async()=>{await initSupabase(true);if(backendState==='ready'){closeDialog('setupDialog');toast('Shared Birthday Box is connected!');if(boxUnlocked)await loadBox()}else toast(backendState==='setup'?'The Birthday Box table is still missing.':'The shared Birthday Box is not fully ready yet.')};
