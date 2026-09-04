@@ -1,0 +1,15 @@
+JC's Birthday V19 — No Chat QA
+================================
+PASS: Floating Chat button removed
+PASS: Party Chat panel removed
+PASS: Chat message composer removed
+PASS: Chat name field removed
+PASS: Chat safety notice removed
+PASS: Chat broadcast listeners removed
+PASS: Chat broadcast sender removed from active code
+PASS: Typing feature removed
+PASS: Join/leave chat notices absent
+PASS: Online counter retained with Supabase Presence
+PASS: Shared Birthday Box retained
+PASS: Shared media/storage code retained
+PASS: Supabase config retained

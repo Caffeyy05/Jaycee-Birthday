@@ -1,0 +1,1619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#E3E8E7">
+<title>JC's Birthday — Gift Box</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#3E5066;
+  --muted:#758193;
+  --line:rgba(62,80,102,.10);
+  --panel:rgba(250,252,251,.95);
+  --soft:#EEF2F1;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Poppins,system-ui,sans-serif;color:var(--ink)}
+body{
+  min-height:100dvh;
+  background:
+    radial-gradient(circle at 12% 8%,rgba(162,195,194,.24),transparent 28%),
+    radial-gradient(circle at 90% 88%,rgba(232,183,212,.18),transparent 32%),
+    linear-gradient(145deg,#F8FAF9,#E7EDEC);
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.app{min-height:100dvh;display:grid;grid-template-rows:auto 1fr}
+
+header{
+  height:70px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  border-bottom:1px solid var(--line);background:rgba(248,250,249,.88);backdrop-filter:blur(16px)
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{
+  width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#3E5066,#5E6D8A);color:white;font-size:20px;
+  box-shadow:0 10px 25px rgba(62,80,102,.18)
+}
+.brand b{display:block;font-size:13px}
+.brand small{display:block;font-size:7px;color:#8A95A2;margin-top:2px}
+.header-actions{display:flex;gap:6px}
+.btn{
+  min-height:38px;padding:0 12px;border-radius:11px;border:1px solid var(--line);
+  background:#fff;color:var(--ink);font-size:8px;font-weight:800
+}
+.btn.primary{border:0;background:linear-gradient(135deg,#3E5066,#5E6D8A);color:#fff}
+
+.workspace{
+  width:min(1500px,100%);margin:0 auto;padding:14px;
+  display:grid;grid-template-columns:290px minmax(0,1fr) 300px;gap:12px;
+  min-height:calc(100dvh - 70px)
+}
+.panel,.stage-shell{
+  border:1px solid var(--line);background:var(--panel);
+  box-shadow:0 18px 50px rgba(62,80,102,.08)
+}
+.panel{border-radius:22px;padding:16px;overflow:auto}
+.stage-shell{
+  min-width:0;border-radius:24px;overflow:hidden;display:grid;grid-template-rows:auto 1fr auto
+}
+.ey{font-size:7px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#798697}
+h2,h3{margin:3px 0 0;letter-spacing:-.04em}
+h2{font-size:22px} h3{font-size:18px}
+.lead{font-size:8px;color:var(--muted);line-height:1.55;margin:6px 0 14px}
+.section{padding:12px 0;border-top:1px solid rgba(62,80,102,.07)}
+.section:first-of-type{border-top:0;padding-top:3px}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.section-title b{font-size:9px}.section-title span{font-size:6.5px;color:#929DA9}
+
+.choice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.choice{
+  min-height:62px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);
+  display:grid;place-items:center;gap:3px;padding:7px 4px;font-size:7px;font-weight:800;text-align:center
+}
+.choice span{font-size:21px;line-height:1}
+.choice.active{background:#3E5066;color:#fff;border-color:#3E5066;box-shadow:0 8px 18px rgba(62,80,102,.14)}
+
+.swatches{display:flex;gap:7px;flex-wrap:wrap}
+.swatch{
+  width:34px;height:34px;border-radius:11px;border:3px solid #fff;
+  outline:1px solid rgba(62,80,102,.14);background:var(--sw)
+}
+.swatch.active{box-shadow:0 0 0 3px rgba(62,80,102,.25)}
+
+.stage-head{
+  min-height:62px;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border-bottom:1px solid rgba(62,80,102,.07)
+}
+.stage-title{display:flex;align-items:center;gap:9px;min-width:0}
+.back{width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:900}
+.stage-title h2{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.helper{padding:7px 9px;border-radius:999px;background:#EEF2F1;color:#738093;font-size:7px;font-weight:800}
+
+.gift-stage{
+  position:relative;min-height:590px;overflow:hidden;display:grid;place-items:center;padding:26px;
+  background:
+    radial-gradient(circle at 50% 22%,rgba(255,255,255,.95),rgba(255,255,255,.55) 42%,transparent 70%),
+    linear-gradient(145deg,#F5F8F7,#DDE6E3)
+}
+.gift-stage.scene-blush{background:linear-gradient(145deg,#FBF2F5,#EEDDE7)}
+.gift-stage.scene-blue{background:linear-gradient(145deg,#F1F5F9,#DDE7F0)}
+.gift-stage.scene-night{background:linear-gradient(145deg,#303A4D,#20293B)}
+
+.box-scene{
+  position:relative;width:min(560px,88vw);height:470px;perspective:1200px;
+}
+.gift-box{
+  position:absolute;left:50%;top:53%;width:330px;height:240px;transform:translate(-50%,-50%);
+  transform-style:preserve-3d;
+}
+.gift-box.tall{width:280px;height:280px}
+.gift-box.wide{width:390px;height:210px}
+
+.box-base{
+  position:absolute;left:0;right:0;bottom:0;height:70%;
+  border-radius:18px 18px 28px 28px;
+  background:
+    linear-gradient(var(--pattern-overlay),var(--pattern-overlay)),
+    linear-gradient(145deg,var(--box-a),var(--box-b));
+  box-shadow:0 28px 70px rgba(62,80,102,.20);
+  overflow:hidden;
+  z-index:2;
+}
+.box-base::before{
+  content:"";position:absolute;inset:0;opacity:.32;pointer-events:none;
+  background-size:24px 24px;
+  background-image:var(--pattern-image)
+}
+.box-base::after{
+  content:"";position:absolute;left:50%;top:0;bottom:0;width:48px;transform:translateX(-50%);
+  background:var(--ribbon-color);opacity:.92
+}
+.gift-box.wide .box-base::after{width:56px}
+.gift-box.tall .box-base::after{width:44px}
+
+.box-lid{
+  position:absolute;left:-4%;right:-4%;top:10%;height:28%;border-radius:18px;
+  background:
+    linear-gradient(var(--pattern-overlay),var(--pattern-overlay)),
+    linear-gradient(145deg,var(--box-a),var(--box-b));
+  box-shadow:0 16px 35px rgba(62,80,102,.18);
+  transform-origin:center bottom;
+  transition:transform .75s cubic-bezier(.2,.8,.2,1),top .75s cubic-bezier(.2,.8,.2,1);
+  z-index:7;
+}
+.box-lid::before{
+  content:"";position:absolute;inset:0;opacity:.32;border-radius:inherit;
+  background-size:24px 24px;background-image:var(--pattern-image)
+}
+.box-lid::after{
+  content:"";position:absolute;left:50%;top:0;bottom:0;width:52px;transform:translateX(-50%);
+  background:var(--ribbon-color);opacity:.92
+}
+
+.gift-box.open .box-lid{
+  top:-26%;
+  transform:rotateX(-28deg) rotateZ(-8deg) translateY(-12px);
+}
+
+.box-bow{
+  position:absolute;left:50%;top:0;transform:translate(-50%,-50%);z-index:10;
+  width:150px;height:88px;transition:top .75s cubic-bezier(.2,.8,.2,1),transform .75s cubic-bezier(.2,.8,.2,1)
+}
+.gift-box.open .box-bow{top:-36%;transform:translate(-50%,-50%) rotate(-8deg)}
+.bow-loop{
+  position:absolute;top:20px;width:64px;height:43px;border-radius:70% 24% 70% 24%;
+  background:var(--ribbon-color);box-shadow:0 8px 18px rgba(62,80,102,.12)
+}
+.bow-loop.left{left:8px;transform:rotate(16deg)}
+.bow-loop.right{right:8px;transform:scaleX(-1) rotate(16deg)}
+.bow-knot{
+  position:absolute;left:50%;top:31px;width:35px;height:35px;border-radius:50%;transform:translateX(-50%);
+  background:var(--ribbon-color)
+}
+
+.box-content{
+  position:absolute;left:8%;right:8%;bottom:20%;height:55%;z-index:5;
+  display:flex;align-items:flex-end;justify-content:center;gap:3px;
+  pointer-events:none
+}
+.surprise-item{
+  position:absolute;display:grid;place-items:center;font-size:46px;
+  transform:translate(var(--x),var(--y)) rotate(var(--rot)) scale(.25);
+  opacity:0;
+  transition:transform .65s cubic-bezier(.2,.9,.2,1),opacity .42s ease;
+  filter:drop-shadow(0 10px 12px rgba(62,80,102,.12))
+}
+.gift-box.open .surprise-item{
+  opacity:1;
+  transform:translate(var(--x),calc(var(--y) - 125px)) rotate(var(--rot)) scale(var(--scale))
+}
+.surprise-item:nth-child(2){transition-delay:.05s}
+.surprise-item:nth-child(3){transition-delay:.10s}
+.surprise-item:nth-child(4){transition-delay:.15s}
+.surprise-item:nth-child(5){transition-delay:.20s}
+.surprise-item:nth-child(6){transition-delay:.25s}
+
+.confetti-layer{
+  position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden
+}
+.confetti-piece{
+  position:absolute;left:50%;top:56%;font-size:20px;opacity:0;
+  transform:translate(-50%,-50%) scale(.2);
+}
+.gift-box.open + .confetti-layer .confetti-piece{
+  animation:popConfetti 1.25s ease-out forwards
+}
+@keyframes popConfetti{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}
+  20%{opacity:1}
+  100%{opacity:0;transform:translate(var(--cx),var(--cy)) rotate(var(--cr)) scale(1)}
+}
+
+.box-tag{
+  position:absolute;right:-15px;bottom:34px;z-index:12;width:150px;min-height:82px;padding:12px 12px 10px;
+  border-radius:14px;background:#FFFDF8;box-shadow:0 13px 32px rgba(62,80,102,.16);
+  transform:rotate(6deg)
+}
+.box-tag b{display:block;font-size:10px;line-height:1.25}
+.box-tag p{margin:5px 0 0;font-size:6.5px;line-height:1.45;color:#738093;word-break:break-word}
+.gift-box.wide .box-tag{right:-4px}
+.gift-box.tall .box-tag{right:-22px}
+
+.open-box-btn{
+  position:absolute;left:50%;bottom:20px;transform:translateX(-50%);z-index:20;
+  min-height:42px;padding:0 14px;border-radius:999px;border:1px solid rgba(62,80,102,.11);
+  background:rgba(255,255,255,.90);backdrop-filter:blur(8px);color:#53647A;font-size:7.5px;font-weight:900;
+  box-shadow:0 9px 25px rgba(62,80,102,.11)
+}
+
+.items-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.item-btn{
+  min-height:57px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);
+  display:grid;place-items:center;gap:2px;padding:5px;position:relative
+}
+.item-btn span{font-size:22px}.item-btn b{font-size:6px}
+.item-btn .count{
+  position:absolute;right:4px;top:4px;min-width:18px;height:18px;padding:0 4px;border-radius:999px;
+  display:grid;place-items:center;background:#EEF2F1;color:#5E6D8A;font-size:5.5px;font-weight:900
+}
+.item-btn.active{background:#EEF2F1;box-shadow:inset 0 0 0 2px rgba(62,80,102,.14)}
+
+.input,.textarea{
+  width:100%;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);outline:0;font-size:8px
+}
+.input{height:40px;padding:0 10px}
+.textarea{min-height:88px;padding:10px;resize:vertical;line-height:1.55}
+.field{display:grid;gap:5px;margin-top:8px}
+.field label{font-size:7px;font-weight:800;color:#778395}
+.upload-btn{
+  width:100%;min-height:43px;border:1px dashed rgba(62,80,102,.18);border-radius:12px;background:#F7F9F8;
+  color:#5F7086;font-size:8px;font-weight:800
+}
+
+.photo-surprise{
+  width:72px;height:72px;border-radius:14px;object-fit:cover;border:5px solid white;
+  box-shadow:0 8px 20px rgba(62,80,102,.14)
+}
+.summary{
+  padding:12px;border-radius:14px;background:linear-gradient(145deg,#3E5066,#5E6D8A);color:#fff
+}
+.summary b{font-size:9px}.summary p{margin:5px 0 0;font-size:7px;line-height:1.5;opacity:.82}
+
+.stage-footer{
+  min-height:52px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  border-top:1px solid rgba(62,80,102,.07)
+}
+.stage-footer small{font-size:6.5px;line-height:1.45;color:#8B96A3;max-width:64%}
+
+.mobile-tabs,.mobile-actionbar,.mobile-sheet{display:none}
+
+.modal{
+  position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:16px;
+  background:rgba(35,46,61,.42);backdrop-filter:blur(7px)
+}
+.modal.hidden{display:none}
+.modal-card{
+  width:min(520px,100%);border-radius:24px;background:#F8FAF9;border:1px solid var(--line);padding:22px;text-align:center;
+  box-shadow:0 26px 80px rgba(35,46,61,.25)
+}
+.modal-icon{font-size:52px}.modal-card h2{font-size:26px;margin-top:8px}.modal-card p{font-size:9px;color:#778494;line-height:1.6}
+.modal-actions{display:flex;justify-content:center;gap:8px;margin-top:15px}
+.modal-actions button{min-height:44px;padding:0 15px;border-radius:12px;border:1px solid var(--line);font-size:8px;font-weight:900}
+.modal-actions .primary{border:0;background:linear-gradient(135deg,#3E5066,#5E6D8A);color:#fff}
+
+@media(max-width:1120px){
+  .workspace{grid-template-columns:245px minmax(0,1fr)}
+  .panel.right{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .panel.right>.section{border-top:0;padding:10px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.65)}
+}
+
+@media(max-width:820px){
+  body{padding-bottom:78px;overflow-x:hidden}
+  header{height:60px;padding:0 10px;position:sticky;top:0;z-index:30}
+  .brand small{display:none}.brand b{font-size:11px}.logo{width:38px;height:38px}
+  .header-actions .btn:first-child{display:none}
+  .workspace{display:block;padding:6px;min-height:auto}
+  .panel.left,.panel.right{display:none!important}
+  .stage-shell{min-height:calc(100dvh - 72px);border-radius:18px}
+  .stage-head{min-height:55px;padding:8px 9px}
+  .stage-title h2{font-size:14px;max-width:180px}.helper{display:none}
+  .gift-stage{min-height:calc(100dvh - 210px);padding:12px 6px}
+  .box-scene{width:100%;height:calc(100dvh - 270px);min-height:390px}
+  .gift-box{transform:translate(-50%,-50%) scale(.82)}
+  .gift-box.wide{transform:translate(-50%,-50%) scale(.74)}
+  .gift-box.tall{transform:translate(-50%,-50%) scale(.78)}
+  .stage-footer .btn{display:none}.stage-footer small{max-width:100%}
+
+  .mobile-tabs{
+    position:absolute;left:8px;right:8px;top:8px;z-index:35;display:flex;gap:5px;overflow-x:auto;
+    padding:6px;border-radius:14px;background:rgba(248,250,249,.9);backdrop-filter:blur(12px);
+    border:1px solid var(--line);box-shadow:0 8px 24px rgba(62,80,102,.12);scrollbar-width:none
+  }
+  .mobile-tabs::-webkit-scrollbar{display:none}
+  .mobile-tabs button{
+    flex:1 0 74px;min-height:44px;border:0;border-radius:10px;background:transparent;color:var(--ink);
+    display:grid;grid-template-columns:18px 1fr;align-items:center;gap:4px;padding:5px 7px
+  }
+  .mobile-tabs button span{font-size:15px}.mobile-tabs button b{font-size:6.3px;text-align:left}
+  .mobile-tabs button.active{background:#3E5066;color:#fff}
+
+  .mobile-actionbar{
+    position:fixed;left:8px;right:8px;bottom:max(8px,env(safe-area-inset-bottom));z-index:90;
+    display:grid;grid-template-columns:1fr 1fr 1.18fr;gap:6px;padding:7px;border-radius:17px;
+    background:rgba(248,250,249,.94);backdrop-filter:blur(16px);border:1px solid var(--line);
+    box-shadow:0 18px 48px rgba(36,47,61,.22)
+  }
+  .mobile-actionbar button{
+    min-height:52px;border:0;border-radius:11px;background:#EEF2F1;color:#4F6177;
+    display:grid;place-items:center;gap:1px;padding:4px
+  }
+  .mobile-actionbar button span{font-size:17px}.mobile-actionbar button b{font-size:6.5px}
+  .mobile-actionbar .primary-mobile{background:linear-gradient(135deg,#3E5066,#5E6D8A);color:#fff}
+
+  .mobile-sheet{position:fixed;inset:0;z-index:110;display:block;pointer-events:none}
+  .mobile-sheet.hidden{display:none}.mobile-sheet.open{pointer-events:auto}
+  .mobile-sheet-backdrop{position:absolute;inset:0;background:rgba(36,47,61,.32);opacity:0;transition:.2s}
+  .mobile-sheet.open .mobile-sheet-backdrop{opacity:1}
+  .mobile-sheet-panel{
+    position:absolute;left:0;right:0;bottom:0;max-height:min(75dvh,660px);
+    display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;background:#F9FBFA;
+    border-radius:24px 24px 0 0;border:1px solid var(--line);box-shadow:0 -18px 54px rgba(36,47,61,.22);
+    transform:translateY(104%);transition:transform .24s cubic-bezier(.2,.8,.2,1);overflow:hidden;
+    padding-bottom:max(4px,env(safe-area-inset-bottom))
+  }
+  .mobile-sheet.open .mobile-sheet-panel{transform:translateY(0)}
+  .grabber{width:52px;height:5px;margin:8px auto 2px;border:0;border-radius:999px;background:#CBD2D1}
+  .mobile-sheet-head{min-height:55px;padding:8px 13px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(62,80,102,.07)}
+  .mobile-sheet-head h3{font-size:17px}.mobile-sheet-close{width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:900}
+  .mobile-sheet-content{min-height:0;overflow-y:auto;padding:11px 12px 20px;-webkit-overflow-scrolling:touch}
+  .mobile-sheet-actions{display:grid;grid-template-columns:.72fr 1.28fr;gap:7px;padding:9px 12px;border-top:1px solid rgba(62,80,102,.07)}
+  .mobile-sheet-actions button{min-height:46px;border-radius:12px;font-size:8px;font-weight:900}
+  .mobile-sheet-actions button:first-child{border:1px solid var(--line);background:#fff;color:var(--ink)}
+  .mobile-sheet-actions button:last-child{border:0;background:linear-gradient(135deg,#3E5066,#5E6D8A);color:#fff}
+
+  .m-section{padding:11px 0;border-top:1px solid rgba(62,80,102,.07)}
+  .m-section:first-child{border-top:0;padding-top:0}
+  .m-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.m-title b{font-size:9px}.m-title span{font-size:6.5px;color:#8793A0}
+  .m-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+  .m-choice{
+    min-height:64px;border:1px solid var(--line);border-radius:13px;background:#fff;color:#516278;
+    display:grid;place-items:center;gap:3px;padding:7px 5px;font-size:7px;font-weight:800;text-align:center
+  }
+  .m-choice span{font-size:22px}.m-choice.active{background:#3E5066;color:#fff;border-color:#3E5066}
+  .m-swatches{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 5px;scrollbar-width:none}.m-swatches::-webkit-scrollbar{display:none}
+  .m-swatch{flex:0 0 44px;width:44px;height:44px;border-radius:13px;border:3px solid #fff;outline:1px solid rgba(62,80,102,.14);background:var(--sw)}
+  .m-swatch.active{box-shadow:0 0 0 3px rgba(62,80,102,.26)}
+  .m-input{width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 11px;color:var(--ink);font-size:8px;outline:0}
+  .m-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+}
+
+@media(max-width:430px){
+  .m-grid,.m-items{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gift-box{transform:translate(-50%,-50%) scale(.72)}
+  .gift-box.wide{transform:translate(-50%,-50%) scale(.65)}
+  .gift-box.tall{transform:translate(-50%,-50%) scale(.68)}
+  .box-scene{min-height:360px}
+}
+
+/* ===== V2 MEGA GIFT BOX ===== */
+.gift-box.mini{width:235px;height:185px}
+.gift-box.jumbo{width:430px;height:310px}
+.gift-box.round{width:320px;height:250px}
+.gift-box.round .box-base{border-radius:50% 50% 34px 34px}
+.gift-box.round .box-lid{border-radius:50% 50% 18px 18px}
+
+.gift-box.finish-glossy .box-base,
+.gift-box.finish-glossy .box-lid{
+  box-shadow:inset 0 0 40px rgba(255,255,255,.32),0 25px 65px rgba(62,80,102,.20);
+}
+.gift-box.finish-glossy .box-base::before,
+.gift-box.finish-glossy .box-lid::before{
+  content:"";position:absolute;left:-20%;top:-30%;width:55%;height:180%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);
+  transform:rotate(18deg);animation:shineSweep 3s linear infinite;
+}
+@keyframes shineSweep{0%{left:-55%}100%{left:120%}}
+
+.gift-box.finish-holo .box-base,
+.gift-box.finish-holo .box-lid{
+  background:
+    linear-gradient(120deg,rgba(255,155,200,.35),rgba(145,220,255,.38),rgba(210,170,255,.38),rgba(255,235,150,.35)),
+    linear-gradient(145deg,var(--box-a),var(--box-b));
+  background-size:220% 220%;
+  animation:holoShift 4s ease-in-out infinite alternate;
+}
+@keyframes holoShift{from{background-position:0% 50%}to{background-position:100% 50%}}
+
+.gift-box.finish-velvet .box-base,
+.gift-box.finish-velvet .box-lid{filter:saturate(.82) brightness(.97)}
+.gift-box.finish-metallic .box-base,
+.gift-box.finish-metallic .box-lid{
+  background:
+    linear-gradient(110deg,rgba(255,255,255,.34),transparent 28%,rgba(255,255,255,.16) 55%,transparent 78%),
+    linear-gradient(145deg,var(--box-a),var(--box-b));
+}
+.gift-box.finish-glow .box-base,
+.gift-box.finish-glow .box-lid{
+  box-shadow:0 0 28px rgba(162,195,194,.48),0 0 58px rgba(216,202,231,.38),0 24px 60px rgba(62,80,102,.18)
+}
+
+.gift-box.ribbon-none .box-base::after,
+.gift-box.ribbon-none .box-lid::after,
+.gift-box.ribbon-none .box-bow{display:none}
+.gift-box.ribbon-silk .bow-loop{border-radius:60% 40% 60% 40%;transform:scaleY(.68)}
+.gift-box.ribbon-double .box-bow::after{
+  content:"";position:absolute;left:50%;top:56px;width:112px;height:20px;transform:translateX(-50%);
+  border-radius:999px;background:var(--ribbon-color);opacity:.82
+}
+.gift-box.ribbon-twine .box-base::after,
+.gift-box.ribbon-twine .box-lid::after{width:12px;background:#A98961}
+.gift-box.ribbon-twine .box-bow{filter:saturate(.45);transform:translate(-50%,-50%) scale(.72)}
+
+.gift-box.shaking{
+  animation:shakeGift .55s ease-in-out
+}
+@keyframes shakeGift{
+  0%,100%{transform:translate(-50%,-50%) rotate(0)}
+  15%{transform:translate(-50%,-50%) rotate(-4deg) translateX(-6px)}
+  30%{transform:translate(-50%,-50%) rotate(4deg) translateX(6px)}
+  45%{transform:translate(-50%,-50%) rotate(-3deg) translateX(-4px)}
+  60%{transform:translate(-50%,-50%) rotate(3deg) translateX(4px)}
+  75%{transform:translate(-50%,-50%) rotate(-1deg)}
+}
+
+.gift-box.open .box-lid{
+  animation:lidOpenBounce .9s cubic-bezier(.2,.9,.2,1) both
+}
+@keyframes lidOpenBounce{
+  0%{top:10%;transform:rotateX(0) rotateZ(0) translateY(0)}
+  60%{top:-32%;transform:rotateX(-38deg) rotateZ(-10deg) translateY(-18px)}
+  82%{top:-24%;transform:rotateX(-24deg) rotateZ(-6deg) translateY(-8px)}
+  100%{top:-26%;transform:rotateX(-28deg) rotateZ(-8deg) translateY(-12px)}
+}
+
+.box-content{
+  overflow:visible!important;
+  pointer-events:none
+}
+.surprise-item{
+  position:absolute!important;
+  left:50%;top:50%;
+  transition:
+    transform .75s cubic-bezier(.2,.9,.2,1),
+    opacity .44s ease,
+    filter .44s ease!important;
+  will-change:transform,opacity;
+}
+.surprise-item.custom-text{
+  min-width:88px;max-width:125px;padding:8px 10px;border-radius:12px;
+  background:#FFFDF8;color:#506176;font-size:7px;font-weight:800;line-height:1.25;text-align:center;
+  box-shadow:0 8px 22px rgba(62,80,102,.15)
+}
+.photo-surprise{width:66px;height:66px}
+
+.gift-box.open.reveal-fountain .surprise-item{
+  transform:translate(var(--x),calc(var(--y) - var(--lift))) rotate(var(--rot)) scale(var(--scale))
+}
+.gift-box.open.reveal-spiral .surprise-item{
+  transform:translate(var(--x),calc(var(--y) - var(--lift))) rotate(calc(var(--rot) + 360deg)) scale(var(--scale))
+}
+.gift-box.open.reveal-float .surprise-item{
+  transform:translate(var(--x),calc(var(--y) - var(--lift))) rotate(var(--rot)) scale(var(--scale));
+  animation:floatItem 2.4s ease-in-out infinite alternate
+}
+@keyframes floatItem{from{margin-top:0}to{margin-top:-14px}}
+.gift-box.open.reveal-burst .surprise-item{
+  transform:translate(var(--x),calc(var(--y) - var(--lift))) rotate(var(--rot)) scale(calc(var(--scale) * 1.12))
+}
+.gift-box.open.reveal-fan .surprise-item{
+  transform:translate(var(--x),calc(var(--y) - var(--lift))) rotate(var(--fanrot)) scale(var(--scale))
+}
+
+.ambient-layer{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:3
+}
+.ambient-float{
+  position:absolute;bottom:-40px;font-size:24px;opacity:0;
+  animation:ambientRise var(--dur) linear infinite;
+  animation-delay:var(--delay)
+}
+@keyframes ambientRise{
+  0%{transform:translateY(0) translateX(0) rotate(0);opacity:0}
+  12%{opacity:.9}
+  80%{opacity:.75}
+  100%{transform:translateY(-620px) translateX(var(--drift)) rotate(var(--spin));opacity:0}
+}
+.firework{
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  background:currentColor;opacity:0;animation:fireworkBurst 1.2s ease-out forwards
+}
+@keyframes fireworkBurst{
+  0%{transform:translate(0,0) scale(.2);opacity:1}
+  100%{transform:translate(var(--fx),var(--fy)) scale(1.1);opacity:0}
+}
+.spark-burst{
+  position:absolute;font-size:18px;opacity:0;animation:sparkBurst 1s ease-out forwards
+}
+@keyframes sparkBurst{
+  0%{transform:translate(0,0) scale(.2);opacity:1}
+  100%{transform:translate(var(--sx),var(--sy)) rotate(var(--sr)) scale(1.1);opacity:0}
+}
+
+.shake-box-btn{
+  position:absolute;right:18px;bottom:18px;z-index:20;width:42px;height:42px;border-radius:50%;
+  border:1px solid rgba(62,80,102,.11);background:rgba(255,255,255,.9);font-size:18px;
+  box-shadow:0 8px 20px rgba(62,80,102,.11)
+}
+
+.gift-stage.scene-party{
+  background:
+    radial-gradient(circle at 20% 20%,rgba(255,220,230,.8),transparent 28%),
+    radial-gradient(circle at 80% 25%,rgba(205,235,255,.8),transparent 30%),
+    linear-gradient(145deg,#FFF4F7,#EDF5FF)
+}
+.gift-stage.scene-dream{
+  background:
+    radial-gradient(circle at 50% 25%,rgba(255,255,255,.95),transparent 33%),
+    linear-gradient(145deg,#F5F1FA,#DDE8F4)
+}
+.gift-stage.scene-sunset{background:linear-gradient(145deg,#F8D5BC,#DAB7D4 55%,#8EA8C9)}
+.gift-stage.scene-space{
+  background:
+    radial-gradient(circle at 18% 18%,#FFFFFF 0 1px,transparent 2px),
+    radial-gradient(circle at 76% 30%,#FFFFFF 0 1.5px,transparent 2px),
+    radial-gradient(circle at 40% 62%,#FFFFFF 0 1px,transparent 2px),
+    linear-gradient(145deg,#151D31,#2A3152)
+}
+
+@media(max-width:820px){
+  .gift-box.mini{transform:translate(-50%,-50%) scale(.82)}
+  .gift-box.jumbo{transform:translate(-50%,-50%) scale(.60)}
+  .gift-box.round{transform:translate(-50%,-50%) scale(.72)}
+  .shake-box-btn{right:10px;bottom:10px}
+}
+
+
+/* ===== JC'S BIRTHDAY V21 INTEGRATION / ACCESSIBILITY ===== */
+:focus-visible{outline:3px solid #3E5066!important;outline-offset:3px!important}
+body.integrated{min-height:100dvh;background:#EEF2F1}
+body.integrated > header{display:none!important}
+body.integrated .workspace{min-height:100dvh!important;padding-top:6px!important}
+body.integrated .stage-footer small{display:none!important}
+body.integrated .stage-footer{justify-content:flex-end!important}
+body.integrated button,body.integrated input,body.integrated textarea{font-size:max(inherit,12px)}
+body.integrated button{touch-action:manipulation}
+body.integrated .swatch{min-width:40px;min-height:40px}
+@media(max-width:820px){
+  body.integrated{padding-bottom:max(78px,env(safe-area-inset-bottom))!important}
+  body.integrated .workspace{padding:4px!important}
+  body.integrated .mobile-swatch,body.integrated .m-swatch{min-width:44px;min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+
+/* V21 integrated readability boost */
+body.integrated .ey{font-size:10px!important}
+body.integrated .lead,body.integrated .helper,body.integrated .stage-footer small{font-size:11px!important;line-height:1.5!important}
+body.integrated .section-title b,body.integrated .mobile-control-title b,body.integrated .m-title b{font-size:12px!important}
+body.integrated .section-title span,body.integrated .mobile-control-title span,body.integrated .m-title span{font-size:10px!important}
+body.integrated .choice,body.integrated .m-choice,body.integrated .mobile-choice,body.integrated .btn,body.integrated .control-btn,body.integrated .upload-btn{font-size:11px!important}
+body.integrated .choice b,body.integrated .m-choice b,body.integrated .mobile-choice b,body.integrated .item-btn b,body.integrated .flower-btn b{font-size:10px!important}
+body.integrated input,body.integrated textarea,body.integrated select{font-size:12px!important}
+body.integrated .field label,body.integrated .range-row label,body.integrated .range-row span{font-size:10px!important}
+@media(max-width:430px){body.integrated .choice,body.integrated .m-choice,body.integrated .mobile-choice{font-size:10px!important}}
+
+
+/* V24 saved-gift viewer mode */
+body.viewer{padding-bottom:0!important;min-height:100dvh!important;background:#EEF2F1!important;overflow:auto!important}
+body.viewer > header{display:none!important}
+body.viewer .workspace{display:block!important;min-height:100dvh!important;padding:0!important;margin:0!important;width:100%!important;max-width:none!important}
+body.viewer aside.panel,body.viewer .panel.left,body.viewer .panel.right{display:none!important}
+body.viewer .stage-shell,body.viewer .stage-wrap,body.viewer section.stage{width:100%!important;min-height:100dvh!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+body.viewer .stage-head,body.viewer .stage-footer{display:none!important}
+body.viewer .mobile-tabs,body.viewer .mobile-actionbar,body.viewer .mobile-action-bar,body.viewer .mobile-sheet,body.viewer .mobile-creator-sheet{display:none!important}
+body.viewer .card-stage,body.viewer .gift-stage,body.viewer .photo-stage,body.viewer .bouquet-stage,body.viewer .booth{min-height:100dvh!important;height:100dvh!important;border-radius:0!important}
+body.viewer #stage{min-height:100dvh!important;height:100dvh!important}
+body.viewer .open-card-btn,body.viewer .open-box-btn{display:block!important;min-height:46px!important;font-size:11px!important}
+body.viewer .preview-panel{display:block}
+@media(max-width:820px){body.viewer{padding-bottom:0!important}body.viewer .card-stage,body.viewer .gift-stage,body.viewer .photo-stage,body.viewer .bouquet-stage,body.viewer .booth,body.viewer #stage{min-height:100dvh!important;height:100dvh!important;padding-top:10px!important}}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="logo">🎁</div>
+      <div><b>JC's Birthday!</b><small>Gift Box Builder — sample</small></div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" id="resetBtn">Reset</button>
+      <button class="btn primary" id="previewBtn">Preview 🎁</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="panel left">
+      <div class="ey">Build</div>
+      <h2>Your surprise box</h2>
+      <p class="lead">Choose how the box looks, then fill it with little virtual surprises.</p>
+
+      <div class="section">
+        <div class="section-title"><b>Box shape</b><span>Step 1</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-shape="classic"><span>🎁</span>Classic</button>
+          <button class="choice" data-shape="tall"><span>▯</span>Tall</button>
+          <button class="choice" data-shape="wide"><span>▭</span>Wide</button>
+          <button class="choice" data-shape="mini"><span>▫️</span>Mini</button>
+          <button class="choice" data-shape="jumbo"><span>⬜</span>Jumbo</button>
+          <button class="choice" data-shape="round"><span>⭕</span>Round</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Box color</b><span>Step 2</span></div>
+        <div class="swatches">
+          <button class="swatch active" style="--sw:#D9C5DD" data-box-color="lavender"></button>
+          <button class="swatch" style="--sw:#D8E8E3" data-box-color="sage"></button>
+          <button class="swatch" style="--sw:#EBCAD3" data-box-color="blush"></button>
+          <button class="swatch" style="--sw:#D5E0EF" data-box-color="blue"></button>
+          <button class="swatch" style="--sw:#EDD8B8" data-box-color="gold"></button>
+          <button class="swatch" style="--sw:#354157" data-box-color="night"></button>
+          <button class="swatch" style="--sw:#F2E6D8" data-box-color="cream"></button>
+          <button class="swatch" style="--sw:#C8E0F0" data-box-color="sky"></button>
+          <button class="swatch" style="--sw:#F4C6A5" data-box-color="peach"></button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Finish</b><span>Surface</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-finish="matte"><span>◌</span>Matte</button>
+          <button class="choice" data-finish="glossy"><span>✨</span>Glossy</button>
+          <button class="choice" data-finish="holo"><span>🌈</span>Holographic</button>
+          <button class="choice" data-finish="velvet"><span>☁️</span>Velvet</button>
+          <button class="choice" data-finish="metallic"><span>💎</span>Metallic</button>
+          <button class="choice" data-finish="glow"><span>💡</span>Glow</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Pattern</b><span>Step 3</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-pattern="plain"><span>◌</span>Plain</button>
+          <button class="choice" data-pattern="dots"><span>•••</span>Dots</button>
+          <button class="choice" data-pattern="stars"><span>✦</span>Stars</button>
+          <button class="choice" data-pattern="stripes"><span>〰</span>Stripes</button>
+          <button class="choice" data-pattern="hearts"><span>♥</span>Hearts</button>
+          <button class="choice" data-pattern="grid"><span>⌗</span>Grid</button>
+          <button class="choice" data-pattern="confetti"><span>🎊</span>Confetti</button>
+          <button class="choice" data-pattern="sparkles"><span>✨</span>Sparkles</button>
+          <button class="choice" data-pattern="checker"><span>◫</span>Checker</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Ribbon color</b><span>Finish</span></div>
+        <div class="swatches">
+          <button class="swatch active" style="--sw:#D98AA2" data-ribbon-color="#D98AA2"></button>
+          <button class="swatch" style="--sw:#A2C3C2" data-ribbon-color="#A2C3C2"></button>
+          <button class="swatch" style="--sw:#C7B4DF" data-ribbon-color="#C7B4DF"></button>
+          <button class="swatch" style="--sw:#E1BD65" data-ribbon-color="#E1BD65"></button>
+          <button class="swatch" style="--sw:#7184A0" data-ribbon-color="#7184A0"></button>
+          <button class="swatch" style="--sw:#FFFFFF" data-ribbon-color="#FFFFFF"></button>
+          <button class="swatch" style="--sw:#2F394B" data-ribbon-color="#2F394B"></button>
+        </div>
+        <div class="choice-grid" style="margin-top:8px">
+          <button class="choice active" data-ribbon-style="bow"><span>🎀</span>Bow</button>
+          <button class="choice" data-ribbon-style="double"><span>🎀</span>Double</button>
+          <button class="choice" data-ribbon-style="silk"><span>〰️</span>Silk</button>
+          <button class="choice" data-ribbon-style="twine"><span>🧵</span>Twine</button>
+          <button class="choice" data-ribbon-style="none"><span>✦</span>None</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="stage-shell">
+      <div class="stage-head">
+        <div class="stage-title">
+          <button class="back">←</button>
+          <div><div class="ey">Gift box studio</div><h2>Build Jaycee a surprise box 🎁</h2></div>
+        </div>
+        <div class="helper">Add surprises, then tap Open box</div>
+      </div>
+
+      <div class="gift-stage" id="giftStage">
+        <div class="mobile-tabs">
+          <button data-mobile-tab="box" class="active"><span>🎁</span><b>Box</b></button>
+          <button data-mobile-tab="inside"><span>✨</span><b>Inside</b></button>
+          <button data-mobile-tab="note"><span>💌</span><b>Note</b></button>
+          <button data-mobile-tab="effects"><span>💥</span><b>Effects</b></button>
+          <button data-mobile-tab="scene"><span>🌈</span><b>Scene</b></button>
+        </div>
+
+        <div class="box-scene">
+          <div class="gift-box" id="giftBox">
+            <div class="box-content" id="boxContent"></div>
+            <div class="box-base"></div>
+            <div class="box-lid"></div>
+            <div class="box-bow">
+              <div class="bow-loop left"></div>
+              <div class="bow-loop right"></div>
+              <div class="bow-knot"></div>
+            </div>
+            <div class="box-tag">
+              <b id="tagTitlePreview">For Jaycee 💗</b>
+              <p id="tagMessagePreview">A little box full of birthday surprises.</p>
+            </div>
+          </div>
+
+          <div class="confetti-layer" id="confettiLayer"></div>
+          <div class="ambient-layer" id="ambientLayer"></div>
+          <button class="shake-box-btn" id="stageShakeBtn" title="Shake the gift">🫨</button>
+          <button class="open-box-btn" id="openBoxBtn">Open box 🎁</button>
+        </div>
+      </div>
+
+      <div class="stage-footer">
+        <small>Your work stays here until you send or leave the editor.</small>
+        <button class="btn primary" id="sendBtn">Preview & send 🎁</button>
+      </div>
+    </section>
+
+    <aside class="panel right">
+      <div class="section">
+        <div class="section-title"><b>Fill the box</b><span>No item limit</span></div>
+        <div class="items-grid">
+          <button class="item-btn" data-item="heart"><span>💗</span><b>Heart</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="cake"><span>🎂</span><b>Cake</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="flower"><span>🌸</span><b>Flower</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="teddy"><span>🧸</span><b>Teddy</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="star"><span>⭐</span><b>Star</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="candy"><span>🍬</span><b>Candy</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="camera"><span>📸</span><b>Memory</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="music"><span>🎵</span><b>Music</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="letter"><span>💌</span><b>Letter</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="balloon"><span>🎈</span><b>Balloon</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="sparkle"><span>✨</span><b>Sparkle</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="gift"><span>🎁</span><b>Mini gift</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="crown"><span>👑</span><b>Crown</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="butterfly"><span>🦋</span><b>Butterfly</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="rainbow"><span>🌈</span><b>Rainbow</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="chocolate"><span>🍫</span><b>Chocolate</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="cookie"><span>🍪</span><b>Cookie</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="icecream"><span>🍦</span><b>Ice cream</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="game"><span>🎮</span><b>Game</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="headphones"><span>🎧</span><b>Headphones</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="moon"><span>🌙</span><b>Moon</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="sun"><span>☀️</span><b>Sun</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="gem"><span>💎</span><b>Gem</b><i class="count">0</i></button>
+          <button class="item-btn" data-item="coffee"><span>☕</span><b>Coffee</b><i class="count">0</i></button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Photo surprises</b><span>Add as many as you want</span></div>
+        <button class="upload-btn" id="photoBtn">＋ Add photos inside</button>
+        <input id="photoInput" type="file" accept="image/*" multiple hidden>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Custom surprise</b><span>Your own words</span></div>
+        <div class="field"><label>Short text surprise</label><input class="input" id="customSurpriseInput" maxlength="28" placeholder="e.g. Free hug coupon"></div>
+        <button class="upload-btn" id="addCustomSurpriseBtn" style="margin-top:7px">＋ Add text surprise</button>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Reveal animation</b><span>How it opens</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-reveal="pop"><span>✨</span>Pop</button>
+          <button class="choice" data-reveal="fountain"><span>⛲</span>Fountain</button>
+          <button class="choice" data-reveal="spiral"><span>🌀</span>Spiral</button>
+          <button class="choice" data-reveal="float"><span>🎈</span>Float</button>
+          <button class="choice" data-reveal="burst"><span>💥</span>Burst</button>
+          <button class="choice" data-reveal="fan"><span>🪭</span>Fan</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Opening effects</b><span>Animation</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-effect="confetti"><span>🎊</span>Confetti</button>
+          <button class="choice" data-effect="hearts"><span>💗</span>Hearts</button>
+          <button class="choice" data-effect="stars"><span>⭐</span>Stars</button>
+          <button class="choice" data-effect="balloons"><span>🎈</span>Balloons</button>
+          <button class="choice" data-effect="fireworks"><span>🎆</span>Fireworks</button>
+          <button class="choice" data-effect="sparkles"><span>✨</span>Sparkles</button>
+        </div>
+        <div class="choice-grid" style="margin-top:8px">
+          <button class="choice active" id="soundToggle"><span>🔊</span>Chime on</button>
+          <button class="choice" id="autoOpenToggle"><span>▶️</span>Auto open</button>
+          <button class="choice" id="shakeBtn"><span>🫨</span>Shake box</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Gift tag</b><span>Personal note</span></div>
+        <div class="field"><label>Tag title</label><input class="input" id="tagTitle" value="For Jaycee 💗" maxlength="28"></div>
+        <div class="field"><label>Short message</label><textarea class="textarea" id="tagMessage" maxlength="120">A little box full of birthday surprises.</textarea></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Scene</b><span>Background</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-scene="studio"><span>◌</span>Studio</button>
+          <button class="choice" data-scene="blush"><span>🌸</span>Blush</button>
+          <button class="choice" data-scene="blue"><span>🩵</span>Blue</button>
+          <button class="choice" data-scene="night"><span>🌙</span>Night</button>
+          <button class="choice" data-scene="party"><span>🎉</span>Party</button>
+          <button class="choice" data-scene="dream"><span>☁️</span>Dream</button>
+          <button class="choice" data-scene="sunset"><span>🌅</span>Sunset</button>
+          <button class="choice" data-scene="space"><span>🌌</span>Space</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="summary">
+          <b>The fun part ✨</b>
+          <p>The recipient sees a closed gift first, then opens it to reveal the little surprises you chose.</p>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="mobile-actionbar">
+    <button id="mobileCustomizeBtn"><span>⚙️</span><b>Customize</b></button>
+    <button id="mobileOpenBtn"><span>🎁</span><b>Open box</b></button>
+    <button id="mobilePreviewBtn" class="primary-mobile"><span>✨</span><b>Preview</b></button>
+  </div>
+
+  <div class="mobile-sheet hidden" id="mobileSheet" aria-hidden="true">
+    <div class="mobile-sheet-backdrop" id="mobileSheetBackdrop"></div>
+    <section class="mobile-sheet-panel">
+      <button class="grabber" id="sheetGrabber"></button>
+      <div class="mobile-sheet-head">
+        <div><div class="ey">Customize</div><h3 id="mobileSheetTitle">Box</h3></div>
+        <button class="mobile-sheet-close" id="mobileSheetClose">✕</button>
+      </div>
+      <div class="mobile-sheet-content" id="mobileSheetContent"></div>
+      <div class="mobile-sheet-actions">
+        <button id="mobileResetBtn">Reset</button>
+        <button id="mobileDoneBtn">Done ✓</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="modal hidden" id="previewModal">
+  <div class="modal-card">
+    <div class="modal-icon">🎁✨</div>
+    <div class="ey">Your gift box is ready</div>
+    <h2>Wrap it for Jaycee?</h2>
+    <p>When you send it, the box design, photo, surprises, and note can be saved into the shared Supabase Birthday Box.</p>
+    <div class="modal-actions">
+      <button id="keepEditing">Keep editing</button>
+      <button class="primary" id="fakeSend">Wrap & send 🎁</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $=id=>document.getElementById(id);
+  const $$=s=>[...document.querySelectorAll(s)];
+
+  const palettes={
+    lavender:["#D9C5DD","#BDA8C6"],
+    sage:["#D8E8E3","#B7D0C8"],
+    blush:["#EBCAD3","#D8A8B8"],
+    blue:["#D5E0EF","#AFC2DB"],
+    gold:["#EDD8B8","#CFB581"],
+    night:["#354157","#52627A"],
+    cream:["#F2E6D8","#DCC7AF"],
+    sky:["#C8E0F0","#A8C7DE"],
+    peach:["#F4C6A5","#E6A985"]
+  };
+
+  const items={
+    heart:"💗",cake:"🎂",flower:"🌸",teddy:"🧸",star:"⭐",candy:"🍬",
+    camera:"📸",music:"🎵",letter:"💌",balloon:"🎈",sparkle:"✨",gift:"🎁",
+    crown:"👑",butterfly:"🦋",rainbow:"🌈",chocolate:"🍫",cookie:"🍪",icecream:"🍦",
+    game:"🎮",headphones:"🎧",moon:"🌙",sun:"☀️",gem:"💎",coffee:"☕"
+  };
+
+  const patterns={
+    plain:{overlay:"rgba(255,255,255,0)",image:"none"},
+    dots:{overlay:"rgba(255,255,255,0)",image:"radial-gradient(circle,rgba(255,255,255,.72) 2px,transparent 2.5px)"},
+    stars:{overlay:"rgba(255,255,255,0)",image:"radial-gradient(circle at 25% 25%,rgba(255,255,255,.76) 2px,transparent 3px),radial-gradient(circle at 75% 75%,rgba(255,255,255,.56) 1.5px,transparent 2.5px)"},
+    stripes:{overlay:"rgba(255,255,255,0)",image:"repeating-linear-gradient(45deg,rgba(255,255,255,.35) 0 5px,transparent 5px 16px)"},
+    hearts:{overlay:"rgba(255,255,255,0)",image:"radial-gradient(circle at 30% 30%,rgba(255,255,255,.55) 2px,transparent 3px),radial-gradient(circle at 65% 65%,rgba(255,255,255,.55) 2px,transparent 3px)"},
+    grid:{overlay:"rgba(255,255,255,0)",image:"linear-gradient(rgba(255,255,255,.28) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.28) 1px,transparent 1px)"},
+    confetti:{overlay:"rgba(255,255,255,0)",image:"radial-gradient(circle at 20% 30%,rgba(255,255,255,.75) 2px,transparent 3px),radial-gradient(circle at 70% 55%,rgba(255,255,255,.45) 2px,transparent 3px),linear-gradient(35deg,transparent 47%,rgba(255,255,255,.35) 48% 52%,transparent 53%)"},
+    sparkles:{overlay:"rgba(255,255,255,0)",image:"radial-gradient(circle at 20% 20%,rgba(255,255,255,.8) 1.5px,transparent 2.5px),radial-gradient(circle at 80% 70%,rgba(255,255,255,.65) 1.5px,transparent 2.5px),radial-gradient(circle at 55% 40%,rgba(255,255,255,.45) 1px,transparent 2px)"},
+    checker:{overlay:"rgba(255,255,255,0)",image:"linear-gradient(45deg,rgba(255,255,255,.24) 25%,transparent 25% 75%,rgba(255,255,255,.24) 75%),linear-gradient(45deg,rgba(255,255,255,.24) 25%,transparent 25% 75%,rgba(255,255,255,.24) 75%)"}
+  };
+
+  const state={
+    shape:"classic",
+    boxColor:"lavender",
+    pattern:"plain",
+    finish:"matte",
+    ribbonColor:"#D98AA2",
+    ribbonStyle:"bow",
+    surprises:[],
+    photos:[],
+    customSurprises:[],
+    tagTitle:"For Jaycee 💗",
+    tagMessage:"A little box full of birthday surprises.",
+    reveal:"pop",
+    effect:"confetti",
+    sound:true,
+    autoOpen:false,
+    scene:"studio",
+    open:false,
+    mobileTab:"box"
+  };
+
+  function render(){
+    const box=$("giftBox");
+    const [a,b]=palettes[state.boxColor]||palettes.lavender;
+    const pat=patterns[state.pattern]||patterns.plain;
+
+    box.className=`gift-box ${state.shape==="tall"?"tall":state.shape==="wide"?"wide":state.shape==="mini"?"mini":state.shape==="jumbo"?"jumbo":state.shape==="round"?"round":""} finish-${state.finish} ribbon-${state.ribbonStyle} reveal-${state.reveal} ${state.open?"open":""}`;
+    box.style.setProperty("--box-a",a);
+    box.style.setProperty("--box-b",b);
+    box.style.setProperty("--ribbon-color",state.ribbonColor);
+    box.style.setProperty("--pattern-overlay",pat.overlay);
+    box.style.setProperty("--pattern-image",pat.image);
+
+    $("tagTitlePreview").textContent=state.tagTitle;
+    $("tagMessagePreview").textContent=state.tagMessage;
+    $("openBoxBtn").textContent=state.open?"Close box ✕":"Open box 🎁";
+    $("mobileOpenBtn").querySelector("b").textContent=state.open?"Close box":"Open box";
+
+    renderSurprises();
+    syncDesktop();
+
+    const stage=$("giftStage");
+    stage.classList.toggle("scene-blush",state.scene==="blush");
+    stage.classList.toggle("scene-blue",state.scene==="blue");
+    stage.classList.toggle("scene-night",state.scene==="night");
+    stage.classList.toggle("scene-party",state.scene==="party");
+    stage.classList.toggle("scene-dream",state.scene==="dream");
+    stage.classList.toggle("scene-sunset",state.scene==="sunset");
+    stage.classList.toggle("scene-space",state.scene==="space");
+  }
+
+  function surprisePosition(i,total){
+    const cols=Math.max(4,Math.ceil(Math.sqrt(Math.max(1,total))*1.35));
+    const row=Math.floor(i/cols);
+    const col=i%cols;
+    const rows=Math.ceil(total/cols);
+
+    const spreadX=Math.min(300,90+cols*22);
+    const center=(cols-1)/2;
+    const x=(col-center)*(spreadX/Math.max(1,cols-1));
+    const baseY=(row-(rows-1)/2)*25;
+
+    let lift=135+row*20;
+    let rot=((i%2?1:-1)*(5+(i%7)*3));
+    let scale=Math.max(.55,1.02-Math.max(0,total-10)*.014);
+    let fanrot=rot;
+
+    if(state.reveal==="fountain"){
+      lift=150+row*30+(col%2)*20;
+      scale*=1.02;
+    }else if(state.reveal==="spiral"){
+      lift=130+((i%5)*18);
+      rot+=i*28;
+    }else if(state.reveal==="float"){
+      lift=165+row*18;
+      scale*=.92;
+    }else if(state.reveal==="burst"){
+      lift=145+row*14;
+      scale*=1.06;
+    }else if(state.reveal==="fan"){
+      fanrot=(col-center)*9;
+      lift=125+row*24;
+    }
+
+    return {
+      x:`${Math.round(x)}px`,
+      y:`${Math.round(baseY)}px`,
+      rot:`${rot}deg`,
+      fanrot:`${fanrot}deg`,
+      scale:scale.toFixed(2),
+      lift:`${Math.round(lift)}px`
+    };
+  }
+
+  function renderSurprises(){
+    const all=[];
+
+    state.surprises.forEach(type=>all.push({kind:"emoji",value:type}));
+    state.customSurprises.forEach(text=>all.push({kind:"text",value:text}));
+    state.photos.forEach(src=>all.push({kind:"photo",value:src}));
+
+    const total=all.length;
+
+    $("boxContent").innerHTML=all.map((entry,i)=>{
+      const p=surprisePosition(i,total);
+      const delay=Math.min(i*.045,1.4).toFixed(2);
+
+      if(entry.kind==="photo"){
+        return `<div class="surprise-item" style="--x:${p.x};--y:${p.y};--rot:${p.rot};--fanrot:${p.fanrot};--scale:${p.scale};--lift:${p.lift};transition-delay:${delay}s">
+          <img class="photo-surprise" src="${entry.value}" alt="">
+        </div>`;
+      }
+
+      if(entry.kind==="text"){
+        return `<div class="surprise-item custom-text" style="--x:${p.x};--y:${p.y};--rot:${p.rot};--fanrot:${p.fanrot};--scale:${p.scale};--lift:${p.lift};transition-delay:${delay}s">${escapeHtml(entry.value)}</div>`;
+      }
+
+      return `<div class="surprise-item" style="--x:${p.x};--y:${p.y};--rot:${p.rot};--fanrot:${p.fanrot};--scale:${p.scale};--lift:${p.lift};transition-delay:${delay}s">${items[entry.value]||"✨"}</div>`;
+    }).join("");
+
+    renderEffectLayer();
+  }
+
+  function escapeHtml(s){
+    return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+
+  function renderEffectLayer(){
+    const layer=$("confettiLayer");
+    const ambient=$("ambientLayer");
+    layer.innerHTML="";
+    ambient.innerHTML="";
+
+    const effectIcons={
+      confetti:["🎊","✨","⭐","💗","✦","🎉","🌸"],
+      hearts:["💗","💕","💖","🫶","💞"],
+      stars:["⭐","🌟","✨","💫","✦"],
+      balloons:["🎈","🎈","🎈","🎈","🎈"],
+      sparkles:["✨","💫","✦","🌟","✨"]
+    };
+
+    if(state.effect==="fireworks"){
+      const colors=["#E89BB0","#8FB4D0","#E2C05D","#9BC5B7","#B89BD2"];
+      let parts="";
+      for(let b=0;b<4;b++){
+        const ox=130+b*130;
+        const oy=120+(b%2)*80;
+        for(let i=0;i<18;i++){
+          const a=(i/18)*Math.PI*2;
+          const r=55+(i%3)*14;
+          parts+=`<i class="firework" style="left:${ox}px;top:${oy}px;color:${colors[b%colors.length]};--fx:${Math.cos(a)*r}px;--fy:${Math.sin(a)*r}px;animation-delay:${(b*.16+i*.006).toFixed(2)}s"></i>`;
+        }
+      }
+      layer.innerHTML=parts;
+      return;
+    }
+
+    const icons=effectIcons[state.effect]||effectIcons.confetti;
+
+    if(state.effect==="balloons"){
+      ambient.innerHTML=Array.from({length:14},(_,i)=>{
+        const left=4+(i*7)%92;
+        const dur=4.2+(i%5)*.45;
+        const delay=-(i%7)*.55;
+        const drift=((i%2?1:-1)*(15+(i%4)*8))+"px";
+        const spin=((i%2?1:-1)*(10+i*4))+"deg";
+        return `<span class="ambient-float" style="left:${left}%;--dur:${dur}s;--delay:${delay}s;--drift:${drift};--spin:${spin}">${icons[i%icons.length]}</span>`;
+      }).join("");
+      return;
+    }
+
+    layer.innerHTML=Array.from({length:24},(_,i)=>{
+      const a=(i/24)*Math.PI*2;
+      const r=150+(i%6)*22;
+      const x=Math.cos(a)*r;
+      const y=Math.sin(a)*r-80;
+      const rot=((i%2?1:-1)*(60+i*17))+"deg";
+      return `<span class="spark-burst" style="left:50%;top:52%;--sx:${x}px;--sy:${y}px;--sr:${rot};animation-delay:${(i*.02).toFixed(2)}s">${icons[i%icons.length]}</span>`;
+    }).join("");
+  }
+
+
+  function counts(){
+    const c={};
+    state.surprises.forEach(x=>c[x]=(c[x]||0)+1);
+    return c;
+  }
+
+  function addItem(type){
+    state.surprises.push(type);
+    state.open=true;
+    render();
+    playChime();
+  }
+
+  function removeItem(type){
+    const idx=state.surprises.lastIndexOf(type);
+    if(idx<0)return;
+    state.surprises.splice(idx,1);
+    render();
+  }
+
+  function syncDesktop(){
+    $$("[data-shape]").forEach(b=>b.classList.toggle("active",b.dataset.shape===state.shape));
+    $$("[data-box-color]").forEach(b=>b.classList.toggle("active",b.dataset.boxColor===state.boxColor));
+    $$("[data-pattern]").forEach(b=>b.classList.toggle("active",b.dataset.pattern===state.pattern));
+    $$("[data-finish]").forEach(b=>b.classList.toggle("active",b.dataset.finish===state.finish));
+    $$("[data-ribbon-color]").forEach(b=>b.classList.toggle("active",b.dataset.ribbonColor.toUpperCase()===state.ribbonColor.toUpperCase()));
+    $$("[data-ribbon-style]").forEach(b=>b.classList.toggle("active",b.dataset.ribbonStyle===state.ribbonStyle));
+    $$("[data-reveal]").forEach(b=>b.classList.toggle("active",b.dataset.reveal===state.reveal));
+    $$("[data-effect]").forEach(b=>b.classList.toggle("active",b.dataset.effect===state.effect));
+    $$("[data-scene]").forEach(b=>b.classList.toggle("active",b.dataset.scene===state.scene));
+    if($("soundToggle")){
+      $("soundToggle").classList.toggle("active",state.sound);
+      $("soundToggle").querySelector("span").textContent=state.sound?"🔊":"🔇";
+      $("soundToggle").childNodes[$("soundToggle").childNodes.length-1].textContent=state.sound?"Chime on":"Chime off";
+    }
+    if($("autoOpenToggle")) $("autoOpenToggle").classList.toggle("active",state.autoOpen);
+
+    const c=counts();
+    $$("[data-item]").forEach(b=>{
+      const n=c[b.dataset.item]||0;
+      b.querySelector(".count").textContent=n;
+      b.classList.toggle("active",n>0);
+    });
+
+    $("tagTitle").value=state.tagTitle;
+    $("tagMessage").value=state.tagMessage;
+  }
+
+  function readImages(files){
+    [...(files||[])].forEach(file=>{
+      if(!file)return;
+      const r=new FileReader();
+      r.onload=()=>{
+        state.photos.push(String(r.result||""));
+        state.open=true;
+        render();
+      };
+      r.readAsDataURL(file);
+    });
+  }
+
+  function playChime(){
+    if(!state.sound) return;
+    try{
+      const AudioCtx=window.AudioContext||window.webkitAudioContext;
+      if(!AudioCtx)return;
+      const ctx=new AudioCtx();
+      const now=ctx.currentTime;
+      [523.25,659.25,783.99].forEach((freq,i)=>{
+        const osc=ctx.createOscillator();
+        const gain=ctx.createGain();
+        osc.type="sine";
+        osc.frequency.value=freq;
+        gain.gain.setValueAtTime(.0001,now+i*.08);
+        gain.gain.exponentialRampToValueAtTime(.08,now+i*.08+.02);
+        gain.gain.exponentialRampToValueAtTime(.0001,now+i*.08+.34);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start(now+i*.08);
+        osc.stop(now+i*.08+.38);
+      });
+      setTimeout(()=>ctx.close().catch(()=>{}),700);
+    }catch{}
+  }
+
+  function shakeBox(){
+    const box=$("giftBox");
+    box.classList.remove("shaking");
+    void box.offsetWidth;
+    box.classList.add("shaking");
+    setTimeout(()=>box.classList.remove("shaking"),620);
+  }
+
+  function triggerOpenEffect(){
+    renderEffectLayer();
+    playChime();
+  }
+
+  function toggleOpen(){
+    state.open=!state.open;
+    render();
+    if(state.open) triggerOpenEffect();
+  }
+
+  function resetAll(){
+    Object.assign(state,{
+      shape:"classic",boxColor:"lavender",pattern:"plain",finish:"matte",ribbonColor:"#D98AA2",ribbonStyle:"bow",
+      surprises:["heart","cake","flower"],photos:[],customSurprises:[],
+      tagTitle:"For Jaycee 💗",tagMessage:"A little box full of birthday surprises.",
+      reveal:"pop",effect:"confetti",sound:true,autoOpen:false,
+      scene:"studio",open:false
+    });
+    render();
+    if(!$("mobileSheet").classList.contains("hidden"))renderMobileSheet(state.mobileTab);
+  }
+
+  function openPreview(){
+    if(state.autoOpen && !state.open){
+      state.open=true;
+      render();
+      triggerOpenEffect();
+    }
+    $("previewModal").classList.remove("hidden");
+  }
+
+  function esc(s){
+    return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+
+  function bindDesktop(){
+    $$("[data-shape]").forEach(b=>b.onclick=()=>{state.shape=b.dataset.shape;render()});
+    $$("[data-box-color]").forEach(b=>b.onclick=()=>{state.boxColor=b.dataset.boxColor;render()});
+    $$("[data-pattern]").forEach(b=>b.onclick=()=>{state.pattern=b.dataset.pattern;render()});
+    $$("[data-finish]").forEach(b=>b.onclick=()=>{state.finish=b.dataset.finish;render()});
+    $$("[data-ribbon-color]").forEach(b=>b.onclick=()=>{state.ribbonColor=b.dataset.ribbonColor;render()});
+    $$("[data-ribbon-style]").forEach(b=>b.onclick=()=>{state.ribbonStyle=b.dataset.ribbonStyle;render()});
+    $$("[data-reveal]").forEach(b=>b.onclick=()=>{state.reveal=b.dataset.reveal;render()});
+    $$("[data-effect]").forEach(b=>b.onclick=()=>{state.effect=b.dataset.effect;render()});
+    $$("[data-scene]").forEach(b=>b.onclick=()=>{state.scene=b.dataset.scene;render()});
+
+    $$("[data-item]").forEach(b=>{
+      b.onclick=()=>addItem(b.dataset.item);
+      b.oncontextmenu=e=>{e.preventDefault();removeItem(b.dataset.item)};
+    });
+
+    $("addCustomSurpriseBtn").onclick=()=>{
+      const value=$("customSurpriseInput").value.trim();
+      if(!value)return;
+      state.customSurprises.push(value);
+      $("customSurpriseInput").value="";
+      state.open=true;
+      render();
+      playChime();
+    };
+
+    $("soundToggle").onclick=()=>{
+      state.sound=!state.sound;
+      syncDesktop();
+      if(state.sound) playChime();
+    };
+
+    $("autoOpenToggle").onclick=()=>{
+      state.autoOpen=!state.autoOpen;
+      syncDesktop();
+      if(state.autoOpen){
+        state.open=false; render();
+        setTimeout(()=>{state.open=true;render();triggerOpenEffect()},450);
+      }
+    };
+
+    $("shakeBtn").onclick=shakeBox;
+    $("stageShakeBtn").onclick=shakeBox;
+
+    $("tagTitle").oninput=e=>{state.tagTitle=e.target.value;$("tagTitlePreview").textContent=state.tagTitle};
+    $("tagMessage").oninput=e=>{state.tagMessage=e.target.value;$("tagMessagePreview").textContent=state.tagMessage};
+
+    $("photoBtn").onclick=()=>$("photoInput").click();
+    $("photoInput").onchange=e=>readImages(e.target.files);
+
+    $("openBoxBtn").onclick=toggleOpen;
+    $("previewBtn").onclick=openPreview;
+    $("sendBtn").onclick=openPreview;
+    $("resetBtn").onclick=resetAll;
+    $("keepEditing").onclick=()=>$("previewModal").classList.add("hidden");
+    
+    function jcIntegrated(){ return new URLSearchParams(location.search).get("integrated") === "1"; }
+
+    function jcHydrateSavedGift(p={}){
+      for(const k of ['shape','boxColor','pattern','finish','ribbonColor','ribbonStyle','tagTitle','tagMessage','reveal','effect','sound','autoOpen','scene'])if(p[k]!=null)state[k]=p[k];
+      state.surprises=Array.isArray(p.surprises)?[...p.surprises]:[];state.photos=Array.isArray(p.photos)?[...p.photos]:[];state.customSurprises=Array.isArray(p.customSurprises)?[...p.customSurprises]:[];
+      state.open=false;render();setTimeout(()=>{state.open=true;render();triggerOpenEffect()},280);
+    }
+
+    function jcSendToMain(payload){
+      if(jcIntegrated() && window.parent && window.parent !== window){
+        window.parent.postMessage({source:"jc-special-mode",action:"submit",giftType:"box",payload},"*");
+        const b=$("fakeSend"); if(b){ b.disabled=true; b.textContent="Sending…"; }
+        return true;
+      }
+      return false;
+    }
+    function jcWireIntegration(){
+      if(!jcIntegrated()) return;
+      document.body.classList.add("integrated");
+      const jcViewer=new URLSearchParams(location.search).get("viewer")==="1";
+      if(jcViewer) document.body.classList.add("viewer");
+      document.querySelectorAll("button").forEach((el,i)=>{
+        if(!el.getAttribute("aria-label") && !el.textContent.trim()){
+          const dataName=Object.values(el.dataset||{}).find(Boolean);
+          el.setAttribute("aria-label",el.title||dataName||`Control ${i+1}`);
+        }
+      });
+      document.querySelectorAll("input,textarea,select").forEach((el,i)=>{
+        const hasLabel=el.id && document.querySelector(`label[for="${el.id}"]`);
+        if(!hasLabel && !el.getAttribute("aria-label")){
+          const readable=(el.placeholder||el.id||`Field ${i+1}`).replace(/([a-z])([A-Z])/g,"$1 $2");
+          el.setAttribute("aria-label",readable);
+        }
+      });
+      const back=document.querySelector(".back");
+      if(back) back.onclick=()=>window.parent.postMessage({source:"jc-special-mode",action:"close"},"*");
+      window.addEventListener("message",e=>{
+        const m=e.data||{};
+        if(m.source!=="jc-main") return;
+        if(m.action==="open-preview" && typeof openPreview==="function") openPreview();
+        if(m.action==="context" && m.context){
+          
+        }
+        if(m.action==="hydrate" && m.payload){
+          try{jcHydrateSavedGift(m.payload);window.parent.postMessage({source:"jc-special-mode",action:"hydrated",giftType:"box"},"*")}catch(err){console.error("Could not hydrate saved gift",err);window.parent.postMessage({source:"jc-special-mode",action:"hydrated",giftType:"box",error:String(err?.message||err)},"*")}
+        }
+        if(m.action==="submit-result" && !m.ok){
+          const b=$("fakeSend"); if(b){ b.disabled=false; b.textContent="Try sending again"; }
+          const modal=$("previewModal");
+          const p=modal && modal.querySelector("p"); if(p) p.textContent=m.message||"The gift could not be saved. Please try again.";
+        }
+      });
+      window.parent.postMessage({source:"jc-special-mode",action:"ready",giftType:"box"},"*");
+    }
+    jcWireIntegration();
+
+$("fakeSend").onclick=()=>{
+      const payload={
+        shape:state.shape,boxColor:state.boxColor,pattern:state.pattern,finish:state.finish,
+        ribbonColor:state.ribbonColor,ribbonStyle:state.ribbonStyle,surprises:[...state.surprises],
+        photos:[...state.photos],customSurprises:[...state.customSurprises],tagTitle:state.tagTitle,tagMessage:state.tagMessage,
+        reveal:state.reveal,effect:state.effect,sound:state.sound,autoOpen:state.autoOpen,scene:state.scene
+      };
+      if(jcSendToMain(payload)) return;
+      const modal=$("previewModal");
+      const h=modal && modal.querySelector("h2");
+      const p=modal && modal.querySelector("p");
+      if(h) h.textContent="Sample sent! 🎁";
+      if(p) p.textContent="This standalone sample is not connected to the main Birthday Box.";
+      $("fakeSend").disabled=true;
+    };
+  }
+
+  // ---------------- Mobile editor ----------------
+  function mChoice(label,icon,attr,value,current){
+    return `<button class="m-choice ${String(value)===String(current)?"active":""}" ${attr}="${value}"><span>${icon}</span>${label}</button>`;
+  }
+  function mSwatch(attr,color,current){
+    return `<button class="m-swatch ${color.toUpperCase()===String(current).toUpperCase()?"active":""}" ${attr}="${color}" style="--sw:${color}"></button>`;
+  }
+
+  function renderMobileSheet(tab=state.mobileTab){
+    state.mobileTab=tab;
+    $("mobileSheetTitle").textContent=({box:"Box",inside:"Inside surprises",note:"Gift note",effects:"Effects",scene:"Scene"})[tab]||"Customize";
+    $$("[data-mobile-tab]").forEach(b=>b.classList.toggle("active",b.dataset.mobileTab===tab));
+
+    let content="";
+
+    if(tab==="box"){
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Box shape</b><span>Choose the size</span></div>
+          <div class="m-grid">
+            ${mChoice("Classic","🎁","data-m-shape","classic",state.shape)}
+            ${mChoice("Tall","▯","data-m-shape","tall",state.shape)}
+            ${mChoice("Wide","▭","data-m-shape","wide",state.shape)}
+            ${mChoice("Mini","▫️","data-m-shape","mini",state.shape)}
+            ${mChoice("Jumbo","⬜","data-m-shape","jumbo",state.shape)}
+            ${mChoice("Round","⭕","data-m-shape","round",state.shape)}
+          </div>
+        </div>
+
+        <div class="m-section">
+          <div class="m-title"><b>Box color</b><span>Swipe colors</span></div>
+          <div class="m-swatches">
+            ${Object.entries(palettes).map(([k,v])=>mSwatch("data-m-box-color",v[0],palettes[state.boxColor][0]).replace(`data-m-box-color="${v[0]}"`,`data-m-box-color="${k}"`)).join("")}
+          </div>
+        </div>
+
+        <div class="m-section">
+          <div class="m-title"><b>Finish</b><span>Surface look</span></div>
+          <div class="m-grid">
+            ${mChoice("Matte","◌","data-m-finish","matte",state.finish)}
+            ${mChoice("Glossy","✨","data-m-finish","glossy",state.finish)}
+            ${mChoice("Holo","🌈","data-m-finish","holo",state.finish)}
+            ${mChoice("Velvet","☁️","data-m-finish","velvet",state.finish)}
+            ${mChoice("Metallic","💎","data-m-finish","metallic",state.finish)}
+            ${mChoice("Glow","💡","data-m-finish","glow",state.finish)}
+          </div>
+        </div>
+
+        <div class="m-section">
+          <div class="m-title"><b>Pattern</b><span>Add personality</span></div>
+          <div class="m-grid">
+            ${mChoice("Plain","◌","data-m-pattern","plain",state.pattern)}
+            ${mChoice("Dots","•••","data-m-pattern","dots",state.pattern)}
+            ${mChoice("Stars","✦","data-m-pattern","stars",state.pattern)}
+            ${mChoice("Stripes","〰","data-m-pattern","stripes",state.pattern)}
+            ${mChoice("Hearts","♥","data-m-pattern","hearts",state.pattern)}
+            ${mChoice("Grid","⌗","data-m-pattern","grid",state.pattern)}
+            ${mChoice("Confetti","🎊","data-m-pattern","confetti",state.pattern)}
+            ${mChoice("Sparkles","✨","data-m-pattern","sparkles",state.pattern)}
+            ${mChoice("Checker","◫","data-m-pattern","checker",state.pattern)}
+          </div>
+        </div>
+
+        <div class="m-section">
+          <div class="m-title"><b>Ribbon</b><span>Style + color</span></div>
+          <div class="m-grid">
+            ${mChoice("Bow","🎀","data-m-ribbon-style","bow",state.ribbonStyle)}
+            ${mChoice("Double","🎀","data-m-ribbon-style","double",state.ribbonStyle)}
+            ${mChoice("Silk","〰️","data-m-ribbon-style","silk",state.ribbonStyle)}
+            ${mChoice("Twine","🧵","data-m-ribbon-style","twine",state.ribbonStyle)}
+            ${mChoice("None","✦","data-m-ribbon-style","none",state.ribbonStyle)}
+          </div>
+          <div class="m-swatches" style="margin-top:8px">
+            ${["#D98AA2","#A2C3C2","#C7B4DF","#E1BD65","#7184A0","#FFFFFF","#2F394B"].map(c=>mSwatch("data-m-ribbon-color",c,state.ribbonColor)).join("")}
+          </div>
+        </div>`;
+    }
+
+    if(tab==="inside"){
+      const c=counts();
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Add surprises</b><span>${state.surprises.length + state.customSurprises.length + state.photos.length} total</span></div>
+          <div class="m-items">
+            ${Object.entries(items).map(([k,icon])=>`
+              <button class="m-choice ${c[k]?"active":""}" data-m-item="${k}">
+                <span>${icon}</span>${k.charAt(0).toUpperCase()+k.slice(1)}${c[k]?` (${c[k]})`:""}
+              </button>`).join("")}
+          </div>
+        </div>
+
+        <div class="m-section">
+          <div class="m-title"><b>Photo surprises</b><span>Add many</span></div>
+          <button class="upload-btn" id="mPhotoBtn">＋ Add photos</button>
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Custom surprise</b><span>Your own words</span></div>
+          <input class="m-input" id="mCustomSurprise" maxlength="28" placeholder="e.g. Free hug coupon">
+          <button class="upload-btn" id="mAddCustomSurprise" style="margin-top:8px">＋ Add text surprise</button>
+        </div>`;
+    }
+
+    if(tab==="note"){
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Tag title</b><span>Short greeting</span></div>
+          <input class="m-input" id="mTagTitle" maxlength="28" value="${esc(state.tagTitle)}">
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Message</b><span>120 characters</span></div>
+          <textarea class="m-input" id="mTagMessage" maxlength="120" style="min-height:110px;padding-top:10px">${esc(state.tagMessage)}</textarea>
+        </div>`;
+    }
+
+    if(tab==="effects"){
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Reveal style</b><span>How surprises appear</span></div>
+          <div class="m-grid">
+            ${mChoice("Pop","✨","data-m-reveal","pop",state.reveal)}
+            ${mChoice("Fountain","⛲","data-m-reveal","fountain",state.reveal)}
+            ${mChoice("Spiral","🌀","data-m-reveal","spiral",state.reveal)}
+            ${mChoice("Float","🎈","data-m-reveal","float",state.reveal)}
+            ${mChoice("Burst","💥","data-m-reveal","burst",state.reveal)}
+            ${mChoice("Fan","🪭","data-m-reveal","fan",state.reveal)}
+          </div>
+        </div>
+
+        <div class="m-section">
+          <div class="m-title"><b>Opening effect</b><span>Particles</span></div>
+          <div class="m-grid">
+            ${mChoice("Confetti","🎊","data-m-effect","confetti",state.effect)}
+            ${mChoice("Hearts","💗","data-m-effect","hearts",state.effect)}
+            ${mChoice("Stars","⭐","data-m-effect","stars",state.effect)}
+            ${mChoice("Balloons","🎈","data-m-effect","balloons",state.effect)}
+            ${mChoice("Fireworks","🎆","data-m-effect","fireworks",state.effect)}
+            ${mChoice("Sparkles","✨","data-m-effect","sparkles",state.effect)}
+          </div>
+        </div>
+
+        <div class="m-section">
+          <div class="m-title"><b>Extra controls</b><span>Try them</span></div>
+          <div class="m-grid">
+            <button class="m-choice ${state.sound?"active":""}" id="mSoundToggle"><span>${state.sound?"🔊":"🔇"}</span>${state.sound?"Chime on":"Chime off"}</button>
+            <button class="m-choice ${state.autoOpen?"active":""}" id="mAutoOpenToggle"><span>▶️</span>Auto open</button>
+            <button class="m-choice" id="mShakeBtn"><span>🫨</span>Shake box</button>
+          </div>
+        </div>`;
+    }
+
+    if(tab==="scene"){
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Background</b><span>Scene mood</span></div>
+          <div class="m-grid">
+            ${mChoice("Studio","◌","data-m-scene","studio",state.scene)}
+            ${mChoice("Blush","🌸","data-m-scene","blush",state.scene)}
+            ${mChoice("Blue","🩵","data-m-scene","blue",state.scene)}
+            ${mChoice("Night","🌙","data-m-scene","night",state.scene)}
+            ${mChoice("Party","🎉","data-m-scene","party",state.scene)}
+            ${mChoice("Dream","☁️","data-m-scene","dream",state.scene)}
+            ${mChoice("Sunset","🌅","data-m-scene","sunset",state.scene)}
+            ${mChoice("Space","🌌","data-m-scene","space",state.scene)}
+          </div>
+        </div>`;
+    }
+
+    $("mobileSheetContent").innerHTML=content;
+    bindMobileContent();
+  }
+
+  function bindMobileContent(){
+    $$("[data-m-shape]").forEach(b=>b.onclick=()=>{state.shape=b.dataset.mShape;render();renderMobileSheet("box")});
+    $$("[data-m-box-color]").forEach(b=>b.onclick=()=>{state.boxColor=b.dataset.mBoxColor;render();renderMobileSheet("box")});
+    $$("[data-m-pattern]").forEach(b=>b.onclick=()=>{state.pattern=b.dataset.mPattern;render();renderMobileSheet("box")});
+    $$("[data-m-finish]").forEach(b=>b.onclick=()=>{state.finish=b.dataset.mFinish;render();renderMobileSheet("box")});
+    $$("[data-m-ribbon-style]").forEach(b=>b.onclick=()=>{state.ribbonStyle=b.dataset.mRibbonStyle;render();renderMobileSheet("box")});
+    $$("[data-m-reveal]").forEach(b=>b.onclick=()=>{state.reveal=b.dataset.mReveal;render();renderMobileSheet("effects")});
+    $$("[data-m-effect]").forEach(b=>b.onclick=()=>{state.effect=b.dataset.mEffect;render();renderMobileSheet("effects")});
+
+    $$("[data-m-ribbon-color]").forEach(b=>b.onclick=()=>{state.ribbonColor=b.dataset.mRibbonColor;render();renderMobileSheet("box")});
+    $$("[data-m-scene]").forEach(b=>b.onclick=()=>{state.scene=b.dataset.mScene;render();renderMobileSheet("scene")});
+
+    $$("[data-m-item]").forEach(b=>b.onclick=()=>{addItem(b.dataset.mItem);renderMobileSheet("inside")});
+
+    if($("mPhotoBtn"))$("mPhotoBtn").onclick=()=>$("photoInput").click();
+
+    if($("mAddCustomSurprise")) $("mAddCustomSurprise").onclick=()=>{
+      const value=$("mCustomSurprise").value.trim();
+      if(!value)return;
+      state.customSurprises.push(value);
+      state.open=true;
+      render();
+      renderMobileSheet("inside");
+      playChime();
+    };
+
+    if($("mSoundToggle")) $("mSoundToggle").onclick=()=>{
+      state.sound=!state.sound;
+      renderMobileSheet("effects");
+      syncDesktop();
+      if(state.sound) playChime();
+    };
+
+    if($("mAutoOpenToggle")) $("mAutoOpenToggle").onclick=()=>{
+      state.autoOpen=!state.autoOpen;
+      renderMobileSheet("effects");
+      syncDesktop();
+      if(state.autoOpen){
+        state.open=false;render();
+        setTimeout(()=>{state.open=true;render();triggerOpenEffect()},450);
+      }
+    };
+
+    if($("mShakeBtn")) $("mShakeBtn").onclick=shakeBox;
+
+    if($("mTagTitle"))$("mTagTitle").oninput=e=>{
+      state.tagTitle=e.target.value;$("tagTitlePreview").textContent=state.tagTitle;$("tagTitle").value=state.tagTitle
+    };
+    if($("mTagMessage"))$("mTagMessage").oninput=e=>{
+      state.tagMessage=e.target.value;$("tagMessagePreview").textContent=state.tagMessage;$("tagMessage").value=state.tagMessage
+    };
+  }
+
+  function openMobileSheet(tab=state.mobileTab){
+    if(innerWidth>820)return;
+    renderMobileSheet(tab);
+    const s=$("mobileSheet");
+    s.classList.remove("hidden");
+    requestAnimationFrame(()=>{s.classList.add("open");s.setAttribute("aria-hidden","false")});
+  }
+
+  function closeMobileSheet(){
+    const s=$("mobileSheet");
+    if(s.classList.contains("hidden"))return;
+    s.classList.remove("open");s.setAttribute("aria-hidden","true");
+    setTimeout(()=>s.classList.add("hidden"),220);
+  }
+
+  $$("[data-mobile-tab]").forEach(b=>b.onclick=()=>openMobileSheet(b.dataset.mobileTab));
+  $("mobileCustomizeBtn").onclick=()=>openMobileSheet(state.mobileTab);
+  $("mobileOpenBtn").onclick=toggleOpen;
+  $("mobilePreviewBtn").onclick=openPreview;
+  $("mobileSheetBackdrop").onclick=closeMobileSheet;
+  $("mobileSheetClose").onclick=closeMobileSheet;
+  $("sheetGrabber").onclick=closeMobileSheet;
+  $("mobileDoneBtn").onclick=closeMobileSheet;
+  $("mobileResetBtn").onclick=resetAll;
+
+  bindDesktop();
+  state.surprises=["heart","cake","flower","sparkle","balloon"];
+  render();
+})();
+</script>
+</body>
+</html>

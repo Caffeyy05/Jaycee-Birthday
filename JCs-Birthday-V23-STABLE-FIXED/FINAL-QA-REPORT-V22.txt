@@ -1,0 +1,174 @@
+JC's Birthday V22 — FINAL QA REPORT
+
+Automated integration checks for the final main app.
+
+PASS: index.html: lang attribute — en
+PASS: index.html: viewport meta
+PASS: index.html: unique IDs — 62 ids
+PASS: index.html: images have alt — 0 images
+PASS: index.html: responsive CSS
+PASS: index.html: reduced motion
+PASS: index.html: focus-visible
+PASS: index.html: JavaScript syntax
+PASS: modes/bouquet.html: lang attribute — en
+PASS: modes/bouquet.html: viewport meta
+PASS: modes/bouquet.html: unique IDs — 29 ids
+PASS: modes/bouquet.html: images have alt — 0 images
+PASS: modes/bouquet.html: responsive CSS
+PASS: modes/bouquet.html: reduced motion
+PASS: modes/bouquet.html: focus-visible
+PASS: modes/bouquet.html: JavaScript syntax
+PASS: modes/cake.html: lang attribute — en
+PASS: modes/cake.html: viewport meta
+PASS: modes/cake.html: unique IDs — 38 ids
+PASS: modes/cake.html: images have alt — 0 images
+PASS: modes/cake.html: responsive CSS
+PASS: modes/cake.html: reduced motion
+PASS: modes/cake.html: focus-visible
+PASS: modes/cake.html: JavaScript syntax
+PASS: modes/card.html: lang attribute — en
+PASS: modes/card.html: viewport meta
+PASS: modes/card.html: unique IDs — 43 ids
+PASS: modes/card.html: images have alt — 2 images
+PASS: modes/card.html: responsive CSS
+PASS: modes/card.html: reduced motion
+PASS: modes/card.html: focus-visible
+PASS: modes/card.html: JavaScript syntax
+PASS: modes/gift-box.html: lang attribute — en
+PASS: modes/gift-box.html: viewport meta
+PASS: modes/gift-box.html: unique IDs — 35 ids
+PASS: modes/gift-box.html: images have alt — 0 images
+PASS: modes/gift-box.html: responsive CSS
+PASS: modes/gift-box.html: reduced motion
+PASS: modes/gift-box.html: focus-visible
+PASS: modes/gift-box.html: JavaScript syntax
+PASS: modes/photo-together.html: lang attribute — en
+PASS: modes/photo-together.html: viewport meta
+PASS: modes/photo-together.html: unique IDs — 34 ids
+PASS: modes/photo-together.html: images have alt — 0 images
+PASS: modes/photo-together.html: responsive CSS
+PASS: modes/photo-together.html: reduced motion
+PASS: modes/photo-together.html: focus-visible
+PASS: modes/photo-together.html: JavaScript syntax
+PASS: modes/song.html: lang attribute — en
+PASS: modes/song.html: viewport meta
+PASS: modes/song.html: unique IDs — 43 ids
+PASS: modes/song.html: images have alt — 0 images
+PASS: modes/song.html: responsive CSS
+PASS: modes/song.html: reduced motion
+PASS: modes/song.html: focus-visible
+PASS: modes/song.html: JavaScript syntax
+PASS: Main app: exact six final gift IDs — ['cake', 'bouquet', 'card', 'box', 'photoTogether', 'song']
+PASS: Drawing mode removed
+PASS: Custom Money mode removed
+PASS: Public chat removed
+PASS: Current owner PIN
+PASS: No visible default PIN hint
+PASS: Skip link
+PASS: ARIA live region
+PASS: Semantic dialogs
+PASS: Dialog keyboard trap
+PASS: Escape dialog handling
+PASS: Online Presence
+PASS: Shared Birthday Box table
+PASS: Realtime INSERT subscription
+PASS: Local fallback
+PASS: 5 minute choice
+PASS: 10 minute choice
+PASS: Take My Time choice
+PASS: Timer expiry dialog
+PASS: Editor iframe microphone permission
+PASS: Recursive image/audio media handling
+PASS: Large image compression
+PASS: Supabase Storage upload
+PASS: No service role secret
+PASS: Desktop 3-column cards
+PASS: Tablet breakpoint
+PASS: Phone breakpoint
+PASS: Small-phone breakpoint
+PASS: Phone one-column gift grid
+PASS: Phone time buttons easy to tap
+PASS: Phone sticky form actions
+PASS: Responsive owner saved gifts
+PASS: Supabase config exists
+PASS: Supabase SQL exists
+PASS: Supabase URL present
+PASS: Frontend publishable key present
+PASS: No service role in config
+PASS: cake.html: data-mobile-tab="cake"
+PASS: cake.html: mobileCreatorSheet
+PASS: cake.html: new THREE.WebGLRenderer
+PASS: cake.html: giftType:"cake"
+PASS: cake.html: source:"jc-special-mode"
+PASS: cake.html: parent close action
+PASS: cake.html: parent submit action
+PASS: cake.html: integrated responsive class
+PASS: cake.html: accessible integration labels
+PASS: cake.html: mobile breakpoint
+PASS: bouquet.html: wrapSvgText
+PASS: bouquet.html: startDrag
+PASS: bouquet.html: giftType:"bouquet"
+PASS: bouquet.html: source:"jc-special-mode"
+PASS: bouquet.html: parent close action
+PASS: bouquet.html: parent submit action
+PASS: bouquet.html: integrated responsive class
+PASS: bouquet.html: accessible integration labels
+PASS: bouquet.html: mobile breakpoint
+PASS: card.html: openCardBtn
+PASS: card.html: coverPhotoInput
+PASS: card.html: insidePhotoInput
+PASS: card.html: giftType:"card"
+PASS: card.html: source:"jc-special-mode"
+PASS: card.html: parent close action
+PASS: card.html: parent submit action
+PASS: card.html: integrated responsive class
+PASS: card.html: accessible integration labels
+PASS: card.html: mobile breakpoint
+PASS: gift-box.html: reveal-fountain
+PASS: gift-box.html: data-effect="fireworks"
+PASS: gift-box.html: customSurprises
+PASS: gift-box.html: giftType:"box"
+PASS: gift-box.html: source:"jc-special-mode"
+PASS: gift-box.html: parent close action
+PASS: gift-box.html: parent submit action
+PASS: gift-box.html: integrated responsive class
+PASS: gift-box.html: accessible integration labels
+PASS: gift-box.html: mobile breakpoint
+PASS: photo-together.html: startPan
+PASS: photo-together.html: data-layout="film"
+PASS: photo-together.html: data-reveal="fade"
+PASS: photo-together.html: giftType:"photoTogether"
+PASS: photo-together.html: source:"jc-special-mode"
+PASS: photo-together.html: parent close action
+PASS: photo-together.html: parent submit action
+PASS: photo-together.html: integrated responsive class
+PASS: photo-together.html: accessible integration labels
+PASS: photo-together.html: mobile breakpoint
+PASS: song.html: MediaRecorder
+PASS: song.html: MAX_SECONDS=90
+PASS: song.html: togglePause
+PASS: song.html: giftType:"song"
+PASS: song.html: source:"jc-special-mode"
+PASS: song.html: parent close action
+PASS: song.html: parent submit action
+PASS: song.html: integrated responsive class
+PASS: song.html: accessible integration labels
+PASS: song.html: mobile breakpoint
+PASS: Referenced file exists: modes/cake.html
+PASS: Referenced file exists: modes/bouquet.html
+PASS: Referenced file exists: modes/card.html
+PASS: Referenced file exists: modes/gift-box.html
+PASS: Referenced file exists: modes/photo-together.html
+PASS: Referenced file exists: modes/song.html
+PASS: Package contains index.html
+PASS: Package contains README-FIRST.txt
+PASS: Package contains SUPABASE-SETUP.sql
+PASS: Package contains supabase-config.js
+PASS: Package contains modes/cake.html
+PASS: Package contains modes/bouquet.html
+PASS: Package contains modes/card.html
+PASS: Package contains modes/gift-box.html
+PASS: Package contains modes/photo-together.html
+PASS: Package contains modes/song.html
+
+FINAL RESULT: 168/168 checks passed.

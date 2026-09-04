@@ -1,0 +1,29 @@
+JC's Birthday! — V15 Supabase Realtime QA
+===========================================
+
+STRUCTURAL CHECKS
+PASS: Supabase JS v2 browser client loaded
+PASS: Supabase project URL configured
+PASS: Publishable public key configured
+PASS: No service_role or secret key included
+PASS: Railway URL configuration removed
+PASS: Socket.IO client connection removed
+PASS: Supabase Broadcast chat implemented
+PASS: Supabase Presence online count implemented
+PASS: Typing broadcast implemented
+PASS: Join/leave presence handling implemented
+PASS: Unread badge preserved
+PASS: Owner/chat-name synchronization preserved
+PASS: GitHub Pages-compatible static build
+PASS: server.js removed from V15 package
+PASS: package.json removed from V15 package
+PASS: Existing birthday gift builders retained
+PASS: Existing drawing fixes retained
+PASS: Existing voice-song gift retained
+PASS: Existing background designer retained
+PASS: Owner PIN behavior retained
+
+IMPORTANT BEHAVIOR
+- No SQL/table setup is required for live chat + online count.
+- Chat messages are realtime/session-only in V15.
+- Birthday Box is still browser-local until a later Supabase database upgrade.

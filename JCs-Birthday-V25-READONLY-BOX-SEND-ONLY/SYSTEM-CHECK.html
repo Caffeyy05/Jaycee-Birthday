@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>JC's Birthday — System Check</title>
+<script src="supabase-config.js"></script>
+<style>
+:root{--bg:#E3E8E7;--ink:#3E5066;--muted:#68778A;--line:rgba(62,80,102,.14);--ok:#4D8C67;--warn:#B27B36;--bad:#B7576D}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:linear-gradient(135deg,#E3E8E7,#DEE5DE);font-family:Poppins,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);padding:18px}
+main{width:min(900px,100%);margin:auto}.card{background:#fff;border:1px solid rgba(255,255,255,.9);border-radius:24px;box-shadow:0 20px 55px rgba(62,80,102,.12);padding:22px}
+h1{font-size:clamp(30px,6vw,52px);letter-spacing:-.05em;margin:4px 0 8px}.lead{color:var(--muted);line-height:1.6;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}.test{border:1px solid var(--line);border-radius:16px;padding:14px;min-height:100px;background:#F8FAF9}.test b{font-size:13px}.state{margin-top:7px;font-size:12px;line-height:1.5;color:var(--muted)}.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800;background:#EDF1F0}.pass .badge{color:var(--ok);background:#EAF5EE}.warn .badge{color:var(--warn);background:#FFF5DF}.fail .badge{color:var(--bad);background:#FCECEF}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}button,a.btn{min-height:46px;padding:0 14px;border-radius:13px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}.primary{background:#3E5066!important;color:#fff!important;border:0!important}
+#micAudio{width:100%;margin-top:10px}.summary{margin-top:12px;padding:14px;border-radius:16px;background:#EEF2F1;font-size:13px;line-height:1.55}
+@media(max-width:650px){body{padding:8px}.card{padding:16px;border-radius:19px}.grid{grid-template-columns:1fr}.actions>*{flex:1 1 150px}}
+</style>
+</head>
+<body>
+<main class="card">
+<div style="font-size:38px">🧪🎂</div>
+<h1>Birthday App System Check</h1>
+<p class="lead">Run this before launch. It checks the actual browser, files, local backup, Supabase table, Storage, and microphone capability.</p>
+<div class="actions"><button class="primary" id="runBtn">Run all checks</button><a class="btn" href="index.html">Back to app</a><a class="btn" href="SUPABASE-SETUP.sql" target="_blank">Open SQL setup</a></div>
+<div class="summary" id="summary">Press <b>Run all checks</b>.</div>
+<div class="grid" id="grid"></div>
+</main>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id),tests=[];
+ function set(name,status,text,extra=''){tests.push({name,status,text,extra});render()}
+ function render(){
+  $('grid').innerHTML=tests.map(t=>`<section class="test ${t.status}"><span class="badge">${t.status==='pass'?'✓ PASS':t.status==='warn'?'! CHECK':'✕ FAIL'}</span><div style="margin-top:8px"><b>${t.name}</b><div class="state">${t.text}</div>${t.extra||''}</div></section>`).join('');
+  const p=tests.filter(t=>t.status==='pass').length,w=tests.filter(t=>t.status==='warn').length,f=tests.filter(t=>t.status==='fail').length;
+  $('summary').innerHTML=`<b>${p} passed</b> · ${w} need attention · ${f} failed${f===0&&w===0?' — ready to launch 🎉':''}`;
+ }
+ async function idbTest(){
+  return new Promise(resolve=>{
+   try{
+    const r=indexedDB.open('jc-system-check',1);
+    r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains('x'))r.result.createObjectStore('x')};
+    r.onerror=()=>resolve(false);
+    r.onsuccess=()=>{
+      const db=r.result,tx=db.transaction('x','readwrite');
+      tx.objectStore('x').put('ok','test');
+      tx.onerror=()=>resolve(false);
+      tx.oncomplete=()=>{
+        const t2=db.transaction('x','readonly'),g=t2.objectStore('x').get('test');
+        g.onerror=()=>resolve(false);
+        g.onsuccess=()=>{const ok=g.result==='ok';db.close();indexedDB.deleteDatabase('jc-system-check');resolve(ok)};
+      };
+    };
+   }catch{resolve(false)}
+  });
+ }
+ async function fetchOk(url){try{const r=await fetch(url,{cache:'no-store'});return r.ok}catch{return false}}
+ async function supabaseTable(){
+  const u=String(window.JC_SUPABASE_URL||''),k=String(window.JC_SUPABASE_PUBLISHABLE_KEY||'');
+  if(!u||!k)return {ok:false,text:'Supabase config is missing.'};
+  try{
+   const r=await fetch(`${u}/rest/v1/birthday_gifts?select=gift_id&limit=1`,{headers:{apikey:k}});
+   const body=await r.text();
+   if(r.ok)return {ok:true,text:'birthday_gifts table is reachable.'};
+   if(body.toLowerCase().includes('schema cache')||body.toLowerCase().includes('could not find the table'))return {ok:false,setup:true,text:"birthday_gifts is missing. Run SUPABASE-SETUP.sql once."};
+   return {ok:false,text:`Supabase returned ${r.status}: ${body.slice(0,160)}`};
+  }catch(e){return {ok:false,text:`Could not reach Supabase: ${e.message}`}}
+ }
+ async function supabaseStorage(){
+  const u=String(window.JC_SUPABASE_URL||''),k=String(window.JC_SUPABASE_PUBLISHABLE_KEY||'');
+  if(!u||!k)return {ok:false,text:'Supabase config is missing.'};
+  try{
+   const r=await fetch(`${u}/storage/v1/object/list/birthday-gifts-media`,{method:'POST',headers:{apikey:k,'Content-Type':'application/json'},body:JSON.stringify({prefix:'',limit:1,offset:0})});
+   const body=await r.text();if(r.ok)return {ok:true,text:'birthday-gifts-media bucket is reachable.'};
+   return {ok:false,text:`Storage returned ${r.status}: ${body.slice(0,160)}`};
+  }catch(e){return {ok:false,text:`Could not reach Storage: ${e.message}`}}
+ }
+ async function run(){
+  tests.length=0;render();
+  set('Secure browser context',window.isSecureContext?'pass':'warn',window.isSecureContext?'HTTPS/localhost detected. Microphone APIs are allowed to request permission.':'This is not HTTPS/localhost. Open START-LOCAL-TEST.bat or use GitHub Pages for microphone recording.');
+  set('Microphone API',navigator.mediaDevices?.getUserMedia&&window.MediaRecorder?'pass':'warn',navigator.mediaDevices?.getUserMedia&&window.MediaRecorder?'getUserMedia + MediaRecorder are available. Use the Test microphone button below.':'This browser does not expose microphone recording here. Audio upload can still work.',
+    `<div class="actions"><button id="micTestBtn">Test microphone</button></div><audio id="micAudio" controls hidden></audio>`);
+  const idbOk=await idbTest();set('Local gift backup',idbOk?'pass':'fail',idbOk?'IndexedDB can store gifts, photos, and recorded audio locally.':'IndexedDB write/read failed in this browser.');
+  const files=['index.html','modes/cake.html','modes/bouquet.html','modes/card.html','modes/gift-box.html','modes/photo-together.html','modes/song.html','assets/jaycee.jpg'];
+  const checks=await Promise.all(files.map(fetchOk));set('All creator files + birthday photo',checks.every(Boolean)?'pass':'fail',checks.every(Boolean)?'All six creators and assets are reachable.':'Missing: '+files.filter((_,i)=>!checks[i]).join(', '));
+  const tb=await supabaseTable();set('Supabase Birthday Box table',tb.ok?'pass':tb.setup?'warn':'fail',tb.text);
+  const st=await supabaseStorage();set('Supabase media Storage',st.ok?'pass':'warn',st.text);
+  const mic=$('micTestBtn');if(mic)mic.onclick=testMic;
+ }
+ async function testMic(){
+  const btn=$('micTestBtn'),audio=$('micAudio');btn.disabled=true;btn.textContent='Requesting microphone…';
+  try{
+   if(!window.isSecureContext)throw new Error('Microphone needs HTTPS or localhost.');
+   const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+   const chunks=[],type=['audio/webm;codecs=opus','audio/webm','audio/mp4'].find(t=>MediaRecorder.isTypeSupported?.(t));
+   const rec=type?new MediaRecorder(stream,{mimeType:type}):new MediaRecorder(stream);
+   rec.ondataavailable=e=>{if(e.data?.size)chunks.push(e.data)};
+   const stopped=new Promise(resolve=>rec.onstop=resolve);rec.start(200);btn.textContent='Recording 1.5 seconds…';
+   await new Promise(r=>setTimeout(r,1500));rec.stop();await stopped;stream.getTracks().forEach(t=>t.stop());
+   const blob=new Blob(chunks,{type:rec.mimeType||'audio/webm'});
+   if(!blob.size)throw new Error('No audio data was captured.');
+   audio.src=URL.createObjectURL(blob);audio.hidden=false;btn.textContent=`Microphone works ✓ (${Math.round(blob.size/1024)} KB)`;btn.disabled=false;
+  }catch(e){btn.textContent='Microphone test failed — '+e.message;btn.disabled=false}
+ }
+ $('runBtn').onclick=run;
+})();
+</script>
+</body>
+</html>

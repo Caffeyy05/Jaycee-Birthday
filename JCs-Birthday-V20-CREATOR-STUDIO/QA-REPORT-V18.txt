@@ -1,0 +1,9 @@
+JC's Birthday V18 — Clean Chat QA
+===================================
+PASS: Join notices removed
+PASS: Leave notices removed
+PASS: Presence online count retained
+PASS: Live Supabase chat retained
+PASS: Typing indicator retained
+PASS: Safe-chat filter retained
+PASS: Shared Birthday Box retained

@@ -1,0 +1,43 @@
+JC's Birthday! — V16 Safe Chat QA
+===================================
+
+PASS: English profanity list present
+PASS: Filipino / Tagalog profanity list present
+PASS: Phrase-level block list present
+PASS: Basic leetspeak normalization present
+PASS: Punctuation/spacing normalization present
+PASS: Repeated-letter normalization present
+PASS: Outgoing message validation present
+PASS: Incoming message filtering present
+PASS: Unsafe chat-name validation present
+PASS: Presence names sanitized
+PASS: Safety notice visible in chat UI
+PASS: Existing Supabase Realtime chat retained
+PASS: Existing online presence retained
+
+Limit:
+This is browser-side moderation. It substantially improves safety but cannot
+guarantee every possible abusive expression or prevent a determined user from
+modifying the frontend code. Strict moderation would require server-side
+enforcement.
+
+
+FINAL PACKAGE VERIFICATION
+--------------------------
+[PASS] index exists
+[PASS] Supabase config exists
+[PASS] Jaycee image exists
+[PASS] .nojekyll exists
+[PASS] Supabase client loaded
+[PASS] Supabase URL config
+[PASS] Supabase publishable key config
+[PASS] safe chat filter
+[PASS] online presence
+[PASS] chat broadcast
+[PASS] birthday song
+[PASS] background designer
+[PASS] no Railway URL
+[PASS] no server.js
+[PASS] no package.json
+[PASS] JavaScript syntax
+[PASS] Clean GitHub Pages file set

@@ -1,0 +1,2452 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#E3E8E7">
+<title>JC's Birthday — 3D Birthday Cake</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#3E5066;
+  --muted:#738092;
+  --soft:#EEF2F1;
+  --panel:#F8FAF9;
+  --line:rgba(62,80,102,.10);
+  --accent:#A2C3C2;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Poppins,system-ui,sans-serif;color:var(--ink)}
+body{
+  min-height:100dvh;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(162,195,194,.28),transparent 28%),
+    radial-gradient(circle at 90% 80%,rgba(183,189,199,.24),transparent 30%),
+    linear-gradient(145deg,#F7FAF9,#E7EDEC);
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+.app{
+  min-height:100dvh;
+  display:grid;
+  grid-template-rows:auto 1fr;
+}
+header{
+  height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:0 22px;
+  border-bottom:1px solid var(--line);
+  background:rgba(248,250,249,.86);
+  backdrop-filter:blur(18px);
+}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{
+  width:42px;height:42px;border-radius:13px;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,#3E5066,#5E6D8A);
+  color:white;font-size:21px;
+  box-shadow:0 8px 22px rgba(62,80,102,.18);
+}
+.brand b{display:block;font-size:14px}
+.brand small{display:block;font-size:7px;color:#8B96A3;margin-top:2px}
+.header-actions{display:flex;gap:7px}
+.pill{
+  height:38px;padding:0 12px;border:1px solid var(--line);
+  border-radius:12px;background:white;color:var(--ink);font-size:8px;font-weight:800
+}
+.primary{
+  border:0;
+  background:linear-gradient(135deg,#3E5066,#5E6D8A);
+  color:white;
+  box-shadow:0 10px 24px rgba(62,80,102,.19);
+}
+
+.workspace{
+  width:min(1500px,100%);
+  margin:0 auto;
+  padding:14px;
+  display:grid;
+  grid-template-columns:300px minmax(0,1fr) 300px;
+  gap:12px;
+  align-items:stretch;
+  min-height:calc(100dvh - 72px);
+}
+.panel,.stage-wrap{
+  border:1px solid var(--line);
+  background:rgba(250,252,251,.94);
+  box-shadow:0 18px 48px rgba(62,80,102,.08);
+}
+.panel{
+  border-radius:22px;
+  padding:16px;
+  overflow:auto;
+}
+.stage-wrap{
+  min-width:0;
+  border-radius:24px;
+  overflow:hidden;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+}
+.ey{
+  font-size:7px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#718094
+}
+h2,h3{margin:3px 0 0;letter-spacing:-.04em}
+h2{font-size:22px}
+h3{font-size:18px}
+.lead{font-size:8px;line-height:1.55;color:var(--muted);margin:6px 0 14px}
+
+.section{padding:13px 0;border-top:1px solid rgba(62,80,102,.07)}
+.section:first-of-type{border-top:0;padding-top:4px}
+.section-title{
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:8px
+}
+.section-title b{font-size:9px}
+.section-title span{font-size:7px;color:#98A2AE}
+
+.option-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.option{
+  min-height:60px;border:1px solid var(--line);border-radius:13px;background:white;
+  color:var(--ink);padding:8px 4px;display:grid;place-items:center;gap:2px;font-size:7px;font-weight:800
+}
+.option span{font-size:20px;line-height:1}
+.option.active{background:#3E5066;color:white;border-color:#3E5066}
+
+.colors{display:flex;gap:7px;flex-wrap:wrap}
+.swatch{
+  width:34px;height:34px;border-radius:11px;border:3px solid white;
+  outline:1px solid rgba(62,80,102,.13);background:var(--sw)
+}
+.swatch.active{box-shadow:0 0 0 3px rgba(62,80,102,.28)}
+.color-input{
+  display:grid;grid-template-columns:42px 1fr;gap:7px;margin-top:8px
+}
+.color-input input[type=color]{width:42px;height:39px;border:1px solid var(--line);border-radius:10px;background:white;padding:4px}
+.color-input input[type=text], input[type=text]{
+  width:100%;height:39px;border:1px solid var(--line);border-radius:10px;background:white;padding:0 10px;color:var(--ink);font-size:8px;outline:0
+}
+
+.stage-head{
+  padding:12px 14px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border-bottom:1px solid rgba(62,80,102,.07)
+}
+.stage-title{display:flex;align-items:center;gap:9px;min-width:0}
+.back{
+  width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:white;color:var(--ink);font-weight:900
+}
+.stage-title h2{font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stage-actions{display:flex;gap:6px;align-items:center}
+.help{
+  padding:7px 9px;border-radius:999px;background:#EEF2F1;color:#708094;font-size:7px;font-weight:800
+}
+
+.stage{
+  position:relative;
+  min-height:560px;
+  overflow:hidden;
+  background:linear-gradient(145deg,#F7F9F8,#DEE6E4);
+}
+#scene{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.stage-overlay{
+  position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
+  display:flex;gap:6px;pointer-events:none
+}
+.hint{
+  padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.82);
+  backdrop-filter:blur(8px);border:1px solid rgba(62,80,102,.08);font-size:7px;color:#718092;font-weight:800
+}
+.stage-footer{
+  padding:10px 13px;
+  display:flex;align-items:center;justify-content:space-between;gap:9px;
+  border-top:1px solid rgba(62,80,102,.07)
+}
+.stage-footer small{font-size:7px;color:#8994A1;line-height:1.4}
+.send{height:42px;padding:0 15px;border-radius:12px;font-size:8px;font-weight:900}
+
+.decor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.decor{
+  min-height:53px;border:1px solid var(--line);border-radius:12px;background:white;
+  display:grid;place-items:center;padding:5px;color:var(--ink)
+}
+.decor span{font-size:21px}.decor b{font-size:6px}
+.decor.active{background:#EEF2F1;box-shadow:inset 0 0 0 2px rgba(62,80,102,.16)}
+
+.control-row{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center}
+.counter{
+  min-width:70px;height:39px;display:grid;grid-template-columns:28px 1fr 28px;
+  border:1px solid var(--line);border-radius:10px;background:white;overflow:hidden
+}
+.counter button{border:0;background:transparent;color:var(--ink);font-weight:900}
+.counter span{display:grid;place-items:center;font-size:8px;font-weight:900}
+
+.preview-card{
+  padding:12px;border-radius:14px;background:linear-gradient(145deg,#3E5066,#5E6D8A);color:white
+}
+.preview-card b{display:block;font-size:9px}
+.preview-card p{font-size:7px;opacity:.82;line-height:1.5;margin:5px 0 0}
+
+.modal{
+  position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:16px;
+  background:rgba(36,47,61,.45);backdrop-filter:blur(7px)
+}
+.modal.hidden{display:none}
+.modal-card{
+  width:min(520px,100%);border-radius:24px;background:#F8FAF9;border:1px solid var(--line);
+  box-shadow:0 28px 80px rgba(36,47,61,.28);padding:22px;text-align:center
+}
+.modal-icon{font-size:50px}.modal-card h2{font-size:27px;margin-top:8px}
+.modal-card p{font-size:9px;color:#778494;line-height:1.6}
+.modal-actions{display:flex;justify-content:center;gap:8px;margin-top:16px}
+.modal-actions button{height:43px;padding:0 15px;border-radius:12px;border:1px solid var(--line);font-size:8px;font-weight:900}
+
+@media(max-width:1100px){
+  .workspace{grid-template-columns:240px minmax(0,1fr)}
+  .panel.right{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .panel.right>.section{border-top:0;padding:0}
+}
+@media(max-width:760px){
+  header{height:62px;padding:0 10px}
+  .brand small{display:none}
+  .workspace{display:block;padding:7px;min-height:calc(100dvh - 62px)}
+  .panel.left,.panel.right{display:none}
+  .stage-wrap{min-height:calc(100dvh - 76px);border-radius:18px}
+  .stage{min-height:calc(100dvh - 190px)}
+  .stage-head{padding:9px}
+  .stage-title h2{font-size:15px}
+  .help{display:none}
+  .stage-footer{padding:8px}
+  .mobile-tools{
+    position:absolute;left:8px;right:8px;bottom:62px;z-index:4;
+    display:grid!important;grid-template-columns:repeat(5,1fr);gap:5px;
+    padding:7px;border-radius:15px;background:rgba(248,250,249,.93);backdrop-filter:blur(10px);
+    box-shadow:0 14px 36px rgba(62,80,102,.17);border:1px solid var(--line)
+  }
+  .mobile-tools button{
+    min-height:48px;border:0;border-radius:10px;background:transparent;color:var(--ink);
+    display:grid;place-items:center;font-size:16px
+  }
+  .mobile-tools button b{font-size:6px}
+}
+.mobile-tools{display:none}
+
+.feature-chip{
+  display:inline-flex;align-items:center;gap:5px;padding:6px 8px;border-radius:999px;
+  background:#EEF2F1;font-size:7px;font-weight:800;color:#6E7988
+}
+@media(max-width:1100px){
+  .panel.right{grid-template-columns:repeat(2,1fr)}
+}
+
+/* =========================================================
+   V3 MOBILE-FIRST RESPONSIVE CREATOR
+   ========================================================= */
+.mobile-action-bar,
+.mobile-creator-sheet{
+  display:none;
+}
+
+@media(max-width:1100px){
+  .workspace{
+    grid-template-columns:250px minmax(0,1fr);
+    gap:10px;
+  }
+
+  .panel.left{
+    grid-column:1;
+    grid-row:1;
+  }
+
+  .stage-wrap{
+    grid-column:2;
+    grid-row:1;
+  }
+
+  .panel.right{
+    grid-column:1/-1;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+
+  .panel.right>.section{
+    border-top:0;
+    padding:10px;
+    border:1px solid rgba(62,80,102,.08);
+    border-radius:14px;
+    background:rgba(255,255,255,.72);
+  }
+
+  .stage{
+    min-height:520px;
+  }
+}
+
+@media(max-width:820px){
+  body{
+    padding-bottom:78px;
+    overflow-x:hidden;
+  }
+
+  header{
+    height:60px;
+    padding:0 10px;
+    position:sticky;
+    top:0;
+    z-index:30;
+  }
+
+  .brand{
+    min-width:0;
+  }
+
+  .brand b{
+    font-size:11px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:160px;
+  }
+
+  .brand small{
+    display:none;
+  }
+
+  .logo{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    font-size:19px;
+  }
+
+  .header-actions{
+    gap:5px;
+  }
+
+  .header-actions .pill{
+    height:35px;
+    padding:0 9px;
+    font-size:7px;
+  }
+
+  .workspace{
+    display:block;
+    width:100%;
+    min-height:auto;
+    padding:6px;
+  }
+
+  .panel.left,
+  .panel.right{
+    display:none!important;
+  }
+
+  .stage-wrap{
+    min-height:calc(100dvh - 72px);
+    border-radius:18px;
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr) auto;
+  }
+
+  .stage-head{
+    min-height:58px;
+    padding:8px 9px;
+  }
+
+  .stage-title{
+    min-width:0;
+  }
+
+  .stage-title h2{
+    font-size:14px;
+    max-width:210px;
+  }
+
+  .stage-title .ey{
+    font-size:6px;
+  }
+
+  .back{
+    width:34px;
+    height:34px;
+    flex:none;
+  }
+
+  .stage-actions,
+  .help{
+    display:none!important;
+  }
+
+  .stage{
+    min-height:calc(100dvh - 210px);
+    max-height:none;
+    background:linear-gradient(145deg,#F7F9F8,#DEE6E4);
+  }
+
+  #scene{
+    touch-action:none;
+  }
+
+  .stage-overlay{
+    bottom:14px;
+  }
+
+  .hint{
+    padding:7px 10px;
+    font-size:6.5px;
+    white-space:nowrap;
+  }
+
+  .stage-footer{
+    padding:8px 10px;
+    min-height:48px;
+  }
+
+  .stage-footer small{
+    font-size:6.5px;
+    max-width:60%;
+  }
+
+  .stage-footer .send{
+    display:none;
+  }
+
+  .mobile-tools{
+    position:absolute;
+    left:8px;
+    right:8px;
+    top:8px;
+    bottom:auto;
+    z-index:4;
+    display:flex!important;
+    gap:5px;
+    overflow-x:auto;
+    padding:6px;
+    border-radius:14px;
+    background:rgba(248,250,249,.9);
+    backdrop-filter:blur(12px);
+    box-shadow:0 8px 24px rgba(62,80,102,.13);
+    border:1px solid var(--line);
+    scrollbar-width:none;
+  }
+
+  .mobile-tools::-webkit-scrollbar{
+    display:none;
+  }
+
+  .mobile-tools button{
+    flex:1 0 74px;
+    min-height:44px;
+    padding:5px 7px;
+    display:grid;
+    grid-template-columns:18px 1fr;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    border:0;
+    border-radius:10px;
+    background:transparent;
+    color:var(--ink);
+  }
+
+  .mobile-tools button span{
+    font-size:15px;
+    line-height:1;
+  }
+
+  .mobile-tools button b{
+    font-size:6.5px;
+    text-align:left;
+  }
+
+  .mobile-tools button.active{
+    background:#3E5066;
+    color:white;
+  }
+
+  .mobile-action-bar{
+    position:fixed;
+    left:8px;
+    right:8px;
+    bottom:max(8px,env(safe-area-inset-bottom));
+    z-index:90;
+    display:grid;
+    grid-template-columns:1fr 1fr 1.18fr;
+    gap:6px;
+    padding:7px;
+    border:1px solid rgba(62,80,102,.11);
+    border-radius:17px;
+    background:rgba(248,250,249,.94);
+    backdrop-filter:blur(16px);
+    box-shadow:0 18px 48px rgba(36,47,61,.22);
+  }
+
+  .mobile-action-bar button{
+    min-height:52px;
+    border:0;
+    border-radius:11px;
+    background:#EEF2F1;
+    color:#4F6177;
+    display:grid;
+    place-items:center;
+    gap:1px;
+    padding:4px;
+  }
+
+  .mobile-action-bar button span{
+    font-size:17px;
+    line-height:1;
+  }
+
+  .mobile-action-bar button b{
+    font-size:6.5px;
+  }
+
+  .mobile-action-bar .mobile-preview-action{
+    background:linear-gradient(135deg,#3E5066,#5E6D8A);
+    color:white;
+  }
+
+  .mobile-creator-sheet{
+    position:fixed;
+    inset:0;
+    z-index:110;
+    display:block;
+    pointer-events:none;
+  }
+
+  .mobile-creator-sheet.hidden{
+    display:none;
+  }
+
+  .mobile-creator-sheet.open{
+    pointer-events:auto;
+  }
+
+  .mobile-sheet-backdrop{
+    position:absolute;
+    inset:0;
+    background:rgba(36,47,61,.32);
+    opacity:0;
+    transition:opacity .2s ease;
+  }
+
+  .mobile-creator-sheet.open .mobile-sheet-backdrop{
+    opacity:1;
+  }
+
+  .mobile-sheet-panel{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    max-height:min(74dvh,650px);
+    display:grid;
+    grid-template-rows:auto auto minmax(0,1fr) auto;
+    background:#F9FBFA;
+    border-radius:24px 24px 0 0;
+    border:1px solid rgba(62,80,102,.11);
+    box-shadow:0 -18px 54px rgba(36,47,61,.22);
+    transform:translateY(104%);
+    transition:transform .24s cubic-bezier(.2,.8,.2,1);
+    overflow:hidden;
+    padding-bottom:max(4px,env(safe-area-inset-bottom));
+  }
+
+  .mobile-creator-sheet.open .mobile-sheet-panel{
+    transform:translateY(0);
+  }
+
+  .mobile-sheet-grabber{
+    width:52px;
+    height:5px;
+    margin:8px auto 2px;
+    border:0;
+    border-radius:999px;
+    background:#CCD3D2;
+  }
+
+  .mobile-sheet-head{
+    min-height:56px;
+    padding:8px 13px 9px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    border-bottom:1px solid rgba(62,80,102,.07);
+  }
+
+  .mobile-sheet-head h3{
+    margin:2px 0 0;
+    font-size:17px;
+  }
+
+  .mobile-sheet-close{
+    width:36px;
+    height:36px;
+    border-radius:11px;
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--ink);
+    font-weight:900;
+  }
+
+  .mobile-sheet-content{
+    min-height:0;
+    overflow-y:auto;
+    padding:11px 12px 20px;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .mobile-sheet-actions{
+    display:grid;
+    grid-template-columns:.72fr 1.28fr;
+    gap:7px;
+    padding:9px 12px;
+    border-top:1px solid rgba(62,80,102,.07);
+    background:#F9FBFA;
+  }
+
+  .mobile-sheet-actions button{
+    min-height:46px;
+    border-radius:12px;
+    font-size:8px;
+    font-weight:900;
+  }
+
+  .mobile-secondary-action{
+    border:1px solid var(--line);
+    background:white;
+    color:var(--ink);
+  }
+
+  .mobile-primary-action{
+    border:0;
+    color:white;
+    background:linear-gradient(135deg,#3E5066,#5E6D8A);
+  }
+
+  .mobile-control-section{
+    padding:11px 0;
+    border-top:1px solid rgba(62,80,102,.07);
+  }
+
+  .mobile-control-section:first-child{
+    border-top:0;
+    padding-top:0;
+  }
+
+  .mobile-control-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin-bottom:8px;
+  }
+
+  .mobile-control-title b{
+    font-size:9px;
+  }
+
+  .mobile-control-title span{
+    font-size:6.5px;
+    color:#8793A0;
+  }
+
+  .mobile-choice-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:7px;
+  }
+
+  .mobile-choice{
+    min-height:66px;
+    display:grid;
+    place-items:center;
+    gap:3px;
+    padding:7px 5px;
+    border:1px solid rgba(62,80,102,.09);
+    border-radius:13px;
+    background:white;
+    color:#516278;
+    font-size:7px;
+    font-weight:800;
+    text-align:center;
+  }
+
+  .mobile-choice>span{
+    font-size:22px;
+    line-height:1;
+  }
+
+  .mobile-choice.active{
+    background:#3E5066;
+    color:white;
+    border-color:#3E5066;
+    box-shadow:0 8px 18px rgba(62,80,102,.14);
+  }
+
+  .mobile-swatches{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding:2px 2px 5px;
+    scrollbar-width:none;
+  }
+
+  .mobile-swatches::-webkit-scrollbar{
+    display:none;
+  }
+
+  .mobile-swatch{
+    flex:0 0 44px;
+    width:44px;
+    height:44px;
+    border-radius:13px;
+    border:3px solid white;
+    outline:1px solid rgba(62,80,102,.14);
+    background:var(--sw);
+  }
+
+  .mobile-swatch.active{
+    box-shadow:0 0 0 3px rgba(62,80,102,.28);
+  }
+
+  .mobile-input-row{
+    display:grid;
+    grid-template-columns:48px 1fr;
+    gap:7px;
+    margin-top:9px;
+  }
+
+  .mobile-input-row input[type="color"]{
+    width:48px;
+    height:44px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:white;
+    padding:4px;
+  }
+
+  .mobile-input-row input[type="text"],
+  .mobile-text-input{
+    width:100%;
+    min-height:44px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:white;
+    padding:0 11px;
+    color:var(--ink);
+    font-size:8px;
+    outline:none;
+  }
+
+  .mobile-counter-row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    gap:10px;
+  }
+
+  .mobile-counter-label{
+    font-size:8px;
+    color:#6D7A8C;
+  }
+
+  .mobile-counter{
+    width:112px;
+    height:44px;
+    display:grid;
+    grid-template-columns:36px 1fr 36px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:white;
+    overflow:hidden;
+  }
+
+  .mobile-counter button{
+    border:0;
+    background:transparent;
+    font-size:18px;
+    color:var(--ink);
+    font-weight:800;
+  }
+
+  .mobile-counter span{
+    display:grid;
+    place-items:center;
+    font-size:9px;
+    font-weight:900;
+  }
+
+  .mobile-toggle-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:7px;
+  }
+}
+
+@media(max-width:430px){
+  .stage-title h2{
+    max-width:178px;
+    font-size:13px;
+  }
+
+  .mobile-tools button{
+    flex-basis:68px;
+  }
+
+  .mobile-choice-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .mobile-choice{
+    min-height:61px;
+  }
+
+  .stage{
+    min-height:calc(100dvh - 202px);
+  }
+}
+
+@media(max-width:360px){
+  .header-actions .pill:first-child{
+    display:none;
+  }
+
+  .mobile-tools{
+    left:5px;
+    right:5px;
+  }
+
+  .mobile-action-bar{
+    left:5px;
+    right:5px;
+  }
+
+  .mobile-choice-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+
+@media(max-width:820px){
+  .modal{
+    align-items:end;
+    padding:0;
+  }
+
+  .modal-card{
+    width:100%;
+    border-radius:24px 24px 0 0;
+    padding:22px 16px max(20px,env(safe-area-inset-bottom));
+  }
+
+  .modal-card h2{
+    font-size:22px;
+  }
+
+  .modal-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .modal-actions button{
+    min-height:48px;
+  }
+}
+
+
+/* ===== JC'S BIRTHDAY V21 INTEGRATION / ACCESSIBILITY ===== */
+:focus-visible{outline:3px solid #3E5066!important;outline-offset:3px!important}
+body.integrated{min-height:100dvh;background:#EEF2F1}
+body.integrated > header{display:none!important}
+body.integrated .workspace{min-height:100dvh!important;padding-top:6px!important}
+body.integrated .stage-footer small{display:none!important}
+body.integrated .stage-footer{justify-content:flex-end!important}
+body.integrated button,body.integrated input,body.integrated textarea{font-size:max(inherit,12px)}
+body.integrated button{touch-action:manipulation}
+body.integrated .swatch{min-width:40px;min-height:40px}
+@media(max-width:820px){
+  body.integrated{padding-bottom:max(78px,env(safe-area-inset-bottom))!important}
+  body.integrated .workspace{padding:4px!important}
+  body.integrated .mobile-swatch,body.integrated .m-swatch{min-width:44px;min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+
+/* V21 integrated readability boost */
+body.integrated .ey{font-size:10px!important}
+body.integrated .lead,body.integrated .helper,body.integrated .stage-footer small{font-size:11px!important;line-height:1.5!important}
+body.integrated .section-title b,body.integrated .mobile-control-title b,body.integrated .m-title b{font-size:12px!important}
+body.integrated .section-title span,body.integrated .mobile-control-title span,body.integrated .m-title span{font-size:10px!important}
+body.integrated .choice,body.integrated .m-choice,body.integrated .mobile-choice,body.integrated .btn,body.integrated .control-btn,body.integrated .upload-btn{font-size:11px!important}
+body.integrated .choice b,body.integrated .m-choice b,body.integrated .mobile-choice b,body.integrated .item-btn b,body.integrated .flower-btn b{font-size:10px!important}
+body.integrated input,body.integrated textarea,body.integrated select{font-size:12px!important}
+body.integrated .field label,body.integrated .range-row label,body.integrated .range-row span{font-size:10px!important}
+@media(max-width:430px){body.integrated .choice,body.integrated .m-choice,body.integrated .mobile-choice{font-size:10px!important}}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="logo">🎂</div>
+      <div><b>JC's Birthday!</b><small>3D Cake Creator — sample</small></div>
+    </div>
+    <div class="header-actions">
+      <button class="pill" id="resetBtn">Reset</button>
+      <button class="pill primary" id="previewBtn">Preview 🎁</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="panel left">
+      <div class="ey">Build</div>
+      <h2>Your cake</h2>
+      <p class="lead">Choose the cake first. Everything updates instantly in 3D.</p>
+
+      <div class="section">
+        <div class="section-title"><b>Shape</b><span>Step 1</span></div>
+        <div class="option-grid" id="shapeOptions">
+          <button class="option active" data-shape="round"><span>●</span>Round</button>
+          <button class="option" data-shape="square"><span>■</span>Square</button>
+          <button class="option" data-shape="heart"><span>♥</span>Heart</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Tiers</b><span>Step 2</span></div>
+        <div class="option-grid" id="tierOptions">
+          <button class="option active" data-tiers="1"><span>①</span>1 tier</button>
+          <button class="option" data-tiers="2"><span>②</span>2 tiers</button>
+          <button class="option" data-tiers="3"><span>③</span>3 tiers</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Flavor</b><span>Inside</span></div>
+        <div class="option-grid" id="flavorOptions">
+          <button class="option active" data-flavor="vanilla"><span>🍰</span>Vanilla</button>
+          <button class="option" data-flavor="chocolate"><span>🍫</span>Chocolate</button>
+          <button class="option" data-flavor="strawberry"><span>🍓</span>Strawberry</button>
+          <button class="option" data-flavor="ube"><span>💜</span>Ube</button>
+          <button class="option" data-flavor="matcha"><span>🍵</span>Matcha</button>
+          <button class="option" data-flavor="redvelvet"><span>❤️</span>Red velvet</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Frosting</b><span>Step 3</span></div>
+        <div class="colors" id="frostingColors">
+          <button class="swatch active" style="--sw:#F8E8E8" data-color="#F8E8E8"></button>
+          <button class="swatch" style="--sw:#F7F0D9" data-color="#F7F0D9"></button>
+          <button class="swatch" style="--sw:#D9E9E6" data-color="#D9E9E6"></button>
+          <button class="swatch" style="--sw:#DDE2F0" data-color="#DDE2F0"></button>
+          <button class="swatch" style="--sw:#E8DCF1" data-color="#E8DCF1"></button>
+        </div>
+        <div class="color-input">
+          <input type="color" id="customColor" value="#F8E8E8">
+          <input type="text" id="colorHex" value="#F8E8E8">
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Frosting finish</b><span>Texture</span></div>
+        <div class="option-grid" id="finishOptions">
+          <button class="option active" data-finish="smooth"><span>◯</span>Smooth</button>
+          <button class="option" data-finish="velvet"><span>☁️</span>Velvet</button>
+          <button class="option" data-finish="glossy"><span>✨</span>Glossy</button>
+          <button class="option" data-finish="drip"><span>💧</span>Drip</button>
+          <button class="option" data-finish="ombre"><span>◐</span>Ombré</button>
+          <button class="option" data-finish="naked"><span>🤍</span>Naked</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Cake stand</b><span>Base</span></div>
+        <div class="colors" id="plateColors">
+          <button class="swatch active" style="--sw:#FFFFFF" data-plate="#FFFFFF"></button>
+          <button class="swatch" style="--sw:#D8DEE6" data-plate="#D8DEE6"></button>
+          <button class="swatch" style="--sw:#E7D2B5" data-plate="#E7D2B5"></button>
+          <button class="swatch" style="--sw:#BFD7D2" data-plate="#BFD7D2"></button>
+          <button class="swatch" style="--sw:#D9C5DD" data-plate="#D9C5DD"></button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="stage-wrap">
+      <div class="stage-head">
+        <div class="stage-title">
+          <button class="back">←</button>
+          <div><div class="ey">3D cake studio</div><h2>Build Jaycee a cake 🎂</h2></div>
+        </div>
+        <div class="stage-actions">
+          <div class="help">Drag to rotate • wheel/pinch to zoom</div>
+        </div>
+      </div>
+
+      <div class="stage" id="stage">
+        <canvas id="scene"></canvas>
+        <div class="stage-overlay"><div class="hint">↔ Drag to rotate • pinch to zoom</div></div>
+
+        <div class="mobile-tools" id="mobileToolbar">
+          <button data-mobile-tab="cake" class="active"><span>🎂</span><b>Cake</b></button>
+          <button data-mobile-tab="frosting"><span>🎨</span><b>Frosting</b></button>
+          <button data-mobile-tab="decor"><span>✨</span><b>Decor</b></button>
+          <button data-mobile-tab="candles"><span>🕯️</span><b>Candles</b></button>
+          <button data-mobile-tab="scene"><span>🌈</span><b>Scene</b></button>
+        </div>
+      </div>
+
+      <div class="stage-footer">
+        <small>Sample only — this does not replace your current birthday site yet.</small>
+        <button class="send primary" id="sendBtn">Preview & send 🎁</button>
+      </div>
+    </section>
+
+    <aside class="panel right">
+      <div class="section">
+        <div class="section-title"><b>Decorations</b><span>Tap to toggle</span></div>
+        <div class="decor-grid" id="decorations">
+          <button class="decor active" data-decor="sprinkles"><span>✨</span><b>Sprinkles</b></button>
+          <button class="decor" data-decor="berries"><span>🍓</span><b>Berries</b></button>
+          <button class="decor" data-decor="hearts"><span>💗</span><b>Hearts</b></button>
+          <button class="decor" data-decor="pearls"><span>⚪</span><b>Pearls</b></button>
+          <button class="decor" data-decor="flowers"><span>🌸</span><b>Flowers</b></button>
+          <button class="decor" data-decor="cherries"><span>🍒</span><b>Cherries</b></button>
+          <button class="decor" data-decor="macarons"><span>🍪</span><b>Macarons</b></button>
+          <button class="decor" data-decor="chocolate"><span>🍫</span><b>Chocolate</b></button>
+          <button class="decor" data-decor="stars"><span>⭐</span><b>Stars</b></button>
+          <button class="decor" data-decor="bows"><span>🎀</span><b>Bows</b></button>
+          <button class="decor" data-decor="clouds"><span>☁️</span><b>Clouds</b></button>
+          <button class="decor" data-decor="butterflies"><span>🦋</span><b>Butterflies</b></button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Candles</b><span>1–9</span></div>
+        <div class="control-row">
+          <span style="font-size:8px;color:#738092">Birthday candles</span>
+          <div class="counter">
+            <button id="candleMinus">−</button>
+            <span id="candleCount">1</span>
+            <button id="candlePlus">+</button>
+          </div>
+        </div>
+        <div class="option-grid" style="margin-top:8px">
+          <button class="option active" data-candle-style="classic"><span>🕯️</span>Classic</button>
+          <button class="option" data-candle-style="twist"><span>🍭</span>Twist</button>
+          <button class="option" data-candle-style="gold"><span>✨</span>Gold</button>
+        </div>
+        <div class="control-row" style="margin-top:8px">
+          <span style="font-size:8px;color:#738092">Number candle</span>
+          <input type="text" id="ageCandle" value="" maxlength="2" placeholder="Age" style="width:72px">
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Topper message</b><span>Optional</span></div>
+        <input type="text" id="topperText" value="HAPPY BIRTHDAY JC!" maxlength="28">
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Background</b><span>Scene</span></div>
+        <div class="colors" id="backgroundColors">
+          <button class="swatch active" style="--sw:#DEE6E4" data-bg="#DEE6E4"></button>
+          <button class="swatch" style="--sw:#E8E2EA" data-bg="#E8E2EA"></button>
+          <button class="swatch" style="--sw:#E2E7F0" data-bg="#E2E7F0"></button>
+          <button class="swatch" style="--sw:#F2E7DE" data-bg="#F2E7DE"></button>
+          <button class="swatch" style="--sw:#20283A" data-bg="#20283A"></button>
+          <button class="swatch" style="--sw:#F4DDE6" data-bg="#F4DDE6"></button>
+        </div>
+        <div class="option-grid" style="margin-top:8px">
+          <button class="option active" data-scene="studio"><span>◌</span>Studio</button>
+          <button class="option" data-scene="party"><span>🎉</span>Party</button>
+          <button class="option" data-scene="stars"><span>🌙</span>Night</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Scene controls</b><span>View</span></div>
+        <div class="option-grid">
+          <button class="option" id="autoRotateBtn"><span>↻</span>Auto rotate</button>
+          <button class="option" id="confettiBtn"><span>🎊</span>Confetti</button>
+          <button class="option" id="lightBtn"><span>💡</span>Soft light</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="preview-card">
+          <b>Next idea ✨</b>
+          <p>In the full version, friends could add their own candle + wish to the same cake before Jaycee opens it.</p>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="mobile-creator-sheet hidden" id="mobileCreatorSheet" aria-hidden="true">
+    <div class="mobile-sheet-backdrop" id="mobileSheetBackdrop"></div>
+    <section class="mobile-sheet-panel" role="dialog" aria-modal="true" aria-label="Cake editor controls">
+      <button class="mobile-sheet-grabber" id="mobileSheetGrabber" type="button" aria-label="Collapse editor"></button>
+
+      <div class="mobile-sheet-head">
+        <div>
+          <div class="ey">Customize</div>
+          <h3 id="mobileSheetTitle">Cake</h3>
+        </div>
+        <button class="mobile-sheet-close" id="mobileSheetClose" type="button" aria-label="Close editor">✕</button>
+      </div>
+
+      <div class="mobile-sheet-content" id="mobileSheetContent"></div>
+
+      <div class="mobile-sheet-actions">
+        <button class="mobile-secondary-action" id="mobileResetBtn" type="button">Reset</button>
+        <button class="mobile-primary-action" id="mobileDoneBtn" type="button">Done ✓</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="mobile-action-bar">
+    <button id="mobileEditBtn" type="button"><span>⚙️</span><b>Customize</b></button>
+    <button id="mobileRotateBtn" type="button"><span>↻</span><b>Auto rotate</b></button>
+    <button id="mobilePreview" class="mobile-preview-action" type="button"><span>🎁</span><b>Preview</b></button>
+  </div>
+</div>
+
+<div class="modal hidden" id="previewModal">
+  <div class="modal-card">
+    <div class="modal-icon">🎂✨</div>
+    <div class="ey">Your cake is ready</div>
+    <h2>Wrap it for Jaycee?</h2>
+    <p>This is the sample preview. In the real JC's Birthday version, this cake design can be saved to Supabase and opened later from the Birthday Box.</p>
+    <div class="modal-actions">
+      <button id="keepEditing">Keep editing</button>
+      <button class="primary" id="fakeSend">Send to Jaycee 🎂</button>
+    </div>
+  </div>
+</div>
+
+<!-- Three.js is loaded from a CDN for this sample -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const $$ = sel => [...document.querySelectorAll(sel)];
+
+  const state = {
+    shape:"round",
+    tiers:1,
+    frosting:"#F8E8E8",
+    flavor:"vanilla",
+    finish:"smooth",
+    plate:"#FFFFFF",
+    decor:new Set(["sprinkles"]),
+    candles:1,
+    candleStyle:"classic",
+    ageCandle:"",
+    topper:"HAPPY BIRTHDAY JC!",
+    background:"#DEE6E4",
+    scene:"studio",
+    autoRotate:false,
+    confetti:false,
+    softLight:false,
+    rotX:-0.18,
+    rotY:0.35,
+    zoom:7.7
+  };
+
+  let renderer, scene, camera, cakeRoot, ambient, keyLight, fillLight, floor;
+  let dragging=false, lastX=0, lastY=0, pinchStart=0, pinchZoom=0;
+
+  function init(){
+    if(!window.THREE){
+      $("stage").innerHTML = '<div style="display:grid;place-items:center;height:100%;padding:30px;text-align:center;color:#5E6D8A;font-size:12px">Three.js could not load. Connect to the internet and refresh the sample.</div>';
+      return;
+    }
+
+    const canvas = $("scene");
+    renderer = new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1,2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(state.background);
+
+    camera = new THREE.PerspectiveCamera(38,1,.1,100);
+    camera.position.set(0,2.5,state.zoom);
+    camera.lookAt(0,1.3,0);
+
+    ambient = new THREE.HemisphereLight(0xffffff,0x9aa8b6,1.55);
+    scene.add(ambient);
+
+    keyLight = new THREE.DirectionalLight(0xffffff,2.5);
+    keyLight.position.set(4,7,5);
+    keyLight.castShadow = true;
+    scene.add(keyLight);
+
+    fillLight = new THREE.DirectionalLight(0xd8f0ec,1.1);
+    fillLight.position.set(-5,3,2);
+    scene.add(fillLight);
+
+    floor = new THREE.Mesh(
+      new THREE.CircleGeometry(5.3,64),
+      new THREE.MeshStandardMaterial({color:0xffffff,roughness:.9,metalness:0})
+    );
+    floor.rotation.x = -Math.PI/2;
+    floor.position.y = -0.02;
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    cakeRoot = new THREE.Group();
+    scene.add(cakeRoot);
+
+    bindCanvas();
+    bindUI();
+    buildCake();
+    syncDesktopUI();
+    syncMobileBottomBar();
+    resize();
+    animate();
+    window.addEventListener("resize",resize);
+  }
+
+  function clearGroup(group){
+    while(group.children.length){
+      const child = group.children.pop();
+      child.traverse?.(o => {
+        if(o.geometry) o.geometry.dispose?.();
+        if(o.material){
+          if(Array.isArray(o.material)) o.material.forEach(m=>m.dispose?.());
+          else o.material.dispose?.();
+        }
+      });
+    }
+  }
+
+  function cakeGeometry(shape,radius,height){
+    if(shape === "round"){
+      return new THREE.CylinderGeometry(radius,radius,height,72);
+    }
+    if(shape === "square"){
+      return new THREE.BoxGeometry(radius*1.55,height,radius*1.55,4,1,4);
+    }
+
+    const s = new THREE.Shape();
+    s.moveTo(0,0.35);
+    s.bezierCurveTo(0.0,0.95,-1.1,1.2,-1.35,0.45);
+    s.bezierCurveTo(-1.62,-0.4,-0.72,-1.02,0,-1.46);
+    s.bezierCurveTo(0.72,-1.02,1.62,-0.4,1.35,0.45);
+    s.bezierCurveTo(1.1,1.2,0.0,0.95,0,0.35);
+    const g = new THREE.ExtrudeGeometry(s,{
+      depth:height,
+      bevelEnabled:true,
+      bevelSegments:4,
+      steps:1,
+      bevelSize:.08,
+      bevelThickness:.08,
+      curveSegments:32
+    });
+    g.center();
+    g.rotateX(Math.PI/2);
+    g.scale(radius/1.35,1,radius/1.35);
+    return g;
+  }
+
+  function frostingMaterial(tierIndex=0){
+    let color = new THREE.Color(state.frosting);
+    if(state.finish === "ombre"){
+      const hsl = {};
+      color.getHSL(hsl);
+      color = new THREE.Color().setHSL(hsl.h, hsl.s, Math.max(.35, Math.min(.92,hsl.l + tierIndex*.08)));
+    }
+    return new THREE.MeshStandardMaterial({
+      color,
+      roughness: state.finish === "glossy" ? .22 : state.finish === "velvet" ? .92 : .55,
+      metalness: state.finish === "glossy" ? .04 : 0
+    });
+  }
+
+  function buildCake(){
+    clearGroup(cakeRoot);
+
+    cakeRoot.rotation.x = state.rotX;
+    cakeRoot.rotation.y = state.rotY;
+
+    const tiers = [];
+    let y=0.52;
+    for(let i=0;i<state.tiers;i++){
+      const radius = 2.0 - i*.42;
+      const height = .9 - i*.05;
+      const mesh = new THREE.Mesh(cakeGeometry(state.shape,radius,height),frostingMaterial(i));
+      mesh.position.y = y;
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      cakeRoot.add(mesh);
+
+      // Cake flavor / filling band
+      const flavorColors = {
+        vanilla:0xF2D9A7,
+        chocolate:0x6B4430,
+        strawberry:0xD88998,
+        ube:0x8B6AB3,
+        matcha:0x7D9A62,
+        redvelvet:0xA94F59
+      };
+      const flavorMat = new THREE.MeshStandardMaterial({color:flavorColors[state.flavor] || 0xF2D9A7,roughness:.62});
+      const flavorBand = new THREE.Mesh(
+        state.shape === "round"
+          ? new THREE.CylinderGeometry(radius*1.005,radius*1.005,.12,64)
+          : cakeGeometry(state.shape,radius*1.01,.12),
+        flavorMat
+      );
+      flavorBand.position.y = y-.04;
+      cakeRoot.add(flavorBand);
+
+      if(state.finish === "drip"){
+        addDrips(radius,y,height,i);
+      }
+
+      if(state.finish === "naked"){
+        mesh.material.opacity=.72;
+        mesh.material.transparent=true;
+      }
+
+      // darker cake plate/filling line
+      const bandGeo = state.shape === "round"
+        ? new THREE.TorusGeometry(radius*.92,.055,10,72)
+        : new THREE.TorusGeometry(radius*.73,.05,10,72);
+      const band = new THREE.Mesh(
+        bandGeo,
+        new THREE.MeshStandardMaterial({color:0xffffff,roughness:.5})
+      );
+      band.rotation.x = Math.PI/2;
+      band.position.y = y - height*.25;
+      cakeRoot.add(band);
+
+      tiers.push({radius,height,y});
+      y += height*.82;
+    }
+
+    // Cake stand / plate
+    const plate = new THREE.Mesh(
+      new THREE.CylinderGeometry(2.55,2.65,.16,72),
+      new THREE.MeshStandardMaterial({color:new THREE.Color(state.plate),roughness:.28,metalness:.05})
+    );
+    plate.position.y=.06;
+    plate.castShadow=true;
+    plate.receiveShadow=true;
+    cakeRoot.add(plate);
+
+    const top = tiers[tiers.length-1];
+    addDecorations(top);
+    addCandles(top);
+    addTopper(top);
+  }
+
+  function addDrips(radius,y,height,tierIndex){
+    const dripMat = new THREE.MeshStandardMaterial({
+      color:new THREE.Color(state.frosting).multiplyScalar(.93),
+      roughness:.38
+    });
+    for(let i=0;i<14;i++){
+      const a=i/14*Math.PI*2;
+      const len=.13+(i%4)*.045;
+      const drip=new THREE.Mesh(
+        new THREE.CapsuleGeometry(.055,len,5,10),
+        dripMat
+      );
+      drip.position.set(
+        Math.cos(a)*radius*.97,
+        y+height*.42-len*.28,
+        Math.sin(a)*radius*.97
+      );
+      drip.rotation.z=Math.PI/2;
+      drip.rotation.y=-a;
+      cakeRoot.add(drip);
+    }
+  }
+
+  function topPoint(top,angle,r=.6){
+    return {
+      x:Math.cos(angle)*top.radius*r,
+      z:Math.sin(angle)*top.radius*r,
+      y:top.y+top.height*.52+.05
+    };
+  }
+
+  function addDecorations(top){
+    if(state.decor.has("sprinkles")){
+      const colors=[0xD9798C,0x6F91B2,0xE4B65A,0x8EB89E,0xA67BB5];
+      for(let i=0;i<60;i++){
+        const a=Math.random()*Math.PI*2;
+        const r=.18+Math.random()*.72;
+        const p=topPoint(top,a,r);
+        const sprinkle=new THREE.Mesh(
+          new THREE.BoxGeometry(.035,.14,.035),
+          new THREE.MeshStandardMaterial({color:colors[i%colors.length]})
+        );
+        sprinkle.position.set(p.x,p.y,p.z);
+        sprinkle.rotation.set(Math.random(),a,Math.random());
+        cakeRoot.add(sprinkle);
+      }
+    }
+
+    if(state.decor.has("berries")){
+      for(let i=0;i<8;i++){
+        const a=i/8*Math.PI*2;
+        const p=topPoint(top,a,.72);
+        const berry=new THREE.Mesh(
+          new THREE.SphereGeometry(.13,18,18),
+          new THREE.MeshStandardMaterial({color:0xD54E62,roughness:.55})
+        );
+        berry.scale.set(1,.82,1);
+        berry.position.set(p.x,p.y+.08,p.z);
+        berry.castShadow=true;
+        cakeRoot.add(berry);
+
+        const leaf=new THREE.Mesh(
+          new THREE.ConeGeometry(.06,.14,6),
+          new THREE.MeshStandardMaterial({color:0x5E8D72})
+        );
+        leaf.position.set(p.x,p.y+.22,p.z);
+        leaf.rotation.z=.8;
+        cakeRoot.add(leaf);
+      }
+    }
+
+    if(state.decor.has("pearls")){
+      for(let i=0;i<18;i++){
+        const a=i/18*Math.PI*2;
+        const p=topPoint(top,a,.85);
+        const pearl=new THREE.Mesh(
+          new THREE.SphereGeometry(.065,16,16),
+          new THREE.MeshStandardMaterial({color:0xffffff,roughness:.25,metalness:.08})
+        );
+        pearl.position.set(p.x,p.y+.02,p.z);
+        cakeRoot.add(pearl);
+      }
+    }
+
+    if(state.decor.has("hearts")){
+      for(let i=0;i<5;i++){
+        const a=i/5*Math.PI*2;
+        const p=topPoint(top,a,.68);
+        const heart=heartMesh(.16,0xD97A96);
+        heart.position.set(p.x,p.y+.14,p.z);
+        heart.rotation.x=-Math.PI/2;
+        heart.rotation.z=-a;
+        cakeRoot.add(heart);
+      }
+    }
+
+    if(state.decor.has("cherries")){
+      for(let i=0;i<6;i++){
+        const a=i/6*Math.PI*2+.2;
+        const p=topPoint(top,a,.64);
+        const cherry=new THREE.Mesh(
+          new THREE.SphereGeometry(.11,18,18),
+          new THREE.MeshStandardMaterial({color:0xB92E45,roughness:.4})
+        );
+        cherry.position.set(p.x,p.y+.09,p.z);
+        cakeRoot.add(cherry);
+      }
+    }
+
+    if(state.decor.has("flowers")){
+      const colors=[0xEFA9B7,0xF4D48A,0xB8D4C8,0xC7B4DF];
+      for(let i=0;i<6;i++){
+        const a=i/6*Math.PI*2;
+        const p=topPoint(top,a,.75);
+        const flower=new THREE.Group();
+        for(let j=0;j<5;j++){
+          const petal=new THREE.Mesh(
+            new THREE.SphereGeometry(.09,14,14),
+            new THREE.MeshStandardMaterial({color:colors[i%colors.length],roughness:.65})
+          );
+          petal.scale.set(1.25,.55,.75);
+          petal.position.set(Math.cos(j/5*Math.PI*2)*.1,0,Math.sin(j/5*Math.PI*2)*.1);
+          flower.add(petal);
+        }
+        flower.position.set(p.x,p.y+.11,p.z);
+        cakeRoot.add(flower);
+      }
+    }
+
+    if(state.decor.has("macarons")){
+      const colors=[0xDB9BAC,0xA5C9C0,0xD8C08B,0xB9AED8];
+      for(let i=0;i<5;i++){
+        const a=i/5*Math.PI*2+.3;
+        const p=topPoint(top,a,.7);
+        const mac=new THREE.Mesh(
+          new THREE.CylinderGeometry(.16,.16,.12,28),
+          new THREE.MeshStandardMaterial({color:colors[i%colors.length],roughness:.7})
+        );
+        mac.rotation.z=Math.PI/2;
+        mac.position.set(p.x,p.y+.14,p.z);
+        cakeRoot.add(mac);
+      }
+    }
+
+    if(state.decor.has("chocolate")){
+      for(let i=0;i<5;i++){
+        const a=i/5*Math.PI*2+.7;
+        const p=topPoint(top,a,.68);
+        const bar=new THREE.Mesh(
+          new THREE.BoxGeometry(.16,.42,.07),
+          new THREE.MeshStandardMaterial({color:0x5B392A,roughness:.5})
+        );
+        bar.position.set(p.x,p.y+.2,p.z);
+        bar.rotation.y=-a;
+        bar.rotation.z=.25;
+        cakeRoot.add(bar);
+      }
+    }
+
+    if(state.decor.has("stars")){
+      for(let i=0;i<7;i++){
+        const a=i/7*Math.PI*2;
+        const p=topPoint(top,a,.76);
+        const star=new THREE.Mesh(
+          new THREE.OctahedronGeometry(.11,0),
+          new THREE.MeshStandardMaterial({color:0xE7BC5D,roughness:.35,metalness:.12})
+        );
+        star.position.set(p.x,p.y+.13,p.z);
+        star.rotation.y=a;
+        cakeRoot.add(star);
+      }
+    }
+
+    if(state.decor.has("bows")){
+      for(let i=0;i<3;i++){
+        const a=i/3*Math.PI*2+.2;
+        const p=topPoint(top,a,.82);
+        const bow=new THREE.Group();
+        const mat=new THREE.MeshStandardMaterial({color:0xD889A6,roughness:.5});
+        const l=new THREE.Mesh(new THREE.SphereGeometry(.12,12,12),mat);
+        l.scale.set(1.4,.7,.45); l.position.x=-.1;
+        const r=l.clone(); r.position.x=.1;
+        bow.add(l,r);
+        bow.position.set(p.x,p.y+.12,p.z);
+        bow.rotation.y=-a;
+        cakeRoot.add(bow);
+      }
+    }
+
+    if(state.decor.has("clouds")){
+      for(let i=0;i<4;i++){
+        const a=i/4*Math.PI*2+.4;
+        const p=topPoint(top,a,.7);
+        const cloud=new THREE.Group();
+        const mat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.85});
+        [[0,0,.12],[-.1,0,.09],[.1,0,.09]].forEach(([x,z,s])=>{
+          const m=new THREE.Mesh(new THREE.SphereGeometry(s,14,14),mat);
+          m.position.set(x,0,z); cloud.add(m);
+        });
+        cloud.position.set(p.x,p.y+.15,p.z);
+        cakeRoot.add(cloud);
+      }
+    }
+
+    if(state.decor.has("butterflies")){
+      for(let i=0;i<4;i++){
+        const a=i/4*Math.PI*2+.6;
+        const p=topPoint(top,a,.68);
+        const b=new THREE.Group();
+        const mat=new THREE.MeshStandardMaterial({color:i%2?0xB99DDA:0xE89DB6,side:THREE.DoubleSide});
+        const wing1=new THREE.Mesh(new THREE.PlaneGeometry(.18,.12),mat);
+        const wing2=wing1.clone();
+        wing1.position.x=-.08; wing1.rotation.y=.55;
+        wing2.position.x=.08; wing2.rotation.y=-.55;
+        b.add(wing1,wing2);
+        b.position.set(p.x,p.y+.3,p.z);
+        b.rotation.y=-a;
+        cakeRoot.add(b);
+      }
+    }
+  }
+
+  function heartMesh(scale,color){
+    const s=new THREE.Shape();
+    s.moveTo(0,.25);
+    s.bezierCurveTo(0,.55,-.55,.65,-.65,.2);
+    s.bezierCurveTo(-.75,-.3,-.25,-.55,0,-.8);
+    s.bezierCurveTo(.25,-.55,.75,-.3,.65,.2);
+    s.bezierCurveTo(.55,.65,0,.55,0,.25);
+    const g=new THREE.ExtrudeGeometry(s,{depth:.18,bevelEnabled:true,bevelSize:.03,bevelThickness:.03,bevelSegments:2});
+    g.center();g.scale(scale,scale,scale);
+    const m=new THREE.MeshStandardMaterial({color,roughness:.5});
+    return new THREE.Mesh(g,m);
+  }
+
+  function addCandles(top){
+    const count=state.candles;
+    for(let i=0;i<count;i++){
+      const a=(i/count)*Math.PI*2;
+      const r=count===1?0:.42;
+      const p=topPoint(top,a,r);
+
+      const candle=new THREE.Mesh(
+        new THREE.CylinderGeometry(.055,.055,.55,18),
+        new THREE.MeshStandardMaterial({
+          color:state.candleStyle==="gold" ? 0xD8B55A : (i%2?0xA2C3C2:0xD98AA2),
+          roughness:state.candleStyle==="gold" ? .3 : .55,
+          metalness:state.candleStyle==="gold" ? .18 : 0
+        })
+      );
+      candle.position.set(p.x,p.y+.3,p.z);
+      if(state.candleStyle==="twist"){
+        candle.scale.set(.82,1.08,.82);
+        candle.rotation.y=a*3;
+      }
+      candle.castShadow=true;
+      cakeRoot.add(candle);
+
+      const flame=new THREE.Mesh(
+        new THREE.SphereGeometry(.075,16,16),
+        new THREE.MeshStandardMaterial({color:0xFFB43D,emissive:0xFF8C1A,emissiveIntensity:2})
+      );
+      flame.scale.set(.72,1.35,.72);
+      flame.position.set(p.x,p.y+.64,p.z);
+      cakeRoot.add(flame);
+
+      const glow=new THREE.PointLight(0xFFB45C,.28,.9);
+      glow.position.copy(flame.position);
+      cakeRoot.add(glow);
+    }
+
+    if(state.ageCandle.trim()){
+      const tex=textTexture(state.ageCandle.trim().slice(0,2));
+      const num=new THREE.Mesh(
+        new THREE.PlaneGeometry(.7,.42),
+        new THREE.MeshBasicMaterial({map:tex,transparent:true,side:THREE.DoubleSide})
+      );
+      num.position.set(0,top.y+top.height*.52+.62,.02);
+      cakeRoot.add(num);
+    }
+  }
+
+  function addTopper(top){
+    if(!state.topper.trim()) return;
+
+    const card = new THREE.Group();
+
+    const plate=new THREE.Mesh(
+      new THREE.BoxGeometry(2.5,.58,.08),
+      new THREE.MeshStandardMaterial({color:0xffffff,roughness:.45})
+    );
+    plate.position.y=.35;
+    card.add(plate);
+
+    const left=new THREE.Mesh(
+      new THREE.CylinderGeometry(.025,.025,.85,10),
+      new THREE.MeshStandardMaterial({color:0xB7BDC7})
+    );
+    left.position.set(-.95,-.15,0);
+    card.add(left);
+
+    const right=left.clone();
+    right.position.x=.95;
+    card.add(right);
+
+    const tex = textTexture(state.topper);
+    const label=new THREE.Mesh(
+      new THREE.PlaneGeometry(2.25,.42),
+      new THREE.MeshBasicMaterial({map:tex,transparent:true})
+    );
+    label.position.set(0,.35,.045);
+    card.add(label);
+
+    card.position.set(0,top.y+top.height*.52+.72,0);
+    card.rotation.y=0;
+    cakeRoot.add(card);
+  }
+
+  function textTexture(text){
+    const c=document.createElement("canvas");
+    c.width=1024;c.height=220;
+    const ctx=c.getContext("2d");
+    ctx.clearRect(0,0,c.width,c.height);
+    ctx.fillStyle="#3E5066";
+    ctx.font="800 72px Poppins, Arial";
+    ctx.textAlign="center";
+    ctx.textBaseline="middle";
+    ctx.fillText(text.slice(0,28),c.width/2,c.height/2);
+    const tex=new THREE.CanvasTexture(c);
+    tex.colorSpace=THREE.SRGBColorSpace;
+    return tex;
+  }
+
+  function updateSceneEffects(){
+    if(!scene || !floor) return;
+    scene.background=new THREE.Color(state.background);
+
+    if(state.scene==="party"){
+      floor.material.color.set(0xFFF7F3);
+    }else if(state.scene==="stars"){
+      floor.material.color.set(0x273246);
+      scene.background=new THREE.Color(0x20283A);
+    }else{
+      floor.material.color.set(0xFFFFFF);
+    }
+
+    keyLight.intensity=state.softLight ? 1.6 : 2.5;
+    fillLight.intensity=state.softLight ? .7 : 1.1;
+  }
+
+  function burstConfetti(){
+    const g=new THREE.Group();
+    const colors=[0xE08CA0,0x7EA8C3,0xE4C06A,0x8BB8A2,0xB69BD2];
+    for(let i=0;i<70;i++){
+      const piece=new THREE.Mesh(
+        new THREE.BoxGeometry(.045,.13,.025),
+        new THREE.MeshBasicMaterial({color:colors[i%colors.length]})
+      );
+      piece.position.set(
+        (Math.random()-.5)*6,
+        2+Math.random()*3,
+        (Math.random()-.5)*4
+      );
+      piece.rotation.set(Math.random()*3,Math.random()*3,Math.random()*3);
+      piece.userData.vy=.012+Math.random()*.02;
+      piece.userData.spin=(Math.random()-.5)*.05;
+      g.add(piece);
+    }
+    g.userData.confetti=true;
+    scene.add(g);
+    state.confetti=true;
+  }
+
+  let mobileActiveTab = "cake";
+
+  function mobileChoice(label,icon,attr,value,current){
+    return `<button class="mobile-choice ${String(value)===String(current) ? "active" : ""}" ${attr}="${String(value)}" type="button">
+      <span>${icon}</span>${label}
+    </button>`;
+  }
+
+  function mobileSwatch(attr,color,current){
+    return `<button class="mobile-swatch ${String(color).toUpperCase()===String(current).toUpperCase() ? "active" : ""}" ${attr}="${color}" style="--sw:${color}" type="button" aria-label="${color}"></button>`;
+  }
+
+  function mobileTabTitle(tab){
+    return ({
+      cake:"Cake",
+      frosting:"Frosting",
+      decor:"Decorations",
+      candles:"Candles & topper",
+      scene:"Scene"
+    })[tab] || "Customize";
+  }
+
+  function renderMobileSheet(tab=mobileActiveTab){
+    mobileActiveTab = tab;
+    $("mobileSheetTitle").textContent = mobileTabTitle(tab);
+
+    $$("[data-mobile-tab]").forEach(btn=>{
+      btn.classList.toggle("active",btn.dataset.mobileTab===tab);
+    });
+
+    let content="";
+
+    if(tab==="cake"){
+      content = `
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Shape</b><span>Choose a cake shape</span></div>
+          <div class="mobile-choice-grid">
+            ${mobileChoice("Round","●","data-m-shape","round",state.shape)}
+            ${mobileChoice("Square","■","data-m-shape","square",state.shape)}
+            ${mobileChoice("Heart","♥","data-m-shape","heart",state.shape)}
+          </div>
+        </div>
+
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Tiers</b><span>How tall?</span></div>
+          <div class="mobile-choice-grid">
+            ${mobileChoice("1 tier","①","data-m-tiers",1,state.tiers)}
+            ${mobileChoice("2 tiers","②","data-m-tiers",2,state.tiers)}
+            ${mobileChoice("3 tiers","③","data-m-tiers",3,state.tiers)}
+          </div>
+        </div>
+
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Flavor</b><span>Inside the cake</span></div>
+          <div class="mobile-choice-grid">
+            ${mobileChoice("Vanilla","🍰","data-m-flavor","vanilla",state.flavor)}
+            ${mobileChoice("Chocolate","🍫","data-m-flavor","chocolate",state.flavor)}
+            ${mobileChoice("Strawberry","🍓","data-m-flavor","strawberry",state.flavor)}
+            ${mobileChoice("Ube","💜","data-m-flavor","ube",state.flavor)}
+            ${mobileChoice("Matcha","🍵","data-m-flavor","matcha",state.flavor)}
+            ${mobileChoice("Red velvet","❤️","data-m-flavor","redvelvet",state.flavor)}
+          </div>
+        </div>
+
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Cake stand</b><span>Choose the base</span></div>
+          <div class="mobile-swatches">
+            ${["#FFFFFF","#D8DEE6","#E7D2B5","#BFD7D2","#D9C5DD"].map(c=>mobileSwatch("data-m-plate",c,state.plate)).join("")}
+          </div>
+        </div>`;
+    }
+
+    if(tab==="frosting"){
+      content = `
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Frosting color</b><span>Swipe for colors</span></div>
+          <div class="mobile-swatches">
+            ${["#F8E8E8","#F7F0D9","#D9E9E6","#DDE2F0","#E8DCF1","#F3D5C8","#C9D9F0","#D8E8D0"].map(c=>mobileSwatch("data-m-color",c,state.frosting)).join("")}
+          </div>
+          <div class="mobile-input-row">
+            <input type="color" id="mobileCustomColor" value="${state.frosting}">
+            <input type="text" id="mobileColorHex" value="${state.frosting}">
+          </div>
+        </div>
+
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Finish</b><span>Change the texture</span></div>
+          <div class="mobile-choice-grid">
+            ${mobileChoice("Smooth","◯","data-m-finish","smooth",state.finish)}
+            ${mobileChoice("Velvet","☁️","data-m-finish","velvet",state.finish)}
+            ${mobileChoice("Glossy","✨","data-m-finish","glossy",state.finish)}
+            ${mobileChoice("Drip","💧","data-m-finish","drip",state.finish)}
+            ${mobileChoice("Ombré","◐","data-m-finish","ombre",state.finish)}
+            ${mobileChoice("Naked","🤍","data-m-finish","naked",state.finish)}
+          </div>
+        </div>`;
+    }
+
+    if(tab==="decor"){
+      const decorItems = [
+        ["sprinkles","✨","Sprinkles"],
+        ["berries","🍓","Berries"],
+        ["hearts","💗","Hearts"],
+        ["pearls","⚪","Pearls"],
+        ["flowers","🌸","Flowers"],
+        ["cherries","🍒","Cherries"],
+        ["macarons","🍪","Macarons"],
+        ["chocolate","🍫","Chocolate"],
+        ["stars","⭐","Stars"],
+        ["bows","🎀","Bows"],
+        ["clouds","☁️","Clouds"],
+        ["butterflies","🦋","Butterflies"]
+      ];
+
+      content = `
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Decorations</b><span>Choose as many as you want</span></div>
+          <div class="mobile-choice-grid">
+            ${decorItems.map(([key,icon,label])=>`
+              <button class="mobile-choice ${state.decor.has(key)?"active":""}" data-m-decor="${key}" type="button">
+                <span>${icon}</span>${label}
+              </button>`).join("")}
+          </div>
+        </div>`;
+    }
+
+    if(tab==="candles"){
+      content = `
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Birthday candles</b><span>1–9 candles</span></div>
+          <div class="mobile-counter-row">
+            <span class="mobile-counter-label">How many?</span>
+            <div class="mobile-counter">
+              <button id="mobileCandleMinus" type="button">−</button>
+              <span id="mobileCandleCount">${state.candles}</span>
+              <button id="mobileCandlePlus" type="button">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Candle style</b><span>Pick a look</span></div>
+          <div class="mobile-choice-grid">
+            ${mobileChoice("Classic","🕯️","data-m-candle-style","classic",state.candleStyle)}
+            ${mobileChoice("Twist","🍭","data-m-candle-style","twist",state.candleStyle)}
+            ${mobileChoice("Gold","✨","data-m-candle-style","gold",state.candleStyle)}
+          </div>
+        </div>
+
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Number candle</b><span>Optional</span></div>
+          <input class="mobile-text-input" id="mobileAgeCandle" type="text" maxlength="2" inputmode="numeric" placeholder="Age, e.g. 24" value="${state.ageCandle}">
+        </div>
+
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Topper message</b><span>Optional</span></div>
+          <input class="mobile-text-input" id="mobileTopperText" type="text" maxlength="28" value="${state.topper}">
+        </div>`;
+    }
+
+    if(tab==="scene"){
+      content = `
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Background color</b><span>Scene mood</span></div>
+          <div class="mobile-swatches">
+            ${["#DEE6E4","#E8E2EA","#E2E7F0","#F2E7DE","#20283A","#F4DDE6"].map(c=>mobileSwatch("data-m-bg",c,state.background)).join("")}
+          </div>
+        </div>
+
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Scene</b><span>Choose the atmosphere</span></div>
+          <div class="mobile-choice-grid">
+            ${mobileChoice("Studio","◌","data-m-scene","studio",state.scene)}
+            ${mobileChoice("Party","🎉","data-m-scene","party",state.scene)}
+            ${mobileChoice("Night","🌙","data-m-scene","stars",state.scene)}
+          </div>
+        </div>
+
+        <div class="mobile-control-section">
+          <div class="mobile-control-title"><b>Effects</b><span>Make it feel alive</span></div>
+          <div class="mobile-toggle-grid">
+            <button class="mobile-choice ${state.autoRotate?"active":""}" id="mobileAutoRotateToggle" type="button"><span>↻</span>Auto rotate</button>
+            <button class="mobile-choice" id="mobileConfettiBurst" type="button"><span>🎊</span>Confetti</button>
+            <button class="mobile-choice ${state.softLight?"active":""}" id="mobileSoftLightToggle" type="button"><span>💡</span>Soft light</button>
+          </div>
+        </div>`;
+    }
+
+    $("mobileSheetContent").innerHTML = content;
+    bindMobileSheetControls();
+  }
+
+  function bindMobileSheetControls(){
+    $$("[data-m-shape]").forEach(btn=>btn.onclick=()=>{
+      state.shape=btn.dataset.mShape;
+      buildCake();
+      renderMobileSheet("cake");
+      syncDesktopUI();
+    });
+
+    $$("[data-m-tiers]").forEach(btn=>btn.onclick=()=>{
+      state.tiers=Number(btn.dataset.mTiers);
+      buildCake();
+      renderMobileSheet("cake");
+      syncDesktopUI();
+    });
+
+    $$("[data-m-flavor]").forEach(btn=>btn.onclick=()=>{
+      state.flavor=btn.dataset.mFlavor;
+      buildCake();
+      renderMobileSheet("cake");
+      syncDesktopUI();
+    });
+
+    $$("[data-m-plate]").forEach(btn=>btn.onclick=()=>{
+      state.plate=btn.dataset.mPlate;
+      buildCake();
+      renderMobileSheet("cake");
+      syncDesktopUI();
+    });
+
+    $$("[data-m-color]").forEach(btn=>btn.onclick=()=>{
+      setFrosting(btn.dataset.mColor);
+      renderMobileSheet("frosting");
+      syncDesktopUI();
+    });
+
+    if($("mobileCustomColor")){
+      $("mobileCustomColor").oninput=e=>{
+        setFrosting(e.target.value);
+        $("mobileColorHex").value=state.frosting;
+        syncDesktopUI();
+      };
+    }
+
+    if($("mobileColorHex")){
+      $("mobileColorHex").onchange=e=>{
+        if(/^#[0-9A-Fa-f]{6}$/.test(e.target.value)){
+          setFrosting(e.target.value);
+          renderMobileSheet("frosting");
+          syncDesktopUI();
+        }else{
+          e.target.value=state.frosting;
+        }
+      };
+    }
+
+    $$("[data-m-finish]").forEach(btn=>btn.onclick=()=>{
+      state.finish=btn.dataset.mFinish;
+      buildCake();
+      renderMobileSheet("frosting");
+      syncDesktopUI();
+    });
+
+    $$("[data-m-decor]").forEach(btn=>btn.onclick=()=>{
+      const key=btn.dataset.mDecor;
+      if(state.decor.has(key)) state.decor.delete(key); else state.decor.add(key);
+      buildCake();
+      renderMobileSheet("decor");
+      syncDesktopUI();
+    });
+
+    if($("mobileCandleMinus")) $("mobileCandleMinus").onclick=()=>{
+      state.candles=Math.max(1,state.candles-1);
+      buildCake();
+      renderMobileSheet("candles");
+      syncDesktopUI();
+    };
+
+    if($("mobileCandlePlus")) $("mobileCandlePlus").onclick=()=>{
+      state.candles=Math.min(9,state.candles+1);
+      buildCake();
+      renderMobileSheet("candles");
+      syncDesktopUI();
+    };
+
+    $$("[data-m-candle-style]").forEach(btn=>btn.onclick=()=>{
+      state.candleStyle=btn.dataset.mCandleStyle;
+      buildCake();
+      renderMobileSheet("candles");
+      syncDesktopUI();
+    });
+
+    if($("mobileAgeCandle")) $("mobileAgeCandle").oninput=e=>{
+      state.ageCandle=e.target.value.replace(/\D/g,"").slice(0,2);
+      e.target.value=state.ageCandle;
+      clearTimeout(window.__mobileAgeTimer);
+      window.__mobileAgeTimer=setTimeout(()=>{
+        buildCake();
+        syncDesktopUI();
+      },100);
+    };
+
+    if($("mobileTopperText")) $("mobileTopperText").oninput=e=>{
+      state.topper=e.target.value;
+      clearTimeout(window.__mobileTopTimer);
+      window.__mobileTopTimer=setTimeout(()=>{
+        buildCake();
+        syncDesktopUI();
+      },100);
+    };
+
+    $$("[data-m-bg]").forEach(btn=>btn.onclick=()=>{
+      state.background=btn.dataset.mBg;
+      updateSceneEffects();
+      renderMobileSheet("scene");
+      syncDesktopUI();
+    });
+
+    $$("[data-m-scene]").forEach(btn=>btn.onclick=()=>{
+      state.scene=btn.dataset.mScene;
+      updateSceneEffects();
+      renderMobileSheet("scene");
+      syncDesktopUI();
+    });
+
+    if($("mobileAutoRotateToggle")) $("mobileAutoRotateToggle").onclick=()=>{
+      state.autoRotate=!state.autoRotate;
+      renderMobileSheet("scene");
+      syncDesktopUI();
+      syncMobileBottomBar();
+    };
+
+    if($("mobileConfettiBurst")) $("mobileConfettiBurst").onclick=()=>{
+      burstConfetti();
+    };
+
+    if($("mobileSoftLightToggle")) $("mobileSoftLightToggle").onclick=()=>{
+      state.softLight=!state.softLight;
+      updateSceneEffects();
+      renderMobileSheet("scene");
+      syncDesktopUI();
+    };
+  }
+
+  function syncDesktopUI(){
+    $$("[data-shape]").forEach(x=>x.classList.toggle("active",x.dataset.shape===state.shape));
+    $$("[data-tiers]").forEach(x=>x.classList.toggle("active",Number(x.dataset.tiers)===state.tiers));
+    $$("[data-flavor]").forEach(x=>x.classList.toggle("active",x.dataset.flavor===state.flavor));
+    $$("[data-finish]").forEach(x=>x.classList.toggle("active",x.dataset.finish===state.finish));
+    $$("[data-plate]").forEach(x=>x.classList.toggle("active",x.dataset.plate.toUpperCase()===state.plate.toUpperCase()));
+    $$("[data-color]").forEach(x=>x.classList.toggle("active",x.dataset.color.toUpperCase()===state.frosting.toUpperCase()));
+    $$("[data-decor]").forEach(x=>x.classList.toggle("active",state.decor.has(x.dataset.decor)));
+    $$("[data-candle-style]").forEach(x=>x.classList.toggle("active",x.dataset.candleStyle===state.candleStyle));
+    $$("[data-bg]").forEach(x=>x.classList.toggle("active",x.dataset.bg.toUpperCase()===state.background.toUpperCase()));
+    $$("[data-scene]").forEach(x=>x.classList.toggle("active",x.dataset.scene===state.scene));
+
+    $("customColor").value=state.frosting;
+    $("colorHex").value=state.frosting;
+    $("candleCount").textContent=state.candles;
+    $("ageCandle").value=state.ageCandle;
+    $("topperText").value=state.topper;
+    $("autoRotateBtn").classList.toggle("active",state.autoRotate);
+    $("lightBtn").classList.toggle("active",state.softLight);
+  }
+
+  function syncMobileBottomBar(){
+    if(!$("mobileRotateBtn")) return;
+    $("mobileRotateBtn").classList.toggle("active",state.autoRotate);
+    $("mobileRotateBtn").querySelector("b").textContent=state.autoRotate ? "Stop rotate" : "Auto rotate";
+  }
+
+  function openMobileSheet(tab=mobileActiveTab){
+    if(innerWidth>820) return;
+    renderMobileSheet(tab);
+    const sheet=$("mobileCreatorSheet");
+    sheet.classList.remove("hidden");
+    requestAnimationFrame(()=>{
+      sheet.classList.add("open");
+      sheet.setAttribute("aria-hidden","false");
+    });
+  }
+
+  function closeMobileSheet(){
+    const sheet=$("mobileCreatorSheet");
+    if(!sheet || sheet.classList.contains("hidden")) return;
+
+    sheet.classList.remove("open");
+    sheet.setAttribute("aria-hidden","true");
+    setTimeout(()=>sheet.classList.add("hidden"),220);
+  }
+
+  function bindUI(){
+
+    $$("[data-flavor]").forEach(btn=>btn.onclick=()=>{
+      state.flavor=btn.dataset.flavor;
+      $$("[data-flavor]").forEach(x=>x.classList.toggle("active",x===btn));
+      buildCake();
+    });
+
+    $$("[data-finish]").forEach(btn=>btn.onclick=()=>{
+      state.finish=btn.dataset.finish;
+      $$("[data-finish]").forEach(x=>x.classList.toggle("active",x===btn));
+      buildCake();
+    });
+
+    $$("[data-plate]").forEach(btn=>btn.onclick=()=>{
+      state.plate=btn.dataset.plate;
+      $$("[data-plate]").forEach(x=>x.classList.toggle("active",x===btn));
+      buildCake();
+    });
+
+    $$("[data-candle-style]").forEach(btn=>btn.onclick=()=>{
+      state.candleStyle=btn.dataset.candleStyle;
+      $$("[data-candle-style]").forEach(x=>x.classList.toggle("active",x===btn));
+      buildCake();
+    });
+
+    $("ageCandle").oninput=e=>{
+      state.ageCandle=e.target.value.replace(/\D/g,"").slice(0,2);
+      e.target.value=state.ageCandle;
+      clearTimeout(window.__ageTimer);
+      window.__ageTimer=setTimeout(buildCake,120);
+    };
+
+    $$("[data-scene]").forEach(btn=>btn.onclick=()=>{
+      state.scene=btn.dataset.scene;
+      $$("[data-scene]").forEach(x=>x.classList.toggle("active",x===btn));
+      updateSceneEffects();
+    });
+
+    $("autoRotateBtn").onclick=()=>{
+      state.autoRotate=!state.autoRotate;
+      $("autoRotateBtn").classList.toggle("active",state.autoRotate);
+    };
+
+    $("confettiBtn").onclick=()=>{
+      burstConfetti();
+      $("confettiBtn").classList.add("active");
+      setTimeout(()=>$("confettiBtn").classList.remove("active"),700);
+    };
+
+    $("lightBtn").onclick=()=>{
+      state.softLight=!state.softLight;
+      $("lightBtn").classList.toggle("active",state.softLight);
+      updateSceneEffects();
+    };
+    $$("[data-shape]").forEach(btn=>btn.onclick=()=>{
+      state.shape=btn.dataset.shape;
+      $$("[data-shape]").forEach(x=>x.classList.toggle("active",x===btn));
+      buildCake();
+    });
+
+    $$("[data-tiers]").forEach(btn=>btn.onclick=()=>{
+      state.tiers=Number(btn.dataset.tiers);
+      $$("[data-tiers]").forEach(x=>x.classList.toggle("active",x===btn));
+      buildCake();
+    });
+
+    $$("[data-color]").forEach(btn=>btn.onclick=()=>{
+      setFrosting(btn.dataset.color);
+      $$("[data-color]").forEach(x=>x.classList.toggle("active",x===btn));
+    });
+
+    $("customColor").oninput=e=>setFrosting(e.target.value);
+    $("colorHex").onchange=e=>{
+      if(/^#[0-9A-Fa-f]{6}$/.test(e.target.value)) setFrosting(e.target.value);
+      else e.target.value=state.frosting;
+    };
+
+    $$("[data-decor]").forEach(btn=>btn.onclick=()=>{
+      const d=btn.dataset.decor;
+      if(state.decor.has(d)) state.decor.delete(d); else state.decor.add(d);
+      btn.classList.toggle("active",state.decor.has(d));
+      buildCake();
+    });
+
+    $("candleMinus").onclick=()=>{
+      state.candles=Math.max(1,state.candles-1);$("candleCount").textContent=state.candles;buildCake();
+    };
+    $("candlePlus").onclick=()=>{
+      state.candles=Math.min(9,state.candles+1);$("candleCount").textContent=state.candles;buildCake();
+    };
+
+    $("topperText").oninput=e=>{
+      state.topper=e.target.value;
+      clearTimeout(window.__topperTimer);
+      window.__topperTimer=setTimeout(buildCake,120);
+    };
+
+    $$("[data-bg]").forEach(btn=>btn.onclick=()=>{
+      state.background=btn.dataset.bg;
+      $$("[data-bg]").forEach(x=>x.classList.toggle("active",x===btn));
+      updateSceneEffects();
+    });
+
+    $("previewBtn").onclick=openPreview;
+    $("sendBtn").onclick=openPreview;
+    $("mobilePreview").onclick=openPreview;
+
+    $$("[data-mobile-tab]").forEach(btn=>btn.onclick=()=>{
+      openMobileSheet(btn.dataset.mobileTab);
+    });
+
+    $("mobileEditBtn").onclick=()=>openMobileSheet(mobileActiveTab);
+
+    $("mobileRotateBtn").onclick=()=>{
+      state.autoRotate=!state.autoRotate;
+      syncDesktopUI();
+      syncMobileBottomBar();
+    };
+
+    $("mobileSheetClose").onclick=closeMobileSheet;
+    $("mobileSheetBackdrop").onclick=closeMobileSheet;
+    $("mobileSheetGrabber").onclick=closeMobileSheet;
+    $("mobileDoneBtn").onclick=closeMobileSheet;
+
+    $("mobileResetBtn").onclick=()=>{
+      resetAll();
+      renderMobileSheet(mobileActiveTab);
+      syncMobileBottomBar();
+    };
+    $("keepEditing").onclick=()=>$("previewModal").classList.add("hidden");
+    
+    function jcIntegrated(){ return new URLSearchParams(location.search).get("integrated") === "1"; }
+    function jcSendToMain(payload){
+      if(jcIntegrated() && window.parent && window.parent !== window){
+        window.parent.postMessage({source:"jc-special-mode",action:"submit",giftType:"cake",payload},"*");
+        const b=$("fakeSend"); if(b){ b.disabled=true; b.textContent="Sending…"; }
+        return true;
+      }
+      return false;
+    }
+    function jcWireIntegration(){
+      if(!jcIntegrated()) return;
+      document.body.classList.add("integrated");
+      document.querySelectorAll("button").forEach((el,i)=>{
+        if(!el.getAttribute("aria-label") && !el.textContent.trim()){
+          const dataName=Object.values(el.dataset||{}).find(Boolean);
+          el.setAttribute("aria-label",el.title||dataName||`Control ${i+1}`);
+        }
+      });
+      document.querySelectorAll("input,textarea,select").forEach((el,i)=>{
+        const hasLabel=el.id && document.querySelector(`label[for="${el.id}"]`);
+        if(!hasLabel && !el.getAttribute("aria-label")){
+          const readable=(el.placeholder||el.id||`Field ${i+1}`).replace(/([a-z])([A-Z])/g,"$1 $2");
+          el.setAttribute("aria-label",readable);
+        }
+      });
+      const back=document.querySelector(".back");
+      if(back) back.onclick=()=>window.parent.postMessage({source:"jc-special-mode",action:"close"},"*");
+      window.addEventListener("message",e=>{
+        const m=e.data||{};
+        if(m.source!=="jc-main") return;
+        if(m.action==="open-preview" && typeof openPreview==="function") openPreview();
+        if(m.action==="context" && m.context){
+          
+        }
+        if(m.action==="submit-result" && !m.ok){
+          const b=$("fakeSend"); if(b){ b.disabled=false; b.textContent="Try sending again"; }
+          const modal=$("previewModal");
+          const p=modal && modal.querySelector("p"); if(p) p.textContent=m.message||"The gift could not be saved. Please try again.";
+        }
+      });
+      window.parent.postMessage({source:"jc-special-mode",action:"ready",giftType:"cake"},"*");
+    }
+    jcWireIntegration();
+
+$("fakeSend").onclick=()=>{
+      const payload={
+        shape:state.shape,tiers:state.tiers,frosting:state.frosting,flavor:state.flavor,finish:state.finish,
+        plate:state.plate,decor:[...state.decor],candles:state.candles,candleStyle:state.candleStyle,
+        ageCandle:state.ageCandle,topper:state.topper,background:state.background,scene:state.scene,
+        autoRotate:state.autoRotate,softLight:state.softLight,rotX:state.rotX,rotY:state.rotY,zoom:state.zoom
+      };
+      if(jcSendToMain(payload)) return;
+      const modal=$("previewModal");
+      const h=modal && modal.querySelector("h2");
+      const p=modal && modal.querySelector("p");
+      if(h) h.textContent="Sample sent! 🎂";
+      if(p) p.textContent="This standalone sample is not connected to the main Birthday Box.";
+      $("fakeSend").disabled=true;
+    };
+    $("resetBtn").onclick=resetAll;
+
+
+  }
+
+  function setFrosting(color){
+    state.frosting=color.toUpperCase();
+    $("customColor").value=color;
+    $("colorHex").value=state.frosting;
+    buildCake();
+  }
+
+  function openPreview(){
+    $("previewModal").classList.remove("hidden");
+  }
+
+  function resetAll(){
+    state.shape="round";
+    state.tiers=1;
+    state.frosting="#F8E8E8";
+    state.flavor="vanilla";
+    state.finish="smooth";
+    state.plate="#FFFFFF";
+    state.decor=new Set(["sprinkles"]);
+    state.candles=1;
+    state.candleStyle="classic";
+    state.ageCandle="";
+    state.topper="HAPPY BIRTHDAY JC!";
+    state.background="#DEE6E4";
+    state.scene="studio";
+    state.autoRotate=false;
+    state.softLight=false;
+    state.rotX=-.18;
+    state.rotY=.35;
+    state.zoom=7.7;
+
+    $$("[data-shape]").forEach(x=>x.classList.toggle("active",x.dataset.shape==="round"));
+    $$("[data-tiers]").forEach(x=>x.classList.toggle("active",x.dataset.tiers==="1"));
+    $$("[data-color]").forEach(x=>x.classList.toggle("active",x.dataset.color==="#F8E8E8"));
+    $$("[data-decor]").forEach(x=>x.classList.toggle("active",x.dataset.decor==="sprinkles"));
+    $$("[data-bg]").forEach((x,i)=>x.classList.toggle("active",i===0));
+    $("customColor").value=state.frosting;
+    $("colorHex").value=state.frosting;
+    $("candleCount").textContent=1;
+    $("ageCandle").value="";
+    $("topperText").value=state.topper;
+    $$("[data-flavor]").forEach(x=>x.classList.toggle("active",x.dataset.flavor==="vanilla"));
+    $$("[data-finish]").forEach(x=>x.classList.toggle("active",x.dataset.finish==="smooth"));
+    $$("[data-plate]").forEach((x,i)=>x.classList.toggle("active",i===0));
+    $$("[data-candle-style]").forEach(x=>x.classList.toggle("active",x.dataset.candleStyle==="classic"));
+    $$("[data-scene]").forEach(x=>x.classList.toggle("active",x.dataset.scene==="studio"));
+    $("autoRotateBtn").classList.remove("active");
+    $("lightBtn").classList.remove("active");
+    updateSceneEffects();
+    buildCake();
+    syncMobileBottomBar();
+    if(!$("mobileCreatorSheet").classList.contains("hidden")){
+      renderMobileSheet(mobileActiveTab);
+    }
+  }
+
+  function bindCanvas(){
+    const c=$("scene");
+
+    c.addEventListener("pointerdown",e=>{
+      dragging=true;lastX=e.clientX;lastY=e.clientY;
+      try{c.setPointerCapture(e.pointerId)}catch{}
+    });
+    c.addEventListener("pointermove",e=>{
+      if(!dragging)return;
+      const dx=e.clientX-lastX,dy=e.clientY-lastY;
+      lastX=e.clientX;lastY=e.clientY;
+      state.rotY+=dx*.008;
+      state.rotX=Math.max(-.55,Math.min(.3,state.rotX+dy*.005));
+    });
+    c.addEventListener("pointerup",e=>{
+      dragging=false;
+      try{c.releasePointerCapture(e.pointerId)}catch{}
+    });
+    c.addEventListener("pointercancel",()=>dragging=false);
+
+    c.addEventListener("wheel",e=>{
+      e.preventDefault();
+      state.zoom=Math.max(5.2,Math.min(10.5,state.zoom+e.deltaY*.006));
+    },{passive:false});
+
+    c.addEventListener("touchstart",e=>{
+      if(e.touches.length===2){
+        pinchStart=Math.hypot(
+          e.touches[0].clientX-e.touches[1].clientX,
+          e.touches[0].clientY-e.touches[1].clientY
+        );
+        pinchZoom=state.zoom;
+      }
+    },{passive:true});
+    c.addEventListener("touchmove",e=>{
+      if(e.touches.length===2&&pinchStart){
+        const d=Math.hypot(
+          e.touches[0].clientX-e.touches[1].clientX,
+          e.touches[0].clientY-e.touches[1].clientY
+        );
+        state.zoom=Math.max(5.2,Math.min(10.5,pinchZoom-(d-pinchStart)*.01));
+      }
+    },{passive:true});
+  }
+
+  function resize(){
+    if(!renderer)return;
+    const canvas=$("scene");
+    const rect=canvas.getBoundingClientRect();
+    renderer.setSize(Math.max(1,rect.width),Math.max(1,rect.height),false);
+    camera.aspect=Math.max(.1,rect.width/Math.max(1,rect.height));
+    camera.updateProjectionMatrix();
+  }
+
+  function animate(){
+    requestAnimationFrame(animate);
+    if(!renderer)return;
+
+    if(state.autoRotate && !dragging){
+      state.rotY += .004;
+    }
+
+    cakeRoot.rotation.x += (state.rotX-cakeRoot.rotation.x)*.14;
+    cakeRoot.rotation.y += (state.rotY-cakeRoot.rotation.y)*.14;
+
+    scene.children.filter(x=>x.userData && x.userData.confetti).forEach(group=>{
+      let alive=false;
+      group.children.forEach(piece=>{
+        piece.position.y-=piece.userData.vy;
+        piece.rotation.x+=piece.userData.spin;
+        piece.rotation.z+=piece.userData.spin*.7;
+        if(piece.position.y>-.4) alive=true;
+      });
+      if(!alive) scene.remove(group);
+    });
+
+    camera.position.z += (state.zoom-camera.position.z)*.12;
+    camera.lookAt(0,1.25,0);
+
+    renderer.render(scene,camera);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+JC's Birthday V17 Shared Box QA
+================================
+PASS: unique gift IDs
+PASS: cloud database insert path
+PASS: Supabase Storage upload path for photos/stickers
+PASS: Supabase Storage upload path for drawings
+PASS: Supabase Storage upload path for voice gifts
+PASS: cloud gift count
+PASS: cloud gift metadata list
+PASS: lazy full gift fetch on open
+PASS: realtime INSERT subscription
+PASS: local fallback/cache
+PASS: Refresh replaces destructive Clear All
+PASS: safe chat retained
+PASS: online presence retained
+PASS: config cache-busted to v17

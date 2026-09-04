@@ -1,0 +1,268 @@
+JC's Birthday V23 — STABLE FIXED BUILD — FINAL QA
+
+Primary fixes verified:
+- Supabase missing-table/schema-cache errors no longer reject/destroy a gift.
+- Gifts save locally first using IndexedDB, including photos and audio.
+- Pending gifts automatically retry shared sync when Supabase becomes ready.
+- Cross-frame Blob/File media handling is no longer dependent on instanceof Blob.
+- Recorded audio is preserved in the local Birthday Box and prepared for Storage upload.
+- Recorder checks HTTPS/localhost, requests permission before countdown, rejects empty captures, and retains upload fallback.
+- SUPABASE-SETUP.sql includes the table, RLS policies, Storage bucket/policies, grants, Realtime, and PostgREST schema reload.
+- SYSTEM-CHECK.html is included for real-browser/Supabase/microphone validation on the deployed/local site.
+
+Important QA environment limitation:
+The container's managed Chromium policy sets URLBlocklist=['*'] and AudioCaptureAllowed=false.
+That policy prevents this environment from performing a genuine browser navigation/microphone hardware test.
+For that reason, V23 includes SYSTEM-CHECK.html, which performs the real environment tests in your own browser.
+
+PASS: index.html: language declared — en
+PASS: index.html: viewport declared
+PASS: index.html: element IDs unique — 73 IDs
+PASS: index.html: all images have alt — 1 img tags
+PASS: index.html: responsive CSS present
+PASS: index.html: no body horizontal overflow rule
+PASS: index.html: reduced-motion support
+PASS: index.html: keyboard focus-visible support
+PASS: index.html: JavaScript syntax
+PASS: SYSTEM-CHECK.html: language declared — en
+PASS: SYSTEM-CHECK.html: viewport declared
+PASS: SYSTEM-CHECK.html: element IDs unique — 3 IDs
+PASS: SYSTEM-CHECK.html: all images have alt — 0 img tags
+PASS: SYSTEM-CHECK.html: responsive CSS present
+PASS: SYSTEM-CHECK.html: no body horizontal overflow rule
+PASS: SYSTEM-CHECK.html: JavaScript syntax
+PASS: modes/bouquet.html: language declared — en
+PASS: modes/bouquet.html: viewport declared
+PASS: modes/bouquet.html: element IDs unique — 29 IDs
+PASS: modes/bouquet.html: all images have alt — 0 img tags
+PASS: modes/bouquet.html: responsive CSS present
+PASS: modes/bouquet.html: no body horizontal overflow rule
+PASS: modes/bouquet.html: reduced-motion support
+PASS: modes/bouquet.html: keyboard focus-visible support
+PASS: modes/bouquet.html: JavaScript syntax
+PASS: modes/cake.html: language declared — en
+PASS: modes/cake.html: viewport declared
+PASS: modes/cake.html: element IDs unique — 38 IDs
+PASS: modes/cake.html: all images have alt — 0 img tags
+PASS: modes/cake.html: responsive CSS present
+PASS: modes/cake.html: no body horizontal overflow rule
+PASS: modes/cake.html: reduced-motion support
+PASS: modes/cake.html: keyboard focus-visible support
+PASS: modes/cake.html: JavaScript syntax
+PASS: modes/card.html: language declared — en
+PASS: modes/card.html: viewport declared
+PASS: modes/card.html: element IDs unique — 43 IDs
+PASS: modes/card.html: all images have alt — 2 img tags
+PASS: modes/card.html: responsive CSS present
+PASS: modes/card.html: no body horizontal overflow rule
+PASS: modes/card.html: reduced-motion support
+PASS: modes/card.html: keyboard focus-visible support
+PASS: modes/card.html: JavaScript syntax
+PASS: modes/gift-box.html: language declared — en
+PASS: modes/gift-box.html: viewport declared
+PASS: modes/gift-box.html: element IDs unique — 35 IDs
+PASS: modes/gift-box.html: all images have alt — 0 img tags
+PASS: modes/gift-box.html: responsive CSS present
+PASS: modes/gift-box.html: no body horizontal overflow rule
+PASS: modes/gift-box.html: reduced-motion support
+PASS: modes/gift-box.html: keyboard focus-visible support
+PASS: modes/gift-box.html: JavaScript syntax
+PASS: modes/photo-together.html: language declared — en
+PASS: modes/photo-together.html: viewport declared
+PASS: modes/photo-together.html: element IDs unique — 34 IDs
+PASS: modes/photo-together.html: all images have alt — 0 img tags
+PASS: modes/photo-together.html: responsive CSS present
+PASS: modes/photo-together.html: no body horizontal overflow rule
+PASS: modes/photo-together.html: reduced-motion support
+PASS: modes/photo-together.html: keyboard focus-visible support
+PASS: modes/photo-together.html: JavaScript syntax
+PASS: modes/song.html: language declared — en
+PASS: modes/song.html: viewport declared
+PASS: modes/song.html: element IDs unique — 44 IDs
+PASS: modes/song.html: all images have alt — 0 img tags
+PASS: modes/song.html: responsive CSS present
+PASS: modes/song.html: no body horizontal overflow rule
+PASS: modes/song.html: reduced-motion support
+PASS: modes/song.html: keyboard focus-visible support
+PASS: modes/song.html: JavaScript syntax
+PASS: Main: exactly six final gift modes — ['cake', 'bouquet', 'card', 'box', 'photoTogether', 'song']
+PASS: Main: cake gift exists
+PASS: Main: bouquet gift exists
+PASS: Main: card gift exists
+PASS: Main: box gift exists
+PASS: Main: photoTogether gift exists
+PASS: Main: song gift exists
+PASS: Main: Drawing remains removed
+PASS: Main: Custom Money remains removed
+PASS: Main: public chat remains removed
+PASS: Homepage portrait restored
+PASS: Owner PIN retained
+PASS: PIN not printed as default hint
+PASS: 5 minute option
+PASS: 10 minute option
+PASS: Take My Time option
+PASS: Timer expiry keeps work
+PASS: Skip link
+PASS: ARIA live region
+PASS: Semantic dialogs
+PASS: Dialog focus trap
+PASS: Iframe microphone permission
+PASS: Desktop 3-column gift grid
+PASS: Tablet breakpoint
+PASS: Phone breakpoint
+PASS: Small phone breakpoint
+PASS: Phone gift cards collapse to one column
+PASS: Owner box phone one-column layout
+PASS: FIX: local save occurs before Supabase upload
+PASS: FIX: missing-table PGRST205 is classified
+PASS: FIX: schema-cache message is classified
+PASS: FIX: shared upload failure keeps local copy
+PASS: FIX: local fallback reports submit success to creator
+PASS: FIX: missing table moves backend to setup state
+PASS: FIX: owner sees setup guidance
+PASS: FIX: owner can open SQL file
+PASS: FIX: owner can re-check backend
+PASS: FIX: System Check linked from app
+PASS: IndexedDB database exists
+PASS: IndexedDB gift object store
+PASS: Full gift payload stored locally
+PASS: Cross-realm Blob duck typing
+PASS: No instanceof-only Blob check
+PASS: Nested Blob media externalization
+PASS: Data-image upload support
+PASS: 5 MB media protection
+PASS: Pending local auto-sync
+PASS: Auto-sync called after backend init
+PASS: Duplicate remote gift handled
+PASS: Remote + local gift merge
+PASS: Owner Shared marker
+PASS: Owner Pending sync marker
+PASS: Local Blob viewer
+PASS: Local data-image viewer
+PASS: Local data-audio viewer
+PASS: Audio controls in detail viewer
+PASS: Recorder secure-context detection
+PASS: Recorder capability detection
+PASS: Recorder double-start lock
+PASS: Mic permission requested before countdown
+PASS: Permission denial handled
+PASS: Mic stream stopped on startup failure
+PASS: Real MediaRecorder still used
+PASS: Pause / Resume retained
+PASS: 90 second max
+PASS: Zero-byte recording rejected
+PASS: Audio preview retained
+PASS: Retake retained
+PASS: Upload-audio fallback retained
+PASS: Uploaded audio max 5 MB
+PASS: Song payload includes Blob
+PASS: Song payload includes MIME
+PASS: Local-file microphone warning
+PASS: Cake: preserved new THREE.WebGLRenderer
+PASS: Cake: preserved data-mobile-tab="cake"
+PASS: Cake: preserved mobileCreatorSheet
+PASS: Cake: preserved data-flavor
+PASS: Cake: preserved data-finish
+PASS: Cake: preserved data-decor
+PASS: Cake: preserved data-scene
+PASS: Cake: preserved data-shape
+PASS: Cake: parent submit integration
+PASS: Cake: parent close integration
+PASS: Cake: mobile breakpoint
+PASS: Cake: mobile sheet/control UX
+PASS: Bouquet: preserved wrapSvgText
+PASS: Bouquet: preserved startDrag
+PASS: Bouquet: preserved data-flower
+PASS: Bouquet: preserved data-wrap
+PASS: Bouquet: preserved data-ribbon
+PASS: Bouquet: preserved data-scene
+PASS: Bouquet: parent submit integration
+PASS: Bouquet: parent close integration
+PASS: Bouquet: mobile breakpoint
+PASS: Bouquet: mobile sheet/control UX
+PASS: Birthday Card: preserved openCardBtn
+PASS: Birthday Card: preserved coverPhotoInput
+PASS: Birthday Card: preserved insidePhotoInput
+PASS: Birthday Card: preserved data-style
+PASS: Birthday Card: preserved data-format
+PASS: Birthday Card: parent submit integration
+PASS: Birthday Card: parent close integration
+PASS: Birthday Card: mobile breakpoint
+PASS: Birthday Card: mobile sheet/control UX
+PASS: Gift Box: preserved customSurprises
+PASS: Gift Box: preserved reveal-fountain
+PASS: Gift Box: preserved data-effect="fireworks"
+PASS: Gift Box: preserved data-finish
+PASS: Gift Box: preserved data-pattern
+PASS: Gift Box: parent submit integration
+PASS: Gift Box: parent close integration
+PASS: Gift Box: mobile breakpoint
+PASS: Gift Box: mobile sheet/control UX
+PASS: Our Photo Together: preserved startPan
+PASS: Our Photo Together: preserved data-layout="film"
+PASS: Our Photo Together: preserved data-layout="scrapbook"
+PASS: Our Photo Together: preserved data-reveal="fade"
+PASS: Our Photo Together: preserved photoInput
+PASS: Our Photo Together: parent submit integration
+PASS: Our Photo Together: parent close integration
+PASS: Our Photo Together: mobile breakpoint
+PASS: Our Photo Together: mobile sheet/control UX
+PASS: Birthday Song: preserved MediaRecorder
+PASS: Birthday Song: preserved togglePause
+PASS: Birthday Song: preserved data-mode="freestyle"
+PASS: Birthday Song: preserved data-reveal="spotlight"
+PASS: Birthday Song: preserved waveCanvas
+PASS: Birthday Song: parent submit integration
+PASS: Birthday Song: parent close integration
+PASS: Birthday Song: mobile breakpoint
+PASS: Birthday Song: mobile sheet/control UX
+PASS: SQL: create table if not exists public.birthday_gifts
+PASS: SQL: alter table public.birthday_gifts enable row level security
+PASS: SQL: grant select, insert on table public.birthday_gifts
+PASS: SQL: create policy "birthday gifts public insert"
+PASS: SQL: create policy "birthday gifts public read"
+PASS: SQL: alter publication supabase_realtime add table public.birthday_gifts
+PASS: SQL: birthday-gifts-media
+PASS: SQL: 5242880
+PASS: SQL: 'audio/webm'
+PASS: SQL: create policy "birthday media public insert"
+PASS: SQL: create policy "birthday media public read"
+PASS: SQL: grant usage on schema storage
+PASS: SQL: grant select, insert on table storage.objects
+PASS: SQL: notify pgrst, 'reload schema'
+PASS: SUPABASE-REPAIR.sql included
+PASS: Repair SQL matches setup SQL
+PASS: System Check tests secure context
+PASS: System Check tests microphone API
+PASS: System Check can actually request microphone
+PASS: System Check records short MediaRecorder sample
+PASS: System Check tests IndexedDB
+PASS: System Check checks all six mode files
+PASS: System Check checks birthday photo
+PASS: System Check checks Supabase table
+PASS: System Check checks Storage bucket
+PASS: Local launcher checks Python
+PASS: Local launcher checks Node fallback
+PASS: Local launcher opens localhost
+PASS: Node local server JS syntax
+PASS: Node local server binds localhost
+PASS: Package contains index.html
+PASS: Package contains README-FIRST.txt
+PASS: Package contains SYSTEM-CHECK.html
+PASS: Package contains START-LOCAL-TEST.bat
+PASS: Package contains local-server.js
+PASS: Package contains supabase-config.js
+PASS: Package contains SUPABASE-SETUP.sql
+PASS: Package contains SUPABASE-REPAIR.sql
+PASS: Package contains assets/jaycee.jpg
+PASS: Package contains modes/cake.html
+PASS: Package contains modes/bouquet.html
+PASS: Package contains modes/card.html
+PASS: Package contains modes/gift-box.html
+PASS: Package contains modes/photo-together.html
+PASS: Package contains modes/song.html
+PASS: Homepage photo non-empty — 64775 bytes
+PASS: Exact production persistence/media logic test — ASSERTIONS=17
+PASS: QA environment limitation detected accurately — Chromium policy has URLBlocklist=['*'] and AudioCaptureAllowed=false; real browser mic capture cannot be exercised inside this tool environment.
+
+FINAL RESULT: 249/249 checks passed.

@@ -1,0 +1,1244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#E3E8E7">
+<title>JC's Birthday — Our Photo Together</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#3E5066;
+  --muted:#748091;
+  --line:rgba(62,80,102,.10);
+  --soft:#EEF2F1;
+  --panel:rgba(250,252,251,.95);
+  --accent:#A2C3C2;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Poppins,system-ui,sans-serif;color:var(--ink)}
+body{
+  min-height:100dvh;
+  background:
+    radial-gradient(circle at 12% 8%,rgba(162,195,194,.24),transparent 28%),
+    radial-gradient(circle at 90% 88%,rgba(232,183,212,.20),transparent 32%),
+    linear-gradient(145deg,#F8FAF9,#E7EDEC);
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.app{min-height:100dvh;display:grid;grid-template-rows:auto 1fr}
+
+header{
+  height:70px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  border-bottom:1px solid var(--line);background:rgba(248,250,249,.88);backdrop-filter:blur(16px)
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{
+  width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#3E5066,#5E6D8A);color:#fff;font-size:20px;
+  box-shadow:0 10px 25px rgba(62,80,102,.18)
+}
+.brand b{display:block;font-size:13px}
+.brand small{display:block;font-size:7px;color:#8A95A2;margin-top:2px}
+.header-actions{display:flex;gap:6px}
+.btn{
+  min-height:38px;padding:0 12px;border-radius:11px;border:1px solid var(--line);
+  background:#fff;color:var(--ink);font-size:8px;font-weight:800
+}
+.btn.primary{border:0;background:linear-gradient(135deg,#3E5066,#5E6D8A);color:#fff}
+
+.workspace{
+  width:min(1500px,100%);margin:0 auto;padding:14px;
+  display:grid;grid-template-columns:290px minmax(0,1fr) 300px;gap:12px;
+  min-height:calc(100dvh - 70px)
+}
+.panel,.stage-shell{
+  border:1px solid var(--line);background:var(--panel);
+  box-shadow:0 18px 50px rgba(62,80,102,.08)
+}
+.panel{border-radius:22px;padding:16px;overflow:auto}
+.stage-shell{min-width:0;border-radius:24px;overflow:hidden;display:grid;grid-template-rows:auto 1fr auto}
+.ey{font-size:7px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#798697}
+h2,h3{margin:3px 0 0;letter-spacing:-.04em}
+h2{font-size:22px}h3{font-size:18px}
+.lead{font-size:8px;color:var(--muted);line-height:1.55;margin:6px 0 14px}
+
+.section{padding:12px 0;border-top:1px solid rgba(62,80,102,.07)}
+.section:first-of-type{border-top:0;padding-top:3px}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.section-title b{font-size:9px}.section-title span{font-size:6.5px;color:#929DA9}
+
+.choice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.choice{
+  min-height:62px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);
+  display:grid;place-items:center;gap:3px;padding:7px 4px;font-size:7px;font-weight:800;text-align:center
+}
+.choice span{font-size:21px;line-height:1}
+.choice.active{background:#3E5066;color:#fff;border-color:#3E5066;box-shadow:0 8px 18px rgba(62,80,102,.14)}
+
+.swatches{display:flex;gap:7px;flex-wrap:wrap}
+.swatch{
+  width:34px;height:34px;border-radius:11px;border:3px solid #fff;
+  outline:1px solid rgba(62,80,102,.14);background:var(--sw)
+}
+.swatch.active{box-shadow:0 0 0 3px rgba(62,80,102,.25)}
+
+.upload-btn{
+  width:100%;min-height:43px;border:1px dashed rgba(62,80,102,.18);border-radius:12px;background:#F7F9F8;
+  color:#5F7086;font-size:8px;font-weight:800
+}
+.input,.textarea{
+  width:100%;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);outline:0;font-size:8px
+}
+.input{height:40px;padding:0 10px}
+.textarea{min-height:88px;padding:10px;resize:vertical;line-height:1.55}
+.field{display:grid;gap:5px;margin-top:8px}
+.field label{font-size:7px;font-weight:800;color:#778395}
+.range-row{display:grid;grid-template-columns:65px 1fr 40px;gap:8px;align-items:center;margin-top:8px}
+.range-row label,.range-row span{font-size:7px;color:#778395}
+.range-row span{text-align:right;font-weight:800}
+input[type="range"]{width:100%}
+
+.stage-head{
+  min-height:62px;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border-bottom:1px solid rgba(62,80,102,.07)
+}
+.stage-title{display:flex;align-items:center;gap:9px;min-width:0}
+.back{width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:900}
+.stage-title h2{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.helper{padding:7px 9px;border-radius:999px;background:#EEF2F1;color:#738093;font-size:7px;font-weight:800}
+
+.photo-stage{
+  position:relative;min-height:590px;overflow:hidden;display:grid;place-items:center;padding:28px;
+  background:
+    radial-gradient(circle at 50% 22%,rgba(255,255,255,.95),rgba(255,255,255,.55) 42%,transparent 70%),
+    linear-gradient(145deg,#F5F8F7,#DDE6E3)
+}
+.photo-stage.scene-blush{background:linear-gradient(145deg,#FBF2F5,#EEDDE7)}
+.photo-stage.scene-blue{background:linear-gradient(145deg,#F1F5F9,#DDE7F0)}
+.photo-stage.scene-night{background:linear-gradient(145deg,#303A4D,#20293B)}
+.photo-stage.scene-sunset{background:linear-gradient(145deg,#F9D9C3,#DDBED6 58%,#9CB0CE)}
+.photo-stage.scene-film{background:linear-gradient(145deg,#E7E1D5,#CFC5B7)}
+
+.memory-canvas{
+  position:relative;
+  width:min(610px,88vw);
+  height:500px;
+  display:grid;
+  place-items:center;
+}
+.memory-piece{
+  position:relative;
+  width:360px;
+  height:430px;
+  border-radius:20px;
+  background:#FFFDF8;
+  box-shadow:0 25px 65px rgba(62,80,102,.18);
+  padding:18px;
+  transform:rotate(var(--tilt));
+  transition:transform .35s ease,filter .35s ease;
+}
+.memory-piece:hover{transform:rotate(var(--tilt)) translateY(-3px)}
+.memory-piece.landscape{width:470px;height:340px}
+.memory-piece.square{width:400px;height:400px}
+.memory-piece.strip{width:240px;height:470px;padding:14px}
+.memory-piece.collage{width:500px;height:420px;padding:16px}
+.memory-piece.scrapbook{width:500px;height:430px;padding:24px;background:#F7F1E7}
+.memory-piece.film{width:520px;height:345px;padding:28px 36px;background:#1E2430;border-radius:12px}
+
+.frame-inner{
+  position:relative;width:100%;height:calc(100% - 72px);
+  border-radius:14px;overflow:hidden;background:#E9EEEC
+}
+.landscape .frame-inner{height:calc(100% - 62px)}
+.square .frame-inner{height:calc(100% - 70px)}
+.strip .frame-inner{height:calc(100% - 72px)}
+.collage .frame-inner,.scrapbook .frame-inner{height:calc(100% - 76px)}
+.film .frame-inner{height:calc(100% - 45px);border-radius:4px}
+
+.photo-layout{
+  width:100%;height:100%;display:grid;gap:8px
+}
+.photo-layout.single{grid-template-columns:1fr}
+.photo-layout.duo{grid-template-columns:1fr 1fr}
+.photo-layout.strip3{grid-template-rows:repeat(3,1fr)}
+.photo-layout.grid4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.photo-layout.scrap{grid-template-columns:1.25fr .75fr;grid-template-rows:1fr 1fr}
+.photo-layout.scrap .slot:first-child{grid-row:1/3}
+.photo-layout.film2{grid-template-columns:1fr 1fr;gap:14px}
+
+.slot{
+  position:relative;overflow:hidden;background:
+    linear-gradient(145deg,#E8EEEC,#D7E0DE);
+  border-radius:10px;min-width:0;min-height:0;
+  display:grid;place-items:center;
+  cursor:pointer;
+}
+.strip .slot{border-radius:8px}
+.film .slot{border-radius:2px}
+.slot img{
+  position:absolute;left:50%;top:50%;
+  width:100%;height:100%;object-fit:cover;
+  transform:translate(calc(-50% + var(--px)),calc(-50% + var(--py))) scale(var(--zoom)) rotate(var(--rot));
+  filter:var(--photo-filter);
+  transform-origin:center;
+  user-select:none;pointer-events:none;
+}
+.slot-placeholder{
+  text-align:center;padding:10px;color:#82909E;position:relative;z-index:2
+}
+.slot-placeholder span{display:block;font-size:26px;margin-bottom:5px}
+.slot-placeholder b{font-size:7px}
+.slot.has-photo .slot-placeholder{display:none}
+.slot.active{box-shadow:inset 0 0 0 3px rgba(62,80,102,.42)}
+
+.memory-caption{
+  min-height:54px;padding:10px 5px 0;text-align:center;display:grid;place-items:center
+}
+.memory-caption b{font-size:14px;line-height:1.2;word-break:break-word}
+.memory-caption span{display:block;margin-top:3px;font-size:7px;color:#7A8795}
+.scrapbook .memory-caption{text-align:left;place-items:start}
+.film .memory-caption{color:#fff}
+.film .memory-caption span{color:#B8C0CC}
+
+.film::before,.film::after{
+  content:"";position:absolute;left:12px;right:12px;height:12px;
+  background:repeating-linear-gradient(90deg,#E8E8E3 0 14px,transparent 14px 25px)
+}
+.film::before{top:7px}.film::after{bottom:7px}
+
+.sticker-layer{position:absolute;inset:0;pointer-events:none;z-index:8}
+.sticker{
+  position:absolute;font-size:34px;filter:drop-shadow(0 6px 9px rgba(62,80,102,.13));
+  transform:translate(-50%,-50%) rotate(var(--sr))
+}
+.sticker.s1{left:8%;top:12%}.sticker.s2{right:1%;top:18%}.sticker.s3{left:7%;bottom:7%}.sticker.s4{right:3%;bottom:8%}
+
+.tape{
+  position:absolute;width:82px;height:25px;background:rgba(235,218,181,.74);z-index:9;box-shadow:0 2px 4px rgba(62,80,102,.07)
+}
+.tape.t1{left:8%;top:3%;transform:rotate(-11deg)}
+.tape.t2{right:6%;bottom:5%;transform:rotate(9deg)}
+.memory-piece:not(.scrapbook) .tape{display:none}
+
+.memory-piece.frame-white{border:0}
+.memory-piece.frame-soft{box-shadow:0 0 0 8px rgba(162,195,194,.62),0 25px 65px rgba(62,80,102,.18)}
+.memory-piece.frame-pink{box-shadow:0 0 0 8px rgba(232,183,212,.62),0 25px 65px rgba(62,80,102,.18)}
+.memory-piece.frame-blue{box-shadow:0 0 0 8px rgba(177,198,225,.68),0 25px 65px rgba(62,80,102,.18)}
+.memory-piece.frame-dark{box-shadow:0 0 0 8px #3E5066,0 25px 65px rgba(62,80,102,.18)}
+.memory-piece.frame-gold{box-shadow:0 0 0 8px #D7BD80,0 25px 65px rgba(62,80,102,.18)}
+
+.reveal-overlay{
+  position:absolute;inset:0;z-index:20;pointer-events:none;display:grid;place-items:center;
+  opacity:0
+}
+.reveal-overlay.active{opacity:1}
+.reveal-card{
+  width:min(380px,80%);padding:22px;border-radius:20px;background:rgba(255,255,255,.93);
+  text-align:center;box-shadow:0 18px 55px rgba(62,80,102,.18);backdrop-filter:blur(10px)
+}
+.reveal-card span{font-size:38px}.reveal-card b{display:block;font-size:14px;margin-top:6px}.reveal-card small{font-size:7px;color:#7C8997}
+
+.photo-stage.reveal-polaroid .memory-piece{animation:develop 1.25s ease both}
+@keyframes develop{
+  0%{opacity:0;transform:translateY(90px) rotate(var(--tilt)) scale(.86);filter:brightness(1.5) saturate(.2)}
+  55%{opacity:1;transform:translateY(-8px) rotate(var(--tilt)) scale(1.03);filter:brightness(1.18) saturate(.65)}
+  100%{transform:translateY(0) rotate(var(--tilt)) scale(1);filter:none}
+}
+.photo-stage.reveal-pop .memory-piece{animation:memoryPop .75s cubic-bezier(.2,.9,.2,1) both}
+@keyframes memoryPop{
+  0%{opacity:0;transform:rotate(var(--tilt)) scale(.55)}
+  70%{opacity:1;transform:rotate(var(--tilt)) scale(1.05)}
+  100%{transform:rotate(var(--tilt)) scale(1)}
+}
+.photo-stage.reveal-slide .memory-piece{animation:memorySlide .8s cubic-bezier(.2,.9,.2,1) both}
+@keyframes memorySlide{
+  from{opacity:0;transform:translateX(-150px) rotate(calc(var(--tilt) - 8deg))}
+  to{opacity:1;transform:translateX(0) rotate(var(--tilt))}
+}
+.photo-stage.reveal-flip .memory-piece{animation:memoryFlip .85s ease both;transform-style:preserve-3d}
+@keyframes memoryFlip{
+  from{opacity:0;transform:rotateY(90deg) rotate(var(--tilt))}
+  to{opacity:1;transform:rotateY(0) rotate(var(--tilt))}
+}
+.photo-stage.reveal-fade .memory-piece{animation:memoryFade 1.15s ease both}
+@keyframes memoryFade{from{opacity:0;filter:blur(10px)}to{opacity:1;filter:blur(0)}}
+
+.float-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:3}
+.float-item{
+  position:absolute;bottom:-30px;font-size:22px;opacity:0;
+  animation:floatUp var(--dur) linear infinite;animation-delay:var(--delay)
+}
+@keyframes floatUp{
+  0%{transform:translateY(0) rotate(0);opacity:0}
+  15%{opacity:.9}
+  100%{transform:translateY(-650px) translateX(var(--drift)) rotate(var(--spin));opacity:0}
+}
+
+.stage-footer{
+  min-height:52px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  border-top:1px solid rgba(62,80,102,.07)
+}
+.stage-footer small{font-size:6.5px;line-height:1.45;color:#8B96A3;max-width:64%}
+
+.summary{
+  padding:12px;border-radius:14px;background:linear-gradient(145deg,#3E5066,#5E6D8A);color:#fff
+}
+.summary b{font-size:9px}.summary p{margin:5px 0 0;font-size:7px;line-height:1.5;opacity:.82}
+
+.mobile-tabs,.mobile-actionbar,.mobile-sheet{display:none}
+
+.modal{
+  position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:16px;
+  background:rgba(35,46,61,.42);backdrop-filter:blur(7px)
+}
+.modal.hidden{display:none}
+.modal-card{
+  width:min(520px,100%);border-radius:24px;background:#F8FAF9;border:1px solid var(--line);padding:22px;text-align:center;
+  box-shadow:0 26px 80px rgba(35,46,61,.25)
+}
+.modal-icon{font-size:52px}.modal-card h2{font-size:26px;margin-top:8px}.modal-card p{font-size:9px;color:#778494;line-height:1.6}
+.modal-actions{display:flex;justify-content:center;gap:8px;margin-top:15px}
+.modal-actions button{min-height:44px;padding:0 15px;border-radius:12px;border:1px solid var(--line);font-size:8px;font-weight:900}
+.modal-actions .primary{border:0;background:linear-gradient(135deg,#3E5066,#5E6D8A);color:#fff}
+
+@media(max-width:1120px){
+  .workspace{grid-template-columns:245px minmax(0,1fr)}
+  .panel.right{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .panel.right>.section{border-top:0;padding:10px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.65)}
+}
+
+@media(max-width:820px){
+  body{padding-bottom:78px;overflow-x:hidden}
+  header{height:60px;padding:0 10px;position:sticky;top:0;z-index:30}
+  .brand small{display:none}.brand b{font-size:11px}.logo{width:38px;height:38px}
+  .header-actions .btn:first-child{display:none}
+  .workspace{display:block;padding:6px;min-height:auto}
+  .panel.left,.panel.right{display:none!important}
+  .stage-shell{min-height:calc(100dvh - 72px);border-radius:18px}
+  .stage-head{min-height:55px;padding:8px 9px}
+  .stage-title h2{font-size:14px;max-width:178px}.helper{display:none}
+  .photo-stage{min-height:calc(100dvh - 210px);padding:12px 6px}
+  .memory-canvas{width:100%;height:calc(100dvh - 280px);min-height:390px}
+  .memory-piece{transform:rotate(var(--tilt)) scale(.82)}
+  .memory-piece.landscape{transform:rotate(var(--tilt)) scale(.75)}
+  .memory-piece.square{transform:rotate(var(--tilt)) scale(.76)}
+  .memory-piece.strip{transform:rotate(var(--tilt)) scale(.82)}
+  .memory-piece.collage,.memory-piece.scrapbook{transform:rotate(var(--tilt)) scale(.70)}
+  .memory-piece.film{transform:rotate(var(--tilt)) scale(.69)}
+  .stage-footer .btn{display:none}.stage-footer small{max-width:100%}
+
+  .mobile-tabs{
+    position:absolute;left:8px;right:8px;top:8px;z-index:35;display:flex;gap:5px;overflow-x:auto;
+    padding:6px;border-radius:14px;background:rgba(248,250,249,.9);backdrop-filter:blur(12px);
+    border:1px solid var(--line);box-shadow:0 8px 24px rgba(62,80,102,.12);scrollbar-width:none
+  }
+  .mobile-tabs::-webkit-scrollbar{display:none}
+  .mobile-tabs button{
+    flex:1 0 72px;min-height:44px;border:0;border-radius:10px;background:transparent;color:var(--ink);
+    display:grid;grid-template-columns:18px 1fr;align-items:center;gap:4px;padding:5px 7px
+  }
+  .mobile-tabs button span{font-size:15px}.mobile-tabs button b{font-size:6.3px;text-align:left}
+  .mobile-tabs button.active{background:#3E5066;color:#fff}
+
+  .mobile-actionbar{
+    position:fixed;left:8px;right:8px;bottom:max(8px,env(safe-area-inset-bottom));z-index:90;
+    display:grid;grid-template-columns:1fr 1fr 1.18fr;gap:6px;padding:7px;border-radius:17px;
+    background:rgba(248,250,249,.94);backdrop-filter:blur(16px);border:1px solid var(--line);
+    box-shadow:0 18px 48px rgba(36,47,61,.22)
+  }
+  .mobile-actionbar button{
+    min-height:52px;border:0;border-radius:11px;background:#EEF2F1;color:#4F6177;
+    display:grid;place-items:center;gap:1px;padding:4px
+  }
+  .mobile-actionbar button span{font-size:17px}.mobile-actionbar button b{font-size:6.5px}
+  .mobile-actionbar .primary-mobile{background:linear-gradient(135deg,#3E5066,#5E6D8A);color:#fff}
+
+  .mobile-sheet{position:fixed;inset:0;z-index:110;display:block;pointer-events:none}
+  .mobile-sheet.hidden{display:none}.mobile-sheet.open{pointer-events:auto}
+  .mobile-sheet-backdrop{position:absolute;inset:0;background:rgba(36,47,61,.32);opacity:0;transition:.2s}
+  .mobile-sheet.open .mobile-sheet-backdrop{opacity:1}
+  .mobile-sheet-panel{
+    position:absolute;left:0;right:0;bottom:0;max-height:min(76dvh,670px);
+    display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;background:#F9FBFA;
+    border-radius:24px 24px 0 0;border:1px solid var(--line);box-shadow:0 -18px 54px rgba(36,47,61,.22);
+    transform:translateY(104%);transition:transform .24s cubic-bezier(.2,.8,.2,1);overflow:hidden;
+    padding-bottom:max(4px,env(safe-area-inset-bottom))
+  }
+  .mobile-sheet.open .mobile-sheet-panel{transform:translateY(0)}
+  .grabber{width:52px;height:5px;margin:8px auto 2px;border:0;border-radius:999px;background:#CBD2D1}
+  .mobile-sheet-head{min-height:55px;padding:8px 13px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(62,80,102,.07)}
+  .mobile-sheet-head h3{font-size:17px}.mobile-sheet-close{width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:900}
+  .mobile-sheet-content{min-height:0;overflow-y:auto;padding:11px 12px 20px;-webkit-overflow-scrolling:touch}
+  .mobile-sheet-actions{display:grid;grid-template-columns:.72fr 1.28fr;gap:7px;padding:9px 12px;border-top:1px solid rgba(62,80,102,.07)}
+  .mobile-sheet-actions button{min-height:46px;border-radius:12px;font-size:8px;font-weight:900}
+  .mobile-sheet-actions button:first-child{border:1px solid var(--line);background:#fff;color:var(--ink)}
+  .mobile-sheet-actions button:last-child{border:0;background:linear-gradient(135deg,#3E5066,#5E6D8A);color:#fff}
+
+  .m-section{padding:11px 0;border-top:1px solid rgba(62,80,102,.07)}
+  .m-section:first-child{border-top:0;padding-top:0}
+  .m-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.m-title b{font-size:9px}.m-title span{font-size:6.5px;color:#8793A0}
+  .m-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+  .m-choice{
+    min-height:64px;border:1px solid var(--line);border-radius:13px;background:#fff;color:#516278;
+    display:grid;place-items:center;gap:3px;padding:7px 5px;font-size:7px;font-weight:800;text-align:center
+  }
+  .m-choice span{font-size:22px}.m-choice.active{background:#3E5066;color:#fff;border-color:#3E5066}
+  .m-input{width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 11px;color:var(--ink);font-size:8px;outline:0}
+}
+
+@media(max-width:430px){
+  .m-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .memory-piece{transform:rotate(var(--tilt)) scale(.72)}
+  .memory-piece.landscape{transform:rotate(var(--tilt)) scale(.66)}
+  .memory-piece.square{transform:rotate(var(--tilt)) scale(.67)}
+  .memory-piece.collage,.memory-piece.scrapbook{transform:rotate(var(--tilt)) scale(.60)}
+  .memory-piece.film{transform:rotate(var(--tilt)) scale(.59)}
+}
+
+/* ===== JC'S BIRTHDAY V21 INTEGRATION / ACCESSIBILITY ===== */
+:focus-visible{outline:3px solid #3E5066!important;outline-offset:3px!important}
+body.integrated{min-height:100dvh;background:#EEF2F1}
+body.integrated > header{display:none!important}
+body.integrated .workspace{min-height:100dvh!important;padding-top:6px!important}
+body.integrated .stage-footer small{display:none!important}
+body.integrated .stage-footer{justify-content:flex-end!important}
+body.integrated button,body.integrated input,body.integrated textarea{font-size:max(inherit,12px)}
+body.integrated button{touch-action:manipulation}
+body.integrated .swatch{min-width:40px;min-height:40px}
+@media(max-width:820px){
+  body.integrated{padding-bottom:max(78px,env(safe-area-inset-bottom))!important}
+  body.integrated .workspace{padding:4px!important}
+  body.integrated .mobile-swatch,body.integrated .m-swatch{min-width:44px;min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+
+/* V21 integrated readability boost */
+body.integrated .ey{font-size:10px!important}
+body.integrated .lead,body.integrated .helper,body.integrated .stage-footer small{font-size:11px!important;line-height:1.5!important}
+body.integrated .section-title b,body.integrated .mobile-control-title b,body.integrated .m-title b{font-size:12px!important}
+body.integrated .section-title span,body.integrated .mobile-control-title span,body.integrated .m-title span{font-size:10px!important}
+body.integrated .choice,body.integrated .m-choice,body.integrated .mobile-choice,body.integrated .btn,body.integrated .control-btn,body.integrated .upload-btn{font-size:11px!important}
+body.integrated .choice b,body.integrated .m-choice b,body.integrated .mobile-choice b,body.integrated .item-btn b,body.integrated .flower-btn b{font-size:10px!important}
+body.integrated input,body.integrated textarea,body.integrated select{font-size:12px!important}
+body.integrated .field label,body.integrated .range-row label,body.integrated .range-row span{font-size:10px!important}
+@media(max-width:430px){body.integrated .choice,body.integrated .m-choice,body.integrated .mobile-choice{font-size:10px!important}}
+
+
+/* V25 saved-gift read-only viewer mode */
+body.viewer{padding-bottom:0!important;min-height:100dvh!important;background:#EEF2F1!important;overflow:auto!important}
+body.viewer > header{display:none!important}
+body.viewer .workspace{display:block!important;min-height:100dvh!important;padding:0!important;margin:0!important;width:100%!important;max-width:none!important}
+body.viewer aside.panel,body.viewer .panel.left,body.viewer .panel.right{display:none!important}
+body.viewer .stage-shell,body.viewer .stage-wrap,body.viewer section.stage{width:100%!important;min-height:100dvh!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+body.viewer .stage-head,body.viewer .stage-footer{display:none!important}
+body.viewer .mobile-tabs,body.viewer .mobile-actionbar,body.viewer .mobile-action-bar,body.viewer .mobile-sheet,body.viewer .mobile-creator-sheet{display:none!important}
+body.viewer .card-stage,body.viewer .gift-stage,body.viewer .photo-stage,body.viewer .bouquet-stage,body.viewer .booth{min-height:100dvh!important;height:100dvh!important;border-radius:0!important}
+body.viewer #stage{min-height:100dvh!important;height:100dvh!important}
+body.viewer .open-card-btn,body.viewer .open-box-btn{display:block!important;min-height:46px!important;font-size:11px!important}
+body.viewer .preview-panel{display:block}
+@media(max-width:820px){body.viewer{padding-bottom:0!important}body.viewer .card-stage,body.viewer .gift-stage,body.viewer .photo-stage,body.viewer .bouquet-stage,body.viewer .booth,body.viewer #stage{min-height:100dvh!important;height:100dvh!important;padding-top:10px!important}}
+
+
+/* V25: saved Birthday Box gifts are strictly read-only results. */
+body.viewer input,
+body.viewer textarea,
+body.viewer select,
+body.viewer input[type="range"],
+body.viewer .upload-btn,
+body.viewer [contenteditable="true"],
+body.viewer .record-controls,
+body.viewer #uploadAudioBtn,
+body.viewer #retakeBtn,
+body.viewer #useRecordingBtn,
+body.viewer .creator-edit-only,
+body.viewer .creator-send-only,
+body.viewer .creator-preview-only,
+body.viewer #resetBtn,
+body.viewer #previewBtn,
+body.viewer #sendBtn,
+body.viewer #mobileResetBtn,
+body.viewer #mobilePreviewBtn,
+body.viewer #mobilePreview,
+body.viewer #mobileCustomizeBtn,
+body.viewer .mobile-sheet-actions,
+body.viewer .mobile-sheet-close{display:none!important}
+body.viewer .slot{cursor:default!important}
+body.viewer .surprise-item,
+body.viewer .flower,
+body.viewer .photo-item{cursor:default!important}
+body.viewer .preview-panel{display:block!important}
+body.viewer .open-card-btn,
+body.viewer .open-box-btn{display:block!important}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="logo">🫶</div>
+      <div><b>JC's Birthday!</b><small>Our Photo Together — sample</small></div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" id="resetBtn">Reset</button>
+      <button class="btn primary" id="previewBtn">Preview 🫶</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="panel left">
+      <div class="ey">Memory</div>
+      <h2>Our photo together</h2>
+      <p class="lead">Turn a shared photo into a little birthday memory keepsake.</p>
+
+      <div class="section">
+        <div class="section-title"><b>Memory style</b><span>Step 1</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-layout="portrait"><span>📷</span>Classic</button>
+          <button class="choice" data-layout="landscape"><span>🌄</span>Wide</button>
+          <button class="choice" data-layout="square"><span>□</span>Square</button>
+          <button class="choice" data-layout="strip"><span>🎞️</span>Photo strip</button>
+          <button class="choice" data-layout="collage"><span>🖼️</span>Collage</button>
+          <button class="choice" data-layout="scrapbook"><span>✂️</span>Scrapbook</button>
+          <button class="choice" data-layout="film"><span>🎬</span>Film frame</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Photos</b><span>Upload</span></div>
+        <button class="upload-btn" id="uploadPhotosBtn">＋ Add photo(s)</button>
+        <input id="photoInput" type="file" accept="image/*" multiple hidden>
+        <p class="lead" style="margin-bottom:0">Tap a photo slot to select it. Drag the photo directly to reposition it.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Frame</b><span>Border</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-frame="white"><span>🤍</span>White</button>
+          <button class="choice" data-frame="soft"><span>🌿</span>Sage</button>
+          <button class="choice" data-frame="pink"><span>🌸</span>Pink</button>
+          <button class="choice" data-frame="blue"><span>🩵</span>Blue</button>
+          <button class="choice" data-frame="dark"><span>🌙</span>Dark</button>
+          <button class="choice" data-frame="gold"><span>✨</span>Gold</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Filter</b><span>Photo mood</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-filter="none"><span>◌</span>Natural</button>
+          <button class="choice" data-filter="warm"><span>☀️</span>Warm</button>
+          <button class="choice" data-filter="cool"><span>❄️</span>Cool</button>
+          <button class="choice" data-filter="vintage"><span>📻</span>Vintage</button>
+          <button class="choice" data-filter="mono"><span>◐</span>B&W</button>
+          <button class="choice" data-filter="dream"><span>✨</span>Dreamy</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="stage-shell">
+      <div class="stage-head">
+        <div class="stage-title">
+          <button class="back">←</button>
+          <div><div class="ey">Memory studio</div><h2>Make a memory together 🫶</h2></div>
+        </div>
+        <div class="helper">Upload • tap slot • drag photo to reposition</div>
+      </div>
+
+      <div class="photo-stage" id="photoStage">
+        <div class="mobile-tabs">
+          <button data-mobile-tab="photos" class="active"><span>📷</span><b>Photos</b></button>
+          <button data-mobile-tab="style"><span>✨</span><b>Style</b></button>
+          <button data-mobile-tab="words"><span>💌</span><b>Words</b></button>
+          <button data-mobile-tab="effects"><span>🎬</span><b>Effects</b></button>
+        </div>
+
+        <div class="float-layer" id="floatLayer"></div>
+
+        <div class="memory-canvas">
+          <div class="memory-piece frame-white" id="memoryPiece" style="--tilt:-2deg">
+            <div class="frame-inner">
+              <div class="photo-layout single" id="photoLayout"></div>
+            </div>
+
+            <div class="memory-caption">
+              <b id="captionPreview">One of my favorite memories 🫶</b>
+              <span id="datePreview">Made for Jaycee's birthday</span>
+            </div>
+
+            <div class="sticker-layer" id="stickerLayer"></div>
+            <div class="tape t1"></div>
+            <div class="tape t2"></div>
+          </div>
+
+          <div class="reveal-overlay" id="revealOverlay">
+            <div class="reveal-card">
+              <span>🫶</span>
+              <b>A little memory for Jaycee</b>
+              <small>Made with time, not money.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-footer">
+        <small>Your work stays here until you send or leave the editor.</small>
+        <button class="btn primary" id="sendBtn">Send memory 🫶</button>
+      </div>
+    </section>
+
+    <aside class="panel right">
+      <div class="section">
+        <div class="section-title"><b>Selected photo</b><span>Position</span></div>
+        <div class="range-row"><label>Zoom</label><input id="zoomRange" type="range" min="1" max="2.4" step=".05" value="1"><span id="zoomValue">100%</span></div>
+        <div class="range-row"><label>Rotate</label><input id="rotateRange" type="range" min="-20" max="20" step="1" value="0"><span id="rotateValue">0°</span></div>
+        <button class="upload-btn" id="resetPhotoBtn" style="margin-top:8px">Reset selected photo</button>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Words</b><span>Personal</span></div>
+        <div class="field"><label>Main caption</label><input class="input" id="captionInput" value="One of my favorite memories 🫶" maxlength="58"></div>
+        <div class="field"><label>Small line</label><input class="input" id="dateInput" value="Made for Jaycee's birthday" maxlength="52"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Stickers</b><span>Decoration</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-stickers="hearts"><span>💗</span>Hearts</button>
+          <button class="choice" data-stickers="stars"><span>✨</span>Stars</button>
+          <button class="choice" data-stickers="flowers"><span>🌸</span>Flowers</button>
+          <button class="choice" data-stickers="party"><span>🎉</span>Party</button>
+          <button class="choice" data-stickers="cute"><span>🎀</span>Cute</button>
+          <button class="choice" data-stickers="none"><span>✦</span>None</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Reveal animation</b><span>Preview</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-reveal="polaroid"><span>📷</span>Develop</button>
+          <button class="choice" data-reveal="pop"><span>✨</span>Pop</button>
+          <button class="choice" data-reveal="slide"><span>➡️</span>Slide</button>
+          <button class="choice" data-reveal="flip"><span>🔄</span>Flip</button>
+          <button class="choice" data-reveal="fade"><span>☁️</span>Fade</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Floating effect</b><span>Atmosphere</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-float="hearts"><span>💗</span>Hearts</button>
+          <button class="choice" data-float="stars"><span>⭐</span>Stars</button>
+          <button class="choice" data-float="sparkles"><span>✨</span>Sparkles</button>
+          <button class="choice" data-float="none"><span>✦</span>None</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title"><b>Scene</b><span>Background</span></div>
+        <div class="choice-grid">
+          <button class="choice active" data-scene="studio"><span>◌</span>Studio</button>
+          <button class="choice" data-scene="blush"><span>🌸</span>Blush</button>
+          <button class="choice" data-scene="blue"><span>🩵</span>Blue</button>
+          <button class="choice" data-scene="sunset"><span>🌅</span>Sunset</button>
+          <button class="choice" data-scene="film"><span>🎞️</span>Film</button>
+          <button class="choice" data-scene="night"><span>🌙</span>Night</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="summary">
+          <b>The special part ✨</b>
+          <p>This feels like giving someone a shared memory, not just dropping an image into a canvas.</p>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="mobile-actionbar">
+    <button id="mobileCustomizeBtn"><span>⚙️</span><b>Customize</b></button>
+    <button id="mobileRevealBtn"><span>🎬</span><b>Reveal</b></button>
+    <button id="mobilePreviewBtn" class="primary-mobile"><span>🫶</span><b>Send</b></button>
+  </div>
+
+  <div class="mobile-sheet hidden" id="mobileSheet" aria-hidden="true">
+    <div class="mobile-sheet-backdrop" id="mobileSheetBackdrop"></div>
+    <section class="mobile-sheet-panel">
+      <button class="grabber" id="sheetGrabber"></button>
+      <div class="mobile-sheet-head">
+        <div><div class="ey">Customize</div><h3 id="mobileSheetTitle">Photos</h3></div>
+        <button class="mobile-sheet-close" id="mobileSheetClose">✕</button>
+      </div>
+      <div class="mobile-sheet-content" id="mobileSheetContent"></div>
+      <div class="mobile-sheet-actions">
+        <button id="mobileResetBtn">Reset</button>
+        <button id="mobileDoneBtn">Done ✓</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="modal hidden" id="previewModal">
+  <div class="modal-card">
+    <div class="modal-icon">🫶✨</div>
+    <div class="ey">Your memory is ready</div>
+    <h2>Send this memory to Jaycee?</h2>
+    <p>When you send it, the selected photos, layout, positions, caption, and effects can be saved into the shared Supabase Birthday Box.</p>
+    <div class="modal-actions">
+      <button id="keepEditing">Keep editing</button>
+      <button class="primary" id="fakeSend">Send memory 🫶</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $=id=>document.getElementById(id);
+  const $$=s=>[...document.querySelectorAll(s)];
+
+  const filterMap={
+    none:"none",
+    warm:"saturate(1.08) sepia(.12) brightness(1.03)",
+    cool:"saturate(.95) hue-rotate(8deg) brightness(1.03)",
+    vintage:"sepia(.28) saturate(.82) contrast(.94)",
+    mono:"grayscale(1) contrast(1.05)",
+    dream:"brightness(1.06) saturate(.88) contrast(.92)"
+  };
+
+  const stickerSets={
+    hearts:["💗","💕","🫶","💖"],
+    stars:["✨","⭐","💫","🌟"],
+    flowers:["🌸","🌷","🌼","🌺"],
+    party:["🎉","🎂","🎈","✨"],
+    cute:["🎀","🧸","💗","✨"],
+    none:[]
+  };
+
+  const floatSets={
+    hearts:["💗","💕","💖"],
+    stars:["⭐","🌟","💫"],
+    sparkles:["✨","✦","💫"],
+    none:[]
+  };
+
+  const state={
+    layout:"portrait",
+    frame:"white",
+    filter:"none",
+    stickers:"hearts",
+    reveal:"polaroid",
+    float:"hearts",
+    scene:"studio",
+    caption:"One of my favorite memories 🫶",
+    dateLine:"Made for Jaycee's birthday",
+    photos:[],
+    activeSlot:0,
+    slots:[],
+    mobileTab:"photos"
+  };
+
+  function slotCount(){
+    return {
+      portrait:1,
+      landscape:1,
+      square:1,
+      strip:3,
+      collage:4,
+      scrapbook:3,
+      film:2
+    }[state.layout]||1;
+  }
+
+  function layoutClass(){
+    return {
+      portrait:"single",
+      landscape:"single",
+      square:"single",
+      strip:"strip3",
+      collage:"grid4",
+      scrapbook:"scrap",
+      film:"film2"
+    }[state.layout]||"single";
+  }
+
+  function ensureSlots(){
+    const count=slotCount();
+    while(state.slots.length<count){
+      state.slots.push({src:"",zoom:1,rot:0,x:0,y:0});
+    }
+    if(state.activeSlot>=count)state.activeSlot=0;
+  }
+
+  function render(){
+    ensureSlots();
+
+    const piece=$("memoryPiece");
+    piece.className=`memory-piece ${state.layout==="landscape"?"landscape":state.layout==="square"?"square":state.layout==="strip"?"strip":state.layout==="collage"?"collage":state.layout==="scrapbook"?"scrapbook":state.layout==="film"?"film":""} frame-${state.frame}`;
+    piece.style.setProperty("--tilt",state.layout==="scrapbook"?"-1.5deg":state.layout==="film"?"0deg":"-2deg");
+
+    $("photoLayout").className=`photo-layout ${layoutClass()}`;
+    $("photoLayout").innerHTML=Array.from({length:slotCount()},(_,i)=>renderSlot(i)).join("");
+
+    $$("[data-slot]").forEach(slot=>{
+      slot.onclick=()=>selectSlot(Number(slot.dataset.slot));
+      slot.addEventListener("pointerdown",startPan);
+    });
+
+    $("captionPreview").textContent=state.caption;
+    $("datePreview").textContent=state.dateLine;
+
+    renderStickers();
+    renderFloaters();
+    syncControls();
+
+    const stage=$("photoStage");
+    ["blush","blue","night","sunset","film"].forEach(k=>stage.classList.toggle(`scene-${k}`,state.scene===k));
+
+    updateSelectedControls();
+  }
+
+  function renderSlot(i){
+    const s=state.slots[i];
+    const active=i===state.activeSlot ? "active":"";
+    const has=s.src ? "has-photo":"";
+    return `<div class="slot ${active} ${has}" data-slot="${i}">
+      ${s.src?`<img src="${s.src}" alt="" style="--zoom:${s.zoom};--rot:${s.rot}deg;--px:${s.x}px;--py:${s.y}px;--photo-filter:${filterMap[state.filter]}">`:""}
+      <div class="slot-placeholder"><span>📷</span><b>${i===0?"Add a photo":"Add another photo"}</b></div>
+    </div>`;
+  }
+
+  function renderStickers(){
+    const set=stickerSets[state.stickers]||[];
+    $("stickerLayer").innerHTML=set.map((x,i)=>`<span class="sticker s${i+1}" style="--sr:${[-12,10,8,-7][i]||0}deg">${x}</span>`).join("");
+  }
+
+  function renderFloaters(){
+    const set=floatSets[state.float]||[];
+    if(!set.length){$("floatLayer").innerHTML="";return}
+    $("floatLayer").innerHTML=Array.from({length:14},(_,i)=>{
+      const left=4+(i*7)%92;
+      const dur=4.5+(i%5)*.5;
+      const delay=-(i%7)*.7;
+      const drift=((i%2?1:-1)*(15+(i%4)*8))+"px";
+      const spin=((i%2?1:-1)*(15+i*5))+"deg";
+      return `<span class="float-item" style="left:${left}%;--dur:${dur}s;--delay:${delay}s;--drift:${drift};--spin:${spin}">${set[i%set.length]}</span>`;
+    }).join("");
+  }
+
+  function selectSlot(i){
+    state.activeSlot=i;
+    render();
+  }
+
+  function readPhotos(files){
+    const arr=[...(files||[])];
+    if(!arr.length)return;
+    let slotIndex=0;
+    arr.forEach(file=>{
+      const r=new FileReader();
+      r.onload=()=>{
+        ensureSlots();
+        let target=state.slots.findIndex((s,idx)=>idx>=slotIndex && idx<slotCount() && !s.src);
+        if(target<0)target=Math.min(slotIndex,slotCount()-1);
+        state.slots[target]={src:String(r.result||""),zoom:1,rot:0,x:0,y:0};
+        state.activeSlot=target;
+        slotIndex=target+1;
+        render();
+      };
+      r.readAsDataURL(file);
+    });
+  }
+
+  let pan=null;
+  function startPan(e){
+    if(jcViewer)return;
+    const idx=Number(e.currentTarget.dataset.slot);
+    state.activeSlot=idx;
+    const slot=state.slots[idx];
+    if(!slot?.src){$("photoInput").click();return}
+    e.preventDefault();
+    pan={idx,startX:e.clientX,startY:e.clientY,x:slot.x,y:slot.y};
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+  }
+  window.addEventListener("pointermove",e=>{
+    if(!pan)return;
+    const s=state.slots[pan.idx];
+    s.x=Math.max(-120,Math.min(120,pan.x+(e.clientX-pan.startX)));
+    s.y=Math.max(-120,Math.min(120,pan.y+(e.clientY-pan.startY)));
+    const img=document.querySelector(`[data-slot="${pan.idx}"] img`);
+    if(img){
+      img.style.setProperty("--px",s.x+"px");
+      img.style.setProperty("--py",s.y+"px");
+    }
+  });
+  window.addEventListener("pointerup",()=>pan=null);
+  window.addEventListener("pointercancel",()=>pan=null);
+
+  function syncControls(){
+    $$("[data-layout]").forEach(b=>b.classList.toggle("active",b.dataset.layout===state.layout));
+    $$("[data-frame]").forEach(b=>b.classList.toggle("active",b.dataset.frame===state.frame));
+    $$("[data-filter]").forEach(b=>b.classList.toggle("active",b.dataset.filter===state.filter));
+    $$("[data-stickers]").forEach(b=>b.classList.toggle("active",b.dataset.stickers===state.stickers));
+    $$("[data-reveal]").forEach(b=>b.classList.toggle("active",b.dataset.reveal===state.reveal));
+    $$("[data-float]").forEach(b=>b.classList.toggle("active",b.dataset.float===state.float));
+    $$("[data-scene]").forEach(b=>b.classList.toggle("active",b.dataset.scene===state.scene));
+    $$("[data-mobile-tab]").forEach(b=>b.classList.toggle("active",b.dataset.mobileTab===state.mobileTab));
+    $("captionInput").value=state.caption;
+    $("dateInput").value=state.dateLine;
+  }
+
+  function updateSelectedControls(){
+    ensureSlots();
+    const s=state.slots[state.activeSlot]||{zoom:1,rot:0};
+    $("zoomRange").value=s.zoom;
+    $("rotateRange").value=s.rot;
+    $("zoomValue").textContent=Math.round(s.zoom*100)+"%";
+    $("rotateValue").textContent=s.rot+"°";
+  }
+
+  function triggerReveal(){
+    const stage=$("photoStage");
+    ["polaroid","pop","slide","flip","fade"].forEach(k=>stage.classList.remove(`reveal-${k}`));
+    void stage.offsetWidth;
+    stage.classList.add(`reveal-${state.reveal}`);
+
+    const overlay=$("revealOverlay");
+    overlay.classList.add("active");
+    setTimeout(()=>overlay.classList.remove("active"),700);
+    setTimeout(()=>stage.classList.remove(`reveal-${state.reveal}`),1400);
+  }
+
+  function resetSelectedPhoto(){
+    ensureSlots();
+    const s=state.slots[state.activeSlot];
+    if(!s)return;
+    s.zoom=1;s.rot=0;s.x=0;s.y=0;
+    render();
+  }
+
+  function resetAll(){
+    Object.assign(state,{
+      layout:"portrait",frame:"white",filter:"none",stickers:"hearts",reveal:"polaroid",float:"hearts",
+      scene:"studio",caption:"One of my favorite memories 🫶",dateLine:"Made for Jaycee's birthday",
+      photos:[],activeSlot:0,slots:[],mobileTab:"photos"
+    });
+    render();
+    if(!$("mobileSheet").classList.contains("hidden"))renderMobileSheet("photos");
+  }
+
+  function openPreview(){
+    triggerReveal();
+    setTimeout(()=>$("previewModal").classList.remove("hidden"),350);
+  }
+
+  function esc(s){
+    return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+
+  function bindDesktop(){
+    $$("[data-layout]").forEach(b=>b.onclick=()=>{
+      state.layout=b.dataset.layout;ensureSlots();render();
+    });
+    $$("[data-frame]").forEach(b=>b.onclick=()=>{state.frame=b.dataset.frame;render()});
+    $$("[data-filter]").forEach(b=>b.onclick=()=>{state.filter=b.dataset.filter;render()});
+    $$("[data-stickers]").forEach(b=>b.onclick=()=>{state.stickers=b.dataset.stickers;render()});
+    $$("[data-reveal]").forEach(b=>b.onclick=()=>{state.reveal=b.dataset.reveal;syncControls()});
+    $$("[data-float]").forEach(b=>b.onclick=()=>{state.float=b.dataset.float;renderFloaters();syncControls()});
+    $$("[data-scene]").forEach(b=>b.onclick=()=>{state.scene=b.dataset.scene;render()});
+
+    $("uploadPhotosBtn").onclick=()=>$("photoInput").click();
+    $("photoInput").onchange=e=>readPhotos(e.target.files);
+
+    $("zoomRange").oninput=e=>{
+      ensureSlots();
+      const s=state.slots[state.activeSlot];
+      s.zoom=Number(e.target.value);
+      $("zoomValue").textContent=Math.round(s.zoom*100)+"%";
+      const img=document.querySelector(`[data-slot="${state.activeSlot}"] img`);
+      if(img)img.style.setProperty("--zoom",s.zoom);
+    };
+    $("rotateRange").oninput=e=>{
+      ensureSlots();
+      const s=state.slots[state.activeSlot];
+      s.rot=Number(e.target.value);
+      $("rotateValue").textContent=s.rot+"°";
+      const img=document.querySelector(`[data-slot="${state.activeSlot}"] img`);
+      if(img)img.style.setProperty("--rot",s.rot+"deg");
+    };
+    $("resetPhotoBtn").onclick=resetSelectedPhoto;
+
+    $("captionInput").oninput=e=>{state.caption=e.target.value;$("captionPreview").textContent=state.caption};
+    $("dateInput").oninput=e=>{state.dateLine=e.target.value;$("datePreview").textContent=state.dateLine};
+
+    $("previewBtn").onclick=openPreview;
+    $("sendBtn").onclick=()=>$("fakeSend")?.click();
+    $("resetBtn").onclick=resetAll;
+    $("keepEditing").onclick=()=>$("previewModal").classList.add("hidden");
+    
+    function jcIntegrated(){ return new URLSearchParams(location.search).get("integrated") === "1"; }
+
+    function jcHydrateSavedGift(p={}){
+      for(const k of ['layout','frame','filter','stickers','reveal','float','scene','caption','dateLine'])if(p[k]!=null)state[k]=p[k];
+      state.activeSlot=0;state.slots=Array.isArray(p.slots)?p.slots.map(s=>({src:s.src||'',zoom:Number(s.zoom)||1,rot:Number(s.rot)||0,x:Number(s.x)||0,y:Number(s.y)||0})):[];
+      render();setTimeout(triggerReveal,180);
+    }
+
+    function jcSendToMain(payload){
+      if(jcViewer)return false;
+      if(jcIntegrated() && window.parent && window.parent !== window){
+        window.parent.postMessage({source:"jc-special-mode",action:"submit",giftType:"photoTogether",payload},"*");
+        const b=$("fakeSend"); if(b){ b.disabled=true; b.textContent="Sending…"; }
+        return true;
+      }
+      return false;
+    }
+    function jcWireIntegration(){
+      if(!jcIntegrated()) return;
+      document.body.classList.add("integrated");
+      const jcViewer=new URLSearchParams(location.search).get("viewer")==="1";
+      if(jcViewer) document.body.classList.add("viewer");
+      document.querySelectorAll("button").forEach((el,i)=>{
+        if(!el.getAttribute("aria-label") && !el.textContent.trim()){
+          const dataName=Object.values(el.dataset||{}).find(Boolean);
+          el.setAttribute("aria-label",el.title||dataName||`Control ${i+1}`);
+        }
+      });
+      document.querySelectorAll("input,textarea,select").forEach((el,i)=>{
+        const hasLabel=el.id && document.querySelector(`label[for="${el.id}"]`);
+        if(!hasLabel && !el.getAttribute("aria-label")){
+          const readable=(el.placeholder||el.id||`Field ${i+1}`).replace(/([a-z])([A-Z])/g,"$1 $2");
+          el.setAttribute("aria-label",readable);
+        }
+      });
+      const back=document.querySelector(".back");
+      if(back) back.onclick=()=>window.parent.postMessage({source:"jc-special-mode",action:"close"},"*");
+      window.addEventListener("message",e=>{
+        const m=e.data||{};
+        if(m.source!=="jc-main") return;
+        if(m.action==="open-preview" && typeof openPreview==="function") openPreview();
+        if(m.action==="send-now") $("fakeSend")?.click();
+        if(m.action==="context" && m.context){
+          
+        }
+        if(m.action==="hydrate" && m.payload){
+          try{jcHydrateSavedGift(m.payload);window.parent.postMessage({source:"jc-special-mode",action:"hydrated",giftType:"photoTogether"},"*")}catch(err){console.error("Could not hydrate saved gift",err);window.parent.postMessage({source:"jc-special-mode",action:"hydrated",giftType:"photoTogether",error:String(err?.message||err)},"*")}
+        }
+        if(m.action==="submit-result" && !m.ok){
+          const b=$("fakeSend"); if(b){ b.disabled=false; b.textContent="Try sending again"; }
+          const modal=$("previewModal");
+          const p=modal && modal.querySelector("p"); if(p) p.textContent=m.message||"The gift could not be saved. Please try again.";
+        }
+      });
+      window.parent.postMessage({source:"jc-special-mode",action:"ready",giftType:"photoTogether"},"*");
+    }
+    jcWireIntegration();
+
+$("fakeSend").onclick=()=>{
+      const payload={
+        layout:state.layout,frame:state.frame,filter:state.filter,stickers:state.stickers,reveal:state.reveal,
+        float:state.float,scene:state.scene,caption:state.caption,dateLine:state.dateLine,
+        slots:state.slots.slice(0,slotCount()).map(s=>({src:s.src,zoom:s.zoom,rot:s.rot,x:s.x,y:s.y}))
+      };
+      if(jcSendToMain(payload)) return;
+      const modal=$("previewModal");
+      const h=modal && modal.querySelector("h2");
+      const p=modal && modal.querySelector("p");
+      if(h) h.textContent="Sample sent! 🫶";
+      if(p) p.textContent="This standalone sample is not connected to the main Birthday Box.";
+      $("fakeSend").disabled=true;
+    };
+  }
+
+  // ---------------- Mobile editor ----------------
+  function mChoice(label,icon,attr,value,current){
+    return `<button class="m-choice ${String(value)===String(current)?"active":""}" ${attr}="${value}"><span>${icon}</span>${label}</button>`;
+  }
+
+  function renderMobileSheet(tab=state.mobileTab){
+    state.mobileTab=tab;
+    $("mobileSheetTitle").textContent=({photos:"Photos",style:"Style",words:"Words",effects:"Effects"})[tab]||"Customize";
+    $$("[data-mobile-tab]").forEach(b=>b.classList.toggle("active",b.dataset.mobileTab===tab));
+
+    let content="";
+
+    if(tab==="photos"){
+      const s=state.slots[state.activeSlot]||{zoom:1,rot:0};
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Memory style</b><span>Choose layout</span></div>
+          <div class="m-grid">
+            ${mChoice("Classic","📷","data-m-layout","portrait",state.layout)}
+            ${mChoice("Wide","🌄","data-m-layout","landscape",state.layout)}
+            ${mChoice("Square","□","data-m-layout","square",state.layout)}
+            ${mChoice("Photo strip","🎞️","data-m-layout","strip",state.layout)}
+            ${mChoice("Collage","🖼️","data-m-layout","collage",state.layout)}
+            ${mChoice("Scrapbook","✂️","data-m-layout","scrapbook",state.layout)}
+            ${mChoice("Film","🎬","data-m-layout","film",state.layout)}
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Photos</b><span>${slotCount()} slot${slotCount()>1?"s":""}</span></div>
+          <button class="upload-btn" id="mUploadPhotosBtn">＋ Add photo(s)</button>
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Selected photo</b><span>Position</span></div>
+          <div class="range-row"><label>Zoom</label><input id="mZoomRange" type="range" min="1" max="2.4" step=".05" value="${s.zoom}"><span>${Math.round(s.zoom*100)}%</span></div>
+          <div class="range-row"><label>Rotate</label><input id="mRotateRange" type="range" min="-20" max="20" step="1" value="${s.rot}"><span>${s.rot}°</span></div>
+          <button class="upload-btn" id="mResetPhotoBtn" style="margin-top:8px">Reset selected photo</button>
+        </div>`;
+    }
+
+    if(tab==="style"){
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Frame</b><span>Choose border</span></div>
+          <div class="m-grid">
+            ${mChoice("White","🤍","data-m-frame","white",state.frame)}
+            ${mChoice("Sage","🌿","data-m-frame","soft",state.frame)}
+            ${mChoice("Pink","🌸","data-m-frame","pink",state.frame)}
+            ${mChoice("Blue","🩵","data-m-frame","blue",state.frame)}
+            ${mChoice("Dark","🌙","data-m-frame","dark",state.frame)}
+            ${mChoice("Gold","✨","data-m-frame","gold",state.frame)}
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Filter</b><span>Photo mood</span></div>
+          <div class="m-grid">
+            ${mChoice("Natural","◌","data-m-filter","none",state.filter)}
+            ${mChoice("Warm","☀️","data-m-filter","warm",state.filter)}
+            ${mChoice("Cool","❄️","data-m-filter","cool",state.filter)}
+            ${mChoice("Vintage","📻","data-m-filter","vintage",state.filter)}
+            ${mChoice("B&W","◐","data-m-filter","mono",state.filter)}
+            ${mChoice("Dreamy","✨","data-m-filter","dream",state.filter)}
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Stickers</b><span>Decoration</span></div>
+          <div class="m-grid">
+            ${mChoice("Hearts","💗","data-m-stickers","hearts",state.stickers)}
+            ${mChoice("Stars","✨","data-m-stickers","stars",state.stickers)}
+            ${mChoice("Flowers","🌸","data-m-stickers","flowers",state.stickers)}
+            ${mChoice("Party","🎉","data-m-stickers","party",state.stickers)}
+            ${mChoice("Cute","🎀","data-m-stickers","cute",state.stickers)}
+            ${mChoice("None","✦","data-m-stickers","none",state.stickers)}
+          </div>
+        </div>`;
+    }
+
+    if(tab==="words"){
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Main caption</b><span>Personal</span></div>
+          <input class="m-input" id="mCaptionInput" maxlength="58" value="${esc(state.caption)}">
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Small line</b><span>Date or note</span></div>
+          <input class="m-input" id="mDateInput" maxlength="52" value="${esc(state.dateLine)}">
+        </div>`;
+    }
+
+    if(tab==="effects"){
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Reveal</b><span>Preview animation</span></div>
+          <div class="m-grid">
+            ${mChoice("Develop","📷","data-m-reveal","polaroid",state.reveal)}
+            ${mChoice("Pop","✨","data-m-reveal","pop",state.reveal)}
+            ${mChoice("Slide","➡️","data-m-reveal","slide",state.reveal)}
+            ${mChoice("Flip","🔄","data-m-reveal","flip",state.reveal)}
+            ${mChoice("Fade","☁️","data-m-reveal","fade",state.reveal)}
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Floating effect</b><span>Atmosphere</span></div>
+          <div class="m-grid">
+            ${mChoice("Hearts","💗","data-m-float","hearts",state.float)}
+            ${mChoice("Stars","⭐","data-m-float","stars",state.float)}
+            ${mChoice("Sparkles","✨","data-m-float","sparkles",state.float)}
+            ${mChoice("None","✦","data-m-float","none",state.float)}
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Scene</b><span>Background</span></div>
+          <div class="m-grid">
+            ${mChoice("Studio","◌","data-m-scene","studio",state.scene)}
+            ${mChoice("Blush","🌸","data-m-scene","blush",state.scene)}
+            ${mChoice("Blue","🩵","data-m-scene","blue",state.scene)}
+            ${mChoice("Sunset","🌅","data-m-scene","sunset",state.scene)}
+            ${mChoice("Film","🎞️","data-m-scene","film",state.scene)}
+            ${mChoice("Night","🌙","data-m-scene","night",state.scene)}
+          </div>
+        </div>`;
+    }
+
+    $("mobileSheetContent").innerHTML=content;
+    bindMobileContent();
+  }
+
+  function bindMobileContent(){
+    $$("[data-m-layout]").forEach(b=>b.onclick=()=>{state.layout=b.dataset.mLayout;ensureSlots();render();renderMobileSheet("photos")});
+    $$("[data-m-frame]").forEach(b=>b.onclick=()=>{state.frame=b.dataset.mFrame;render();renderMobileSheet("style")});
+    $$("[data-m-filter]").forEach(b=>b.onclick=()=>{state.filter=b.dataset.mFilter;render();renderMobileSheet("style")});
+    $$("[data-m-stickers]").forEach(b=>b.onclick=()=>{state.stickers=b.dataset.mStickers;render();renderMobileSheet("style")});
+    $$("[data-m-reveal]").forEach(b=>b.onclick=()=>{state.reveal=b.dataset.mReveal;renderMobileSheet("effects");syncControls()});
+    $$("[data-m-float]").forEach(b=>b.onclick=()=>{state.float=b.dataset.mFloat;render();renderMobileSheet("effects")});
+    $$("[data-m-scene]").forEach(b=>b.onclick=()=>{state.scene=b.dataset.mScene;render();renderMobileSheet("effects")});
+
+    if($("mUploadPhotosBtn"))$("mUploadPhotosBtn").onclick=()=>$("photoInput").click();
+
+    if($("mZoomRange"))$("mZoomRange").oninput=e=>{
+      const s=state.slots[state.activeSlot];s.zoom=Number(e.target.value);render();renderMobileSheet("photos");
+    };
+    if($("mRotateRange"))$("mRotateRange").oninput=e=>{
+      const s=state.slots[state.activeSlot];s.rot=Number(e.target.value);render();renderMobileSheet("photos");
+    };
+    if($("mResetPhotoBtn"))$("mResetPhotoBtn").onclick=()=>{resetSelectedPhoto();renderMobileSheet("photos")};
+
+    if($("mCaptionInput"))$("mCaptionInput").oninput=e=>{
+      state.caption=e.target.value;$("captionPreview").textContent=state.caption;$("captionInput").value=state.caption
+    };
+    if($("mDateInput"))$("mDateInput").oninput=e=>{
+      state.dateLine=e.target.value;$("datePreview").textContent=state.dateLine;$("dateInput").value=state.dateLine
+    };
+  }
+
+  function openMobileSheet(tab=state.mobileTab){
+    if(innerWidth>820)return;
+    renderMobileSheet(tab);
+    const s=$("mobileSheet");
+    s.classList.remove("hidden");
+    requestAnimationFrame(()=>{s.classList.add("open");s.setAttribute("aria-hidden","false")});
+  }
+
+  function closeMobileSheet(){
+    const s=$("mobileSheet");
+    if(s.classList.contains("hidden"))return;
+    s.classList.remove("open");s.setAttribute("aria-hidden","true");
+    setTimeout(()=>s.classList.add("hidden"),220);
+  }
+
+  $$("[data-mobile-tab]").forEach(b=>b.onclick=()=>openMobileSheet(b.dataset.mobileTab));
+  $("mobileCustomizeBtn").onclick=()=>openMobileSheet(state.mobileTab);
+  $("mobileRevealBtn").onclick=triggerReveal;
+  $("mobilePreviewBtn").onclick=()=>$("fakeSend")?.click();
+  $("mobileSheetBackdrop").onclick=closeMobileSheet;
+  $("mobileSheetClose").onclick=closeMobileSheet;
+  $("sheetGrabber").onclick=closeMobileSheet;
+  $("mobileDoneBtn").onclick=closeMobileSheet;
+  $("mobileResetBtn").onclick=resetAll;
+
+  bindDesktop();
+  ensureSlots();
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+JC's Birthday V21 — FINAL QA REPORT
+
+Automated checks cover package integrity, HTML structure, JavaScript syntax, responsive breakpoints, accessibility scaffolding, Supabase wiring, integration messaging, and preserved feature markers.
+
+PASS: index.html: valid unique IDs
+PASS: index.html: viewport meta
+PASS: index.html: language set
+PASS: index.html: responsive mobile CSS
+PASS: index.html: reduced-motion support
+PASS: index.html: keyboard focus style
+PASS: index.html: no missing image alt
+PASS: index.html: CSS parses without top-level errors — []
+PASS: index.html: JavaScript syntax
+PASS: bouquet.html: valid unique IDs
+PASS: bouquet.html: viewport meta
+PASS: bouquet.html: language set
+PASS: bouquet.html: responsive mobile CSS
+PASS: bouquet.html: reduced-motion support
+PASS: bouquet.html: keyboard focus style
+PASS: bouquet.html: no missing image alt
+PASS: bouquet.html: CSS parses without top-level errors — []
+PASS: bouquet.html: JavaScript syntax
+PASS: cake.html: valid unique IDs
+PASS: cake.html: viewport meta
+PASS: cake.html: language set
+PASS: cake.html: responsive mobile CSS
+PASS: cake.html: reduced-motion support
+PASS: cake.html: keyboard focus style
+PASS: cake.html: no missing image alt
+PASS: cake.html: CSS parses without top-level errors — []
+PASS: cake.html: JavaScript syntax
+PASS: card.html: valid unique IDs
+PASS: card.html: viewport meta
+PASS: card.html: language set
+PASS: card.html: responsive mobile CSS
+PASS: card.html: reduced-motion support
+PASS: card.html: keyboard focus style
+PASS: card.html: no missing image alt
+PASS: card.html: CSS parses without top-level errors — []
+PASS: card.html: JavaScript syntax
+PASS: gift-box.html: valid unique IDs
+PASS: gift-box.html: viewport meta
+PASS: gift-box.html: language set
+PASS: gift-box.html: responsive mobile CSS
+PASS: gift-box.html: reduced-motion support
+PASS: gift-box.html: keyboard focus style
+PASS: gift-box.html: no missing image alt
+PASS: gift-box.html: CSS parses without top-level errors — []
+PASS: gift-box.html: JavaScript syntax
+PASS: photo-together.html: valid unique IDs
+PASS: photo-together.html: viewport meta
+PASS: photo-together.html: language set
+PASS: photo-together.html: responsive mobile CSS
+PASS: photo-together.html: reduced-motion support
+PASS: photo-together.html: keyboard focus style
+PASS: photo-together.html: no missing image alt
+PASS: photo-together.html: CSS parses without top-level errors — []
+PASS: photo-together.html: JavaScript syntax
+PASS: song.html: valid unique IDs
+PASS: song.html: viewport meta
+PASS: song.html: language set
+PASS: song.html: responsive mobile CSS
+PASS: song.html: reduced-motion support
+PASS: song.html: keyboard focus style
+PASS: song.html: no missing image alt
+PASS: song.html: CSS parses without top-level errors — []
+PASS: song.html: JavaScript syntax
+PASS: Main app: exactly six current gift modes
+PASS: Main app includes 3D Birthday Cake
+PASS: Main app includes Flower Bouquet
+PASS: Main app includes Birthday Card
+PASS: Main app includes Gift Box
+PASS: Main app includes Our Photo Together
+PASS: Main app includes Sing a Birthday Song
+PASS: Removed Drawing mode stays removed
+PASS: Removed Custom Money stays removed
+PASS: Public chat stays removed
+PASS: Owner PIN updated to 09052002
+PASS: PIN is not printed as a visible default hint
+PASS: Online counter retained
+PASS: Supabase shared Birthday Box retained
+PASS: Realtime gift insert subscription retained
+PASS: Local fallback retained
+PASS: Main mobile breakpoint
+PASS: Main tablet breakpoint
+PASS: Main touch targets use 44px minimum
+PASS: Main skip link exists
+PASS: Main live region exists
+PASS: Dialogs are semantic
+PASS: Dialog keyboard focus trap implemented
+PASS: Timer never deletes work
+PASS: Take My Time option retained
+PASS: Microphone permission declared on editor iframe
+PASS: Media upload recursively supports images/audio
+PASS: Large images are compressed before Supabase upload
+PASS: Storage size error is user-readable
+PASS: No service-role key embedded
+PASS: Supabase config is present
+PASS: Supabase SQL is present
+PASS: cake.html: feature data-mobile-tab="cake"
+PASS: cake.html: feature mobileCreatorSheet
+PASS: cake.html: feature new THREE.WebGLRenderer
+PASS: cake.html: feature jc-special-mode
+PASS: cake.html: integration hides duplicate top header
+PASS: cake.html: integrated readable typography
+PASS: cake.html: unlabeled controls get accessible names
+PASS: cake.html: parent close action wired
+PASS: cake.html: parent submit action wired
+PASS: bouquet.html: feature mobileSheet
+PASS: bouquet.html: feature wrapSvgText
+PASS: bouquet.html: feature startDrag
+PASS: bouquet.html: feature jc-special-mode
+PASS: bouquet.html: integration hides duplicate top header
+PASS: bouquet.html: integrated readable typography
+PASS: bouquet.html: unlabeled controls get accessible names
+PASS: bouquet.html: parent close action wired
+PASS: bouquet.html: parent submit action wired
+PASS: card.html: feature openCardBtn
+PASS: card.html: feature coverPhotoInput
+PASS: card.html: feature insidePhotoInput
+PASS: card.html: feature jc-special-mode
+PASS: card.html: integration hides duplicate top header
+PASS: card.html: integrated readable typography
+PASS: card.html: unlabeled controls get accessible names
+PASS: card.html: parent close action wired
+PASS: card.html: parent submit action wired
+PASS: gift-box.html: feature reveal-fountain
+PASS: gift-box.html: feature data-effect="fireworks"
+PASS: gift-box.html: feature customSurprises
+PASS: gift-box.html: feature jc-special-mode
+PASS: gift-box.html: integration hides duplicate top header
+PASS: gift-box.html: integrated readable typography
+PASS: gift-box.html: unlabeled controls get accessible names
+PASS: gift-box.html: parent close action wired
+PASS: gift-box.html: parent submit action wired
+PASS: photo-together.html: feature startPan
+PASS: photo-together.html: feature data-layout="film"
+PASS: photo-together.html: feature data-reveal="fade"
+PASS: photo-together.html: feature jc-special-mode
+PASS: photo-together.html: integration hides duplicate top header
+PASS: photo-together.html: integrated readable typography
+PASS: photo-together.html: unlabeled controls get accessible names
+PASS: photo-together.html: parent close action wired
+PASS: photo-together.html: parent submit action wired
+PASS: song.html: feature MediaRecorder
+PASS: song.html: feature MAX_SECONDS=90
+PASS: song.html: feature togglePause
+PASS: song.html: feature jc-special-mode
+PASS: song.html: integration hides duplicate top header
+PASS: song.html: integrated readable typography
+PASS: song.html: unlabeled controls get accessible names
+PASS: song.html: parent close action wired
+PASS: song.html: parent submit action wired
+PASS: Referenced mode exists: modes/cake.html
+PASS: Referenced mode exists: modes/bouquet.html
+PASS: Referenced mode exists: modes/card.html
+PASS: Referenced mode exists: modes/gift-box.html
+PASS: Referenced mode exists: modes/photo-together.html
+PASS: Referenced mode exists: modes/song.html
+
+FINAL RESULT: 155/155 checks passed.

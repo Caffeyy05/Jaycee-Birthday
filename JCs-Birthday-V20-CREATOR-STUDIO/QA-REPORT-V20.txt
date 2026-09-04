@@ -1,0 +1,32 @@
+JC's Birthday V20 — Creator Studio QA
+=======================================
+
+STRUCTURAL / CODE CHECKS
+PASS: New Creator Studio layout
+PASS: Desktop element library
+PASS: Search field
+PASS: Category filters
+PASS: Mobile Browse Elements search
+PASS: Expanded global element catalog
+PASS: Text heading/subtitle/note presets
+PASS: Circle shape
+PASS: Rounded square shape
+PASS: Pill shape
+PASS: Line shape
+PASS: Frame shape
+PASS: Quick Text button
+PASS: Quick Photo button
+PASS: Quick Sticker button
+PASS: Quick Background button
+PASS: Contextual inspector
+PASS: Opacity control
+PASS: Horizontal centering
+PASS: Vertical centering
+PASS: Reset rotation
+PASS: Layers list
+PASS: Mobile bottom tool dock
+PASS: Existing direct resize/rotate retained
+PASS: Existing drawing mode retained
+PASS: Shared Birthday Box retained
+PASS: Supabase online presence retained
+PASS: Public chat remains removed

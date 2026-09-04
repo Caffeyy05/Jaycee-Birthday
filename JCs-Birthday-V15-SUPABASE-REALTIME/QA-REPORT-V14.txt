@@ -1,0 +1,8 @@
+JC's Birthday! — V14 Owner PIN QA
+===================================
+
+PASS: Visible default PIN hint removed from Owner modal
+PASS: Owner PIN remains required
+PASS: Owner PIN value updated in application code
+PASS: New PIN is not displayed in the UI
+PASS: Existing Birthday Box flow retained

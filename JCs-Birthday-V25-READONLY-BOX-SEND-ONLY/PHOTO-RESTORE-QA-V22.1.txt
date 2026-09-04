@@ -1,0 +1,21 @@
+JC's Birthday V22.1 — HOMEPAGE PHOTO RESTORE QA
+
+Issue fixed: original birthday portrait was omitted from the V22 package.
+
+PASS: Portrait asset exists
+PASS: Homepage references restored portrait
+PASS: Portrait has alt text
+PASS: Portrait has explicit dimensions
+PASS: Portrait object-fit responsive crop
+PASS: Mobile portrait sizing exists
+PASS: Small-phone portrait sizing exists
+PASS: Floating birthday animation retained
+PASS: Reduced motion still present
+PASS: No old center gift placeholder
+PASS: All six mode files still exist
+PASS: Supabase config still exists
+PASS: Supabase SQL still exists
+PASS: Main JavaScript syntax
+FAIL: All local homepage image files exist
+
+FINAL RESULT: 14/15 checks passed.
