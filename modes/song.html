@@ -1,0 +1,1273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#E3E8E7">
+<title>JC's Birthday — Sing a Birthday Song</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#3E5066;
+  --muted:#748091;
+  --line:rgba(62,80,102,.10);
+  --panel:rgba(250,252,251,.95);
+  --soft:#EEF2F1;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Poppins,system-ui,sans-serif;color:var(--ink)}
+body{
+  min-height:100dvh;
+  background:
+    radial-gradient(circle at 12% 8%,rgba(162,195,194,.24),transparent 28%),
+    radial-gradient(circle at 90% 88%,rgba(232,183,212,.20),transparent 32%),
+    linear-gradient(145deg,#F8FAF9,#E7EDEC);
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.app{min-height:100dvh;display:grid;grid-template-rows:auto 1fr}
+header{
+  height:70px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  border-bottom:1px solid var(--line);background:rgba(248,250,249,.88);backdrop-filter:blur(16px)
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{
+  width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#3E5066,#5E6D8A);color:#fff;font-size:20px;
+  box-shadow:0 10px 25px rgba(62,80,102,.18)
+}
+.brand b{display:block;font-size:13px}
+.brand small{display:block;font-size:7px;color:#8A95A2;margin-top:2px}
+.header-actions{display:flex;gap:6px}
+.btn{
+  min-height:38px;padding:0 12px;border-radius:11px;border:1px solid var(--line);
+  background:#fff;color:var(--ink);font-size:8px;font-weight:800
+}
+.btn.primary{border:0;background:linear-gradient(135deg,#3E5066,#5E6D8A);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+.workspace{
+  width:min(1500px,100%);margin:0 auto;padding:14px;
+  display:grid;grid-template-columns:285px minmax(0,1fr) 300px;gap:12px;
+  min-height:calc(100dvh - 70px)
+}
+.panel,.stage-shell{
+  border:1px solid var(--line);background:var(--panel);
+  box-shadow:0 18px 50px rgba(62,80,102,.08)
+}
+.panel{border-radius:22px;padding:16px;overflow:auto}
+.stage-shell{min-width:0;border-radius:24px;overflow:hidden;display:grid;grid-template-rows:auto 1fr auto}
+.ey{font-size:7px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#798697}
+h2,h3{margin:3px 0 0;letter-spacing:-.04em}
+h2{font-size:22px} h3{font-size:18px}
+.lead{font-size:8px;color:var(--muted);line-height:1.55;margin:6px 0 14px}
+.section{padding:12px 0;border-top:1px solid rgba(62,80,102,.07)}
+.section:first-of-type{border-top:0;padding-top:3px}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.section-title b{font-size:9px}.section-title span{font-size:6.5px;color:#929DA9}
+
+.choice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.choice{
+  min-height:62px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);
+  display:grid;place-items:center;gap:3px;padding:7px 4px;font-size:7px;font-weight:800;text-align:center
+}
+.choice span{font-size:21px;line-height:1}
+.choice.active{background:#3E5066;color:#fff;border-color:#3E5066;box-shadow:0 8px 18px rgba(62,80,102,.14)}
+
+.input,.textarea{
+  width:100%;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);outline:0;font-size:8px
+}
+.input{height:40px;padding:0 10px}
+.textarea{min-height:88px;padding:10px;resize:vertical;line-height:1.55}
+.field{display:grid;gap:5px;margin-top:8px}
+.field label{font-size:7px;font-weight:800;color:#778395}
+.upload-btn{
+  width:100%;min-height:43px;border:1px dashed rgba(62,80,102,.18);border-radius:12px;background:#F7F9F8;
+  color:#5F7086;font-size:8px;font-weight:800
+}
+
+.stage-head{
+  min-height:62px;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border-bottom:1px solid rgba(62,80,102,.07)
+}
+.stage-title{display:flex;align-items:center;gap:9px;min-width:0}
+.back{width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:900}
+.stage-title h2{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.helper{padding:7px 9px;border-radius:999px;background:#EEF2F1;color:#738093;font-size:7px;font-weight:800}
+
+.booth{
+  position:relative;min-height:590px;overflow:hidden;display:grid;place-items:center;padding:26px;
+  background:
+    radial-gradient(circle at 50% 20%,rgba(255,255,255,.95),rgba(255,255,255,.45) 38%,transparent 68%),
+    linear-gradient(145deg,#F3F7F5,#DDE6E3)
+}
+.booth.scene-party{
+  background:
+    radial-gradient(circle at 20% 20%,rgba(255,220,230,.85),transparent 29%),
+    radial-gradient(circle at 80% 26%,rgba(205,235,255,.82),transparent 30%),
+    linear-gradient(145deg,#FFF2F7,#EEF6FF)
+}
+.booth.scene-night{background:linear-gradient(145deg,#20293B,#3C4660)}
+.booth.scene-stage{background:linear-gradient(145deg,#302C43,#604862)}
+.booth.scene-cloud{background:linear-gradient(145deg,#F2F1F8,#DDE8F4)}
+.booth.scene-sunset{background:linear-gradient(145deg,#F7D2B6,#D3B1D2 58%,#91A9C8)}
+
+.spotlight{
+  position:absolute;left:50%;top:-18%;width:430px;height:620px;transform:translateX(-50%);
+  background:linear-gradient(to bottom,rgba(255,255,255,.52),rgba(255,255,255,.08) 75%,transparent);
+  clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);
+  opacity:.55;pointer-events:none
+}
+.scene-night .spotlight,.scene-stage .spotlight{opacity:.20}
+
+.booth-card{
+  position:relative;z-index:5;
+  width:min(560px,90vw);
+  border-radius:28px;
+  padding:22px;
+  background:rgba(250,252,251,.90);
+  border:1px solid rgba(255,255,255,.72);
+  backdrop-filter:blur(16px);
+  box-shadow:0 25px 75px rgba(42,53,67,.20);
+}
+.booth-top{text-align:center}
+.booth-icon{
+  width:78px;height:78px;margin:0 auto;border-radius:24px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#3E5066,#5E6D8A);color:white;font-size:35px;
+  box-shadow:0 15px 35px rgba(62,80,102,.22)
+}
+.booth-top h2{font-size:25px;margin-top:12px}
+.booth-top p{font-size:8px;color:#778494;line-height:1.55;margin:6px auto 0;max-width:390px}
+
+.status-pill{
+  width:max-content;margin:12px auto 0;padding:7px 11px;border-radius:999px;
+  background:#EEF2F1;color:#708095;font-size:7px;font-weight:900
+}
+.status-pill.recording{background:#FCE8EC;color:#B75B72}
+.status-pill.paused{background:#FFF3D9;color:#A27E35}
+.status-pill.ready{background:#E6F2EC;color:#5F8D73}.mic-notice{margin:8px auto 0;max-width:430px;font-size:7px;line-height:1.5;color:#7A8795;text-align:center}.mic-notice.warning{color:#A56E3F}
+
+.timer{
+  text-align:center;font-size:38px;font-weight:800;letter-spacing:-.055em;margin-top:12px
+}
+.timer small{font-size:8px;color:#8895A2;margin-left:4px;letter-spacing:0}
+
+.wave-wrap{
+  margin:14px 0 0;border-radius:16px;padding:9px;background:#F1F5F3;border:1px solid rgba(62,80,102,.07)
+}
+#waveCanvas{display:block;width:100%;height:90px;border-radius:10px}
+
+.record-controls{
+  display:flex;justify-content:center;align-items:center;gap:9px;margin-top:16px;flex-wrap:wrap
+}
+.record-main{
+  width:76px;height:76px;border-radius:50%;border:0;color:white;
+  background:linear-gradient(145deg,#D86E83,#B95168);
+  box-shadow:0 14px 30px rgba(185,81,104,.28);font-size:28px;
+  display:grid;place-items:center
+}
+.record-main.recording{animation:recordPulse 1.25s ease-in-out infinite}
+@keyframes recordPulse{
+  0%,100%{box-shadow:0 14px 30px rgba(185,81,104,.28),0 0 0 0 rgba(216,110,131,.24)}
+  50%{box-shadow:0 14px 30px rgba(185,81,104,.28),0 0 0 14px rgba(216,110,131,0)}
+}
+.control-btn{
+  min-height:42px;padding:0 13px;border-radius:12px;border:1px solid var(--line);
+  background:white;color:#56667B;font-size:7.5px;font-weight:900
+}
+.control-btn:disabled{opacity:.4}
+
+.countdown-overlay{
+  position:absolute;inset:0;z-index:50;display:grid;place-items:center;
+  background:rgba(33,45,60,.35);backdrop-filter:blur(6px)
+}
+.countdown-overlay.hidden{display:none}
+.countdown-number{
+  width:145px;height:145px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.95);font-size:70px;font-weight:900;color:#3E5066;
+  box-shadow:0 25px 70px rgba(30,40,55,.25);animation:countPop .7s ease
+}
+@keyframes countPop{0%{transform:scale(.45);opacity:.3}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+
+.preview-panel{
+  margin-top:13px;padding:12px;border-radius:16px;background:#F1F5F3;border:1px solid rgba(62,80,102,.07)
+}
+.preview-panel.hidden{display:none}
+.preview-panel audio{width:100%;height:40px}
+.preview-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+.preview-actions button{min-height:40px;border-radius:11px;border:1px solid var(--line);background:#fff;color:#57677B;font-size:7px;font-weight:900}
+
+.reveal-layer{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+.reveal-item{
+  position:absolute;left:50%;top:55%;font-size:25px;opacity:0;
+  animation:burstItem 1.2s ease-out forwards
+}
+@keyframes burstItem{
+  0%{transform:translate(-50%,-50%) scale(.2);opacity:1}
+  100%{transform:translate(var(--x),var(--y)) rotate(var(--rot)) scale(1.1);opacity:0}
+}
+.float-note{
+  position:absolute;bottom:-30px;font-size:24px;opacity:0;
+  animation:noteRise var(--dur) linear infinite;animation-delay:var(--delay)
+}
+@keyframes noteRise{
+  0%{transform:translateY(0) translateX(0);opacity:0}
+  15%{opacity:.85}
+  100%{transform:translateY(-650px) translateX(var(--drift)) rotate(var(--spin));opacity:0}
+}
+
+.stage-footer{
+  min-height:52px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  border-top:1px solid rgba(62,80,102,.07)
+}
+.stage-footer small{font-size:6.5px;line-height:1.45;color:#8B96A3;max-width:64%}
+.summary{
+  padding:12px;border-radius:14px;background:linear-gradient(145deg,#3E5066,#5E6D8A);color:#fff
+}
+.summary b{font-size:9px}.summary p{margin:5px 0 0;font-size:7px;line-height:1.5;opacity:.82}
+
+.mobile-tabs,.mobile-actionbar,.mobile-sheet{display:none}
+
+.modal{
+  position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:16px;
+  background:rgba(35,46,61,.42);backdrop-filter:blur(7px)
+}
+.modal.hidden{display:none}
+.modal-card{
+  width:min(520px,100%);border-radius:24px;background:#F8FAF9;border:1px solid var(--line);padding:22px;text-align:center;
+  box-shadow:0 26px 80px rgba(35,46,61,.25)
+}
+.modal-icon{font-size:52px}.modal-card h2{font-size:26px;margin-top:8px}.modal-card p{font-size:9px;color:#778494;line-height:1.6}
+.modal-actions{display:flex;justify-content:center;gap:8px;margin-top:15px}
+.modal-actions button{min-height:44px;padding:0 15px;border-radius:12px;border:1px solid var(--line);font-size:8px;font-weight:900}
+.modal-actions .primary{border:0;background:linear-gradient(135deg,#3E5066,#5E6D8A);color:#fff}
+
+@media(max-width:1120px){
+  .workspace{grid-template-columns:245px minmax(0,1fr)}
+  .panel.right{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .panel.right>.section{border-top:0;padding:10px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.65)}
+}
+@media(max-width:820px){
+  body{padding-bottom:78px;overflow-x:hidden}
+  header{height:60px;padding:0 10px;position:sticky;top:0;z-index:30}
+  .brand small{display:none}.brand b{font-size:11px}.logo{width:38px;height:38px}
+  .header-actions .btn:first-child{display:none}
+  .workspace{display:block;padding:6px;min-height:auto}
+  .panel.left,.panel.right{display:none!important}
+  .stage-shell{min-height:calc(100dvh - 72px);border-radius:18px}
+  .stage-head{min-height:55px;padding:8px 9px}
+  .stage-title h2{font-size:14px;max-width:178px}.helper{display:none}
+  .booth{min-height:calc(100dvh - 210px);padding:68px 7px 14px}
+  .booth-card{width:min(480px,94vw);padding:15px 12px;border-radius:21px}
+  .booth-icon{width:62px;height:62px;border-radius:19px;font-size:28px}
+  .booth-top h2{font-size:20px}
+  .timer{font-size:32px}
+  #waveCanvas{height:72px}
+  .record-main{width:68px;height:68px}
+  .stage-footer .btn{display:none}.stage-footer small{max-width:100%}
+
+  .mobile-tabs{
+    position:absolute;left:8px;right:8px;top:8px;z-index:35;display:flex;gap:5px;overflow-x:auto;
+    padding:6px;border-radius:14px;background:rgba(248,250,249,.9);backdrop-filter:blur(12px);
+    border:1px solid var(--line);box-shadow:0 8px 24px rgba(62,80,102,.12);scrollbar-width:none
+  }
+  .mobile-tabs::-webkit-scrollbar{display:none}
+  .mobile-tabs button{
+    flex:1 0 72px;min-height:44px;border:0;border-radius:10px;background:transparent;color:var(--ink);
+    display:grid;grid-template-columns:18px 1fr;align-items:center;gap:4px;padding:5px 7px
+  }
+  .mobile-tabs button span{font-size:15px}.mobile-tabs button b{font-size:6.3px;text-align:left}
+  .mobile-tabs button.active{background:#3E5066;color:white}
+
+  .mobile-actionbar{
+    position:fixed;left:8px;right:8px;bottom:max(8px,env(safe-area-inset-bottom));z-index:90;
+    display:grid;grid-template-columns:1fr 1fr 1.18fr;gap:6px;padding:7px;border-radius:17px;
+    background:rgba(248,250,249,.94);backdrop-filter:blur(16px);border:1px solid var(--line);
+    box-shadow:0 18px 48px rgba(36,47,61,.22)
+  }
+  .mobile-actionbar button{
+    min-height:52px;border:0;border-radius:11px;background:#EEF2F1;color:#4F6177;
+    display:grid;place-items:center;gap:1px;padding:4px
+  }
+  .mobile-actionbar button span{font-size:17px}.mobile-actionbar button b{font-size:6.5px}
+  .mobile-actionbar .primary-mobile{background:linear-gradient(135deg,#3E5066,#5E6D8A);color:#fff}
+
+  .mobile-sheet{position:fixed;inset:0;z-index:110;display:block;pointer-events:none}
+  .mobile-sheet.hidden{display:none}.mobile-sheet.open{pointer-events:auto}
+  .mobile-sheet-backdrop{position:absolute;inset:0;background:rgba(36,47,61,.32);opacity:0;transition:.2s}
+  .mobile-sheet.open .mobile-sheet-backdrop{opacity:1}
+  .mobile-sheet-panel{
+    position:absolute;left:0;right:0;bottom:0;max-height:min(76dvh,670px);
+    display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;background:#F9FBFA;
+    border-radius:24px 24px 0 0;border:1px solid var(--line);box-shadow:0 -18px 54px rgba(36,47,61,.22);
+    transform:translateY(104%);transition:transform .24s cubic-bezier(.2,.8,.2,1);overflow:hidden;
+    padding-bottom:max(4px,env(safe-area-inset-bottom))
+  }
+  .mobile-sheet.open .mobile-sheet-panel{transform:translateY(0)}
+  .grabber{width:52px;height:5px;margin:8px auto 2px;border:0;border-radius:999px;background:#CBD2D1}
+  .mobile-sheet-head{min-height:55px;padding:8px 13px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(62,80,102,.07)}
+  .mobile-sheet-head h3{font-size:17px}.mobile-sheet-close{width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:900}
+  .mobile-sheet-content{min-height:0;overflow-y:auto;padding:11px 12px 20px;-webkit-overflow-scrolling:touch}
+  .mobile-sheet-actions{display:grid;grid-template-columns:.72fr 1.28fr;gap:7px;padding:9px 12px;border-top:1px solid rgba(62,80,102,.07)}
+  .mobile-sheet-actions button{min-height:46px;border-radius:12px;font-size:8px;font-weight:900}
+  .mobile-sheet-actions button:first-child{border:1px solid var(--line);background:#fff;color:var(--ink)}
+  .mobile-sheet-actions button:last-child{border:0;background:linear-gradient(135deg,#3E5066,#5E6D8A);color:#fff}
+
+  .m-section{padding:11px 0;border-top:1px solid rgba(62,80,102,.07)}
+  .m-section:first-child{border-top:0;padding-top:0}
+  .m-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.m-title b{font-size:9px}.m-title span{font-size:6.5px;color:#8793A0}
+  .m-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+  .m-choice{
+    min-height:64px;border:1px solid var(--line);border-radius:13px;background:#fff;color:#516278;
+    display:grid;place-items:center;gap:3px;padding:7px 5px;font-size:7px;font-weight:800;text-align:center
+  }
+  .m-choice span{font-size:22px}.m-choice.active{background:#3E5066;color:#fff;border-color:#3E5066}
+  .m-input{width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:0 11px;color:var(--ink);font-size:8px;outline:0}
+}
+@media(max-width:430px){
+  .m-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .booth{padding-top:66px}
+}
+
+/* ===== JC'S BIRTHDAY V21 INTEGRATION / ACCESSIBILITY ===== */
+:focus-visible{outline:3px solid #3E5066!important;outline-offset:3px!important}
+body.integrated{min-height:100dvh;background:#EEF2F1}
+body.integrated > header{display:none!important}
+body.integrated .workspace{min-height:100dvh!important;padding-top:6px!important}
+body.integrated .stage-footer small{display:none!important}
+body.integrated .stage-footer{justify-content:flex-end!important}
+body.integrated button,body.integrated input,body.integrated textarea{font-size:max(inherit,12px)}
+body.integrated button{touch-action:manipulation}
+body.integrated .swatch{min-width:40px;min-height:40px}
+@media(max-width:820px){
+  body.integrated{padding-bottom:max(78px,env(safe-area-inset-bottom))!important}
+  body.integrated .workspace{padding:4px!important}
+  body.integrated .mobile-swatch,body.integrated .m-swatch{min-width:44px;min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+
+/* V21 integrated readability boost */
+body.integrated .ey{font-size:10px!important}
+body.integrated .lead,body.integrated .helper,body.integrated .stage-footer small{font-size:11px!important;line-height:1.5!important}
+body.integrated .section-title b,body.integrated .mobile-control-title b,body.integrated .m-title b{font-size:12px!important}
+body.integrated .section-title span,body.integrated .mobile-control-title span,body.integrated .m-title span{font-size:10px!important}
+body.integrated .choice,body.integrated .m-choice,body.integrated .mobile-choice,body.integrated .btn,body.integrated .control-btn,body.integrated .upload-btn{font-size:11px!important}
+body.integrated .choice b,body.integrated .m-choice b,body.integrated .mobile-choice b,body.integrated .item-btn b,body.integrated .flower-btn b{font-size:10px!important}
+body.integrated input,body.integrated textarea,body.integrated select{font-size:12px!important}
+body.integrated .field label,body.integrated .range-row label,body.integrated .range-row span{font-size:10px!important}
+@media(max-width:430px){body.integrated .choice,body.integrated .m-choice,body.integrated .mobile-choice{font-size:10px!important}}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">
+    <div class="logo">🎤</div>
+    <div><b>JC's Birthday!</b><small>Sing a Birthday Song — sample</small></div>
+  </div>
+  <div class="header-actions">
+    <button class="btn" id="resetBtn">Reset</button>
+    <button class="btn primary" id="previewBtn" disabled>Preview 🎤</button>
+  </div>
+</header>
+
+<main class="workspace">
+  <aside class="panel left">
+    <div class="ey">Recording booth</div>
+    <h2>Sing for Jaycee</h2>
+    <p class="lead">Record a birthday song or message. It can be sweet, funny, dramatic — whatever feels like you.</p>
+
+    <div class="section">
+      <div class="section-title"><b>Countdown</b><span>Before recording</span></div>
+      <div class="choice-grid">
+        <button class="choice active" data-countdown="3"><span>3</span>3 seconds</button>
+        <button class="choice" data-countdown="5"><span>5</span>5 seconds</button>
+        <button class="choice" data-countdown="0"><span>⚡</span>Instant</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><b>Stage</b><span>Background</span></div>
+      <div class="choice-grid">
+        <button class="choice active" data-scene="studio"><span>◌</span>Studio</button>
+        <button class="choice" data-scene="party"><span>🎉</span>Party</button>
+        <button class="choice" data-scene="stage"><span>🎤</span>Stage</button>
+        <button class="choice" data-scene="cloud"><span>☁️</span>Dream</button>
+        <button class="choice" data-scene="sunset"><span>🌅</span>Sunset</button>
+        <button class="choice" data-scene="night"><span>🌙</span>Night</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><b>Waveform style</b><span>Visualizer</span></div>
+      <div class="choice-grid">
+        <button class="choice active" data-wave="bars"><span>▮▮</span>Bars</button>
+        <button class="choice" data-wave="line"><span>〰</span>Line</button>
+        <button class="choice" data-wave="dots"><span>•••</span>Dots</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="summary">
+        <b>Microphone note</b>
+        <p>Recording works best on HTTPS or localhost. GitHub Pages is HTTPS, so the final deployed app can request microphone access normally.</p>
+      </div>
+    </div>
+  </aside>
+
+  <section class="stage-shell">
+    <div class="stage-head">
+      <div class="stage-title">
+        <button class="back">←</button>
+        <div><div class="ey">Birthday booth</div><h2>Sing a birthday song 🎤</h2></div>
+      </div>
+      <div class="helper">Maximum recording: 90 seconds</div>
+    </div>
+
+    <div class="booth" id="booth">
+      <div class="mobile-tabs">
+        <button data-mobile-tab="record" class="active"><span>🎤</span><b>Record</b></button>
+        <button data-mobile-tab="style"><span>✨</span><b>Style</b></button>
+        <button data-mobile-tab="message"><span>💌</span><b>Message</b></button>
+        <button data-mobile-tab="reveal"><span>🎬</span><b>Reveal</b></button>
+      </div>
+
+      <div class="spotlight"></div>
+      <div class="reveal-layer" id="revealLayer"></div>
+
+      <div class="booth-card">
+        <div class="booth-top">
+          <div class="booth-icon">🎤</div>
+          <h2 id="boothTitle">Your birthday performance</h2>
+          <p id="boothPrompt">Sing a birthday song, say a birthday message, or do both. The time you spend recording it is the gift.</p>
+
+          <div class="status-pill" id="statusPill">Ready when you are</div>
+          <div class="mic-notice" id="micNotice" aria-live="polite"></div>
+          <div class="timer"><span id="timerText">00:00</span><small>/ 01:30</small></div>
+        </div>
+
+        <div class="wave-wrap">
+          <canvas id="waveCanvas" width="800" height="180"></canvas>
+        </div>
+
+        <div class="record-controls">
+          <button class="control-btn" id="pauseBtn" disabled>Pause</button>
+          <button class="record-main" id="recordBtn" aria-label="Start recording">●</button>
+          <button class="control-btn" id="stopBtn" disabled>Stop</button>
+        </div>
+
+        <div class="preview-panel hidden" id="previewPanel">
+          <audio id="audioPlayer" controls></audio>
+          <div class="preview-actions">
+            <button id="retakeBtn">↻ Record again</button>
+            <button id="useRecordingBtn">✓ Use this recording</button>
+          </div>
+        </div>
+
+        <button class="upload-btn" id="uploadAudioBtn" style="margin-top:12px">Or upload an audio file</button>
+        <input id="audioInput" type="file" accept="audio/*" hidden>
+      </div>
+
+      <div class="countdown-overlay hidden" id="countdownOverlay">
+        <div class="countdown-number" id="countdownNumber">3</div>
+      </div>
+    </div>
+
+    <div class="stage-footer">
+      <small>Your work stays here until you send or leave the editor.</small>
+      <button class="btn primary" id="sendBtn" disabled>Preview & send 🎤</button>
+    </div>
+  </section>
+
+  <aside class="panel right">
+    <div class="section">
+      <div class="section-title"><b>Performance type</b><span>Prompt</span></div>
+      <div class="choice-grid">
+        <button class="choice active" data-mode="song"><span>🎵</span>Song</button>
+        <button class="choice" data-mode="message"><span>💌</span>Message</button>
+        <button class="choice" data-mode="both"><span>🎤</span>Both</button>
+        <button class="choice" data-mode="funny"><span>😂</span>Funny</button>
+        <button class="choice" data-mode="dramatic"><span>🎭</span>Dramatic</button>
+        <button class="choice" data-mode="freestyle"><span>✨</span>Freestyle</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><b>From you</b><span>Shown with recording</span></div>
+      <div class="field"><label>Your name</label><input class="input" id="fromName" value="Your friend" maxlength="36"></div>
+      <div class="field"><label>Short birthday note</label><textarea class="textarea" id="noteText" maxlength="160">I recorded this just for you. Happy Birthday! 💗</textarea></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><b>Reveal animation</b><span>When Jaycee opens it</span></div>
+      <div class="choice-grid">
+        <button class="choice active" data-reveal="confetti"><span>🎊</span>Confetti</button>
+        <button class="choice" data-reveal="hearts"><span>💗</span>Hearts</button>
+        <button class="choice" data-reveal="stars"><span>⭐</span>Stars</button>
+        <button class="choice" data-reveal="notes"><span>🎵</span>Music notes</button>
+        <button class="choice" data-reveal="spotlight"><span>💡</span>Spotlight</button>
+        <button class="choice" data-reveal="none"><span>✦</span>Simple</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><b>Extra effects</b><span>Optional</span></div>
+      <div class="choice-grid">
+        <button class="choice active" id="ambientToggle"><span>🎵</span>Floating notes</button>
+        <button class="choice active" id="chimeToggle"><span>🔊</span>Chime</button>
+        <button class="choice" id="autoPlayToggle"><span>▶️</span>Auto play</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="summary">
+        <b>The special part ✨</b>
+        <p>This becomes a tiny birthday performance. The final version can save the audio file and message into the shared Birthday Box.</p>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<div class="mobile-actionbar">
+  <button id="mobileCustomizeBtn"><span>⚙️</span><b>Customize</b></button>
+  <button id="mobileRecordBtn"><span>🎤</span><b>Record</b></button>
+  <button id="mobilePreviewBtn" class="primary-mobile" disabled><span>🎁</span><b>Preview</b></button>
+</div>
+
+<div class="mobile-sheet hidden" id="mobileSheet" aria-hidden="true">
+  <div class="mobile-sheet-backdrop" id="mobileSheetBackdrop"></div>
+  <section class="mobile-sheet-panel">
+    <button class="grabber" id="sheetGrabber"></button>
+    <div class="mobile-sheet-head">
+      <div><div class="ey">Customize</div><h3 id="mobileSheetTitle">Record</h3></div>
+      <button class="mobile-sheet-close" id="mobileSheetClose">✕</button>
+    </div>
+    <div class="mobile-sheet-content" id="mobileSheetContent"></div>
+    <div class="mobile-sheet-actions">
+      <button id="mobileResetBtn">Reset</button>
+      <button id="mobileDoneBtn">Done ✓</button>
+    </div>
+  </section>
+</div>
+
+<div class="modal hidden" id="previewModal">
+  <div class="modal-card">
+    <div class="modal-icon">🎤✨</div>
+    <div class="ey">Your birthday recording is ready</div>
+    <h2 id="previewModalTitle">Send your performance?</h2>
+    <p id="previewModalText">Jaycee will be able to play your recording with your name and birthday note.</p>
+    <audio id="modalAudio" controls style="width:100%;margin-top:10px"></audio>
+    <div class="modal-actions">
+      <button id="keepEditing">Keep editing</button>
+      <button class="primary" id="fakeSend">Send recording 🎤</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const $=id=>document.getElementById(id);
+  const $$=s=>[...document.querySelectorAll(s)];
+
+  const MAX_SECONDS=90;
+
+  const state={
+    countdown:3,
+    scene:"studio",
+    wave:"bars",
+    mode:"song",
+    reveal:"confetti",
+    ambient:true,
+    chime:true,
+    autoPlay:false,
+    fromName:"Your friend",
+    note:"I recorded this just for you. Happy Birthday! 💗",
+    mobileTab:"record"
+  };
+
+  let mediaRecorder=null;
+  let mediaStream=null;
+  let chunks=[];
+  let audioBlob=null;
+  let audioUrl="";
+  let audioCtx=null;
+  let analyser=null;
+  let sourceNode=null;
+  let raf=0;
+  let startedAt=0;
+  let pausedAt=0;
+  let totalPaused=0;
+  let timerInterval=0;
+  let isRecording=false;
+  let isPaused=false;
+  let startingRecording=false;
+
+  const canvas=$("waveCanvas");
+  const ctx=canvas.getContext("2d");
+
+  function renderWaveIdle(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.strokeStyle="#9FB2B0";
+    ctx.fillStyle="#9FB2B0";
+    ctx.lineWidth=4;
+
+    if(state.wave==="bars"){
+      const bars=34;
+      const gap=8;
+      const w=(canvas.width-gap*(bars-1))/bars;
+      for(let i=0;i<bars;i++){
+        const h=20+Math.sin(i*.8)*12+Math.random()*8;
+        ctx.globalAlpha=.45;
+        ctx.fillRect(i*(w+gap),(canvas.height-h)/2,w,h);
+      }
+      ctx.globalAlpha=1;
+    }else if(state.wave==="line"){
+      ctx.beginPath();
+      for(let x=0;x<canvas.width;x++){
+        const y=canvas.height/2+Math.sin(x/45)*8;
+        x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+    }else{
+      for(let x=20;x<canvas.width;x+=28){
+        ctx.beginPath();ctx.arc(x,canvas.height/2,5,0,Math.PI*2);ctx.fill();
+      }
+    }
+  }
+
+  function drawWave(){
+    cancelAnimationFrame(raf);
+    if(!analyser){renderWaveIdle();return}
+
+    const len=analyser.fftSize;
+    const data=new Uint8Array(len);
+
+    const loop=()=>{
+      raf=requestAnimationFrame(loop);
+      analyser.getByteTimeDomainData(data);
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      if(state.wave==="bars"){
+        analyser.getByteFrequencyData(data);
+        const bars=42;
+        const step=Math.floor(data.length/bars);
+        const gap=6;
+        const w=(canvas.width-gap*(bars-1))/bars;
+        for(let i=0;i<bars;i++){
+          const v=data[i*step]/255;
+          const h=12+v*145;
+          const x=i*(w+gap);
+          ctx.fillStyle="#5E6D8A";
+          ctx.globalAlpha=.45+.5*v;
+          ctx.fillRect(x,(canvas.height-h)/2,w,h);
+        }
+        ctx.globalAlpha=1;
+      }else if(state.wave==="line"){
+        ctx.beginPath();
+        ctx.lineWidth=4;
+        ctx.strokeStyle="#5E6D8A";
+        const slice=canvas.width/data.length;
+        let x=0;
+        for(let i=0;i<data.length;i++){
+          const v=data[i]/128;
+          const y=v*canvas.height/2;
+          i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+          x+=slice;
+        }
+        ctx.stroke();
+      }else{
+        const dots=32;
+        const step=Math.floor(data.length/dots);
+        for(let i=0;i<dots;i++){
+          const v=Math.abs(data[i*step]-128)/128;
+          const r=4+v*16;
+          ctx.beginPath();
+          ctx.arc(16+i*((canvas.width-32)/(dots-1)),canvas.height/2,r,0,Math.PI*2);
+          ctx.fillStyle="#5E6D8A";
+          ctx.globalAlpha=.45+.5*v;
+          ctx.fill();
+        }
+        ctx.globalAlpha=1;
+      }
+    };
+    loop();
+  }
+
+  function setStatus(text,type=""){
+    const pill=$("statusPill");
+    pill.textContent=text;
+    pill.className=`status-pill ${type}`.trim();
+  }
+
+  function formatTime(sec){
+    sec=Math.max(0,Math.floor(sec));
+    return `${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`;
+  }
+
+  function currentElapsed(){
+    if(!startedAt)return 0;
+    const end=isPaused?pausedAt:Date.now();
+    return Math.max(0,(end-startedAt-totalPaused)/1000);
+  }
+
+  function updateTimer(){
+    const t=currentElapsed();
+    $("timerText").textContent=formatTime(t);
+    if(t>=MAX_SECONDS && isRecording){
+      stopRecording();
+    }
+  }
+
+  async function startRecording(){
+    if(isRecording||startingRecording)return;
+    if(!window.isSecureContext){
+      setStatus("Microphone blocked in this view");
+      const n=$("micNotice");if(n){n.classList.add("warning");n.textContent=location.protocol==="file:"?"Open START-LOCAL-TEST.bat or use your GitHub Pages link to record. You can still upload an audio file here.":"Microphone recording needs HTTPS or localhost. You can still upload an audio file."}
+      return;
+    }
+    if(!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder){
+      setStatus("Recording is not supported here");
+      const n=$("micNotice");if(n){n.classList.add("warning");n.textContent="Try Chrome/Edge/Safari on HTTPS or localhost, or upload an audio file."}
+      return;
+    }
+
+    startingRecording=true;
+    setStatus("Requesting microphone permission…");
+    try{
+      mediaStream=await navigator.mediaDevices.getUserMedia({audio:true});
+      if(state.countdown>0)await runCountdown(state.countdown);
+
+      audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+      analyser=audioCtx.createAnalyser();analyser.fftSize=256;
+      sourceNode=audioCtx.createMediaStreamSource(mediaStream);sourceNode.connect(analyser);
+
+      chunks=[];
+      const preferred=["audio/webm;codecs=opus","audio/webm","audio/mp4"].find(t=>MediaRecorder.isTypeSupported?.(t));
+      mediaRecorder=preferred?new MediaRecorder(mediaStream,{mimeType:preferred}):new MediaRecorder(mediaStream);
+      mediaRecorder.ondataavailable=e=>{if(e.data?.size)chunks.push(e.data)};
+      mediaRecorder.onerror=e=>{console.error(e);setStatus("Recording error — try again");};
+      mediaRecorder.onstop=finishRecording;
+      mediaRecorder.start(250);
+
+      startedAt=Date.now();pausedAt=0;totalPaused=0;isRecording=true;isPaused=false;
+      $("recordBtn").classList.add("recording");$("recordBtn").textContent="■";
+      $("pauseBtn").disabled=false;$("stopBtn").disabled=false;
+      $("previewPanel").classList.add("hidden");$("previewBtn").disabled=true;$("sendBtn").disabled=true;$("mobilePreviewBtn").disabled=true;
+      setStatus("Recording…","recording");
+      const n=$("micNotice");if(n){n.classList.remove("warning");n.textContent="Microphone is active. Press Stop when you're finished."}
+      clearInterval(timerInterval);timerInterval=setInterval(updateTimer,150);drawWave();
+    }catch(err){
+      console.error(err);
+      mediaStream?.getTracks().forEach(t=>t.stop());mediaStream=null;
+      setStatus(err?.name==="NotAllowedError"?"Microphone permission was blocked":"Could not start the microphone");
+      const n=$("micNotice");if(n){n.classList.add("warning");n.textContent=err?.name==="NotAllowedError"?"Allow microphone access in your browser, then try again — or upload an audio file.":"Try again on HTTPS/localhost, or upload an audio file instead."}
+    }finally{startingRecording=false}
+  }
+
+  function runCountdown(seconds){
+    return new Promise(resolve=>{
+      const overlay=$("countdownOverlay");
+      const num=$("countdownNumber");
+      overlay.classList.remove("hidden");
+      let n=seconds;
+      num.textContent=n;
+      playCountTone(440);
+
+      const tick=setInterval(()=>{
+        n--;
+        if(n<=0){
+          clearInterval(tick);
+          num.textContent="GO!";
+          playCountTone(660);
+          setTimeout(()=>{
+            overlay.classList.add("hidden");
+            resolve();
+          },450);
+        }else{
+          num.textContent=n;
+          playCountTone(440);
+          num.style.animation="none";
+          void num.offsetWidth;
+          num.style.animation="countPop .7s ease";
+        }
+      },800);
+    });
+  }
+
+  function playCountTone(freq){
+    if(!state.chime)return;
+    try{
+      const A=window.AudioContext||window.webkitAudioContext;
+      const c=new A();
+      const o=c.createOscillator();
+      const g=c.createGain();
+      o.frequency.value=freq;o.type="sine";
+      g.gain.setValueAtTime(.0001,c.currentTime);
+      g.gain.exponentialRampToValueAtTime(.05,c.currentTime+.01);
+      g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.16);
+      o.connect(g).connect(c.destination);
+      o.start();o.stop(c.currentTime+.18);
+      setTimeout(()=>c.close().catch(()=>{}),350);
+    }catch{}
+  }
+
+  function togglePause(){
+    if(!mediaRecorder || !isRecording)return;
+    if(!isPaused){
+      mediaRecorder.pause();
+      isPaused=true;
+      pausedAt=Date.now();
+      $("pauseBtn").textContent="Resume";
+      setStatus("Paused","paused");
+    }else{
+      mediaRecorder.resume();
+      totalPaused+=Date.now()-pausedAt;
+      isPaused=false;
+      pausedAt=0;
+      $("pauseBtn").textContent="Pause";
+      setStatus("Recording…","recording");
+    }
+  }
+
+  function stopRecording(){
+    if(!mediaRecorder || !isRecording)return;
+    if(mediaRecorder.state!=="inactive")mediaRecorder.stop();
+    isRecording=false;
+    isPaused=false;
+    clearInterval(timerInterval);
+
+    $("recordBtn").classList.remove("recording");
+    $("pauseBtn").disabled=true;
+    $("stopBtn").disabled=true;
+    $("pauseBtn").textContent="Pause";
+
+    mediaStream?.getTracks().forEach(t=>t.stop());
+    cancelAnimationFrame(raf);
+    renderWaveIdle();
+    setStatus("Processing recording…");
+  }
+
+  function finishRecording(){
+    const mime=mediaRecorder?.mimeType || "audio/webm";
+    const blob=new Blob(chunks,{type:mime});
+    cleanupAudioGraph();
+    if(!blob.size){
+      audioBlob=null;setStatus("No audio was captured — try again");
+      const n=$("micNotice");if(n){n.classList.add("warning");n.textContent="No sound data was received. Check microphone permission or use Upload Audio."}
+      return;
+    }
+    setAudioBlob(blob);
+  }
+
+  function cleanupAudioGraph(){
+    try{sourceNode?.disconnect()}catch{}
+    try{analyser?.disconnect()}catch{}
+    try{audioCtx?.close()}catch{}
+    sourceNode=null;analyser=null;audioCtx=null;
+  }
+
+  function setAudioBlob(blob){
+    if(audioUrl)URL.revokeObjectURL(audioUrl);
+    audioBlob=blob;
+    audioUrl=URL.createObjectURL(blob);
+    $("audioPlayer").src=audioUrl;
+    $("modalAudio").src=audioUrl;
+    $("previewPanel").classList.remove("hidden");
+    $("previewBtn").disabled=false;
+    $("sendBtn").disabled=false;
+    $("mobilePreviewBtn").disabled=false;
+    setStatus("Recording ready ✓","ready");
+    triggerReveal(false);
+  }
+
+  function retake(){
+    if(audioUrl)URL.revokeObjectURL(audioUrl);
+    audioUrl="";
+    audioBlob=null;
+    $("audioPlayer").removeAttribute("src");
+    $("modalAudio").removeAttribute("src");
+    $("previewPanel").classList.add("hidden");
+    $("previewBtn").disabled=true;
+    $("sendBtn").disabled=true;
+    $("mobilePreviewBtn").disabled=true;
+    $("timerText").textContent="00:00";
+    setStatus("Ready when you are");
+    renderWaveIdle();
+  }
+
+  function triggerReveal(big=true){
+    const layer=$("revealLayer");
+    layer.innerHTML="";
+    if(state.reveal==="none")return;
+
+    let icons=["🎊","✨","⭐","💗"];
+    if(state.reveal==="hearts")icons=["💗","💕","💖","🫶"];
+    if(state.reveal==="stars")icons=["⭐","🌟","✨","💫"];
+    if(state.reveal==="notes")icons=["🎵","🎶","🎼","✨"];
+    if(state.reveal==="spotlight"){
+      $("booth").animate(
+        [{filter:"brightness(1)"},{filter:"brightness(1.18)"},{filter:"brightness(1)"}],
+        {duration:900,easing:"ease-out"}
+      );
+      return;
+    }
+
+    const count=big?28:16;
+    layer.innerHTML=Array.from({length:count},(_,i)=>{
+      const a=(i/count)*Math.PI*2;
+      const r=(big?190:135)+(i%5)*24;
+      const x=Math.cos(a)*r;
+      const y=Math.sin(a)*r-80;
+      const rot=((i%2?1:-1)*(60+i*19))+"deg";
+      return `<span class="reveal-item" style="--x:${x}px;--y:${y}px;--rot:${rot};animation-delay:${(i*.018).toFixed(2)}s">${icons[i%icons.length]}</span>`;
+    }).join("");
+  }
+
+  function renderAmbient(){
+    const layer=$("revealLayer");
+    if(!state.ambient || isRecording)return;
+    const base=layer.innerHTML;
+    const notes=["🎵","🎶","✨"];
+    const ambient=Array.from({length:10},(_,i)=>{
+      const left=5+(i*9)%90;
+      const dur=5+(i%4)*.6;
+      const delay=-(i%6)*.8;
+      const drift=((i%2?1:-1)*(15+(i%3)*10))+"px";
+      const spin=((i%2?1:-1)*(10+i*5))+"deg";
+      return `<span class="float-note" style="left:${left}%;--dur:${dur}s;--delay:${delay}s;--drift:${drift};--spin:${spin}">${notes[i%notes.length]}</span>`;
+    }).join("");
+    layer.innerHTML=base+ambient;
+  }
+
+  function sync(){
+    $$("[data-countdown]").forEach(b=>b.classList.toggle("active",Number(b.dataset.countdown)===state.countdown));
+    $$("[data-scene]").forEach(b=>b.classList.toggle("active",b.dataset.scene===state.scene));
+    $$("[data-wave]").forEach(b=>b.classList.toggle("active",b.dataset.wave===state.wave));
+    $$("[data-mode]").forEach(b=>b.classList.toggle("active",b.dataset.mode===state.mode));
+    $$("[data-reveal]").forEach(b=>b.classList.toggle("active",b.dataset.reveal===state.reveal));
+    $$("[data-mobile-tab]").forEach(b=>b.classList.toggle("active",b.dataset.mobileTab===state.mobileTab));
+    $("ambientToggle").classList.toggle("active",state.ambient);
+    $("chimeToggle").classList.toggle("active",state.chime);
+    $("autoPlayToggle").classList.toggle("active",state.autoPlay);
+    $("fromName").value=state.fromName;
+    $("noteText").value=state.note;
+
+    const booth=$("booth");
+    ["party","night","stage","cloud","sunset"].forEach(k=>booth.classList.toggle(`scene-${k}`,state.scene===k));
+
+    const modeText={
+      song:["Your birthday performance","Sing a birthday song in your own style."],
+      message:["Your birthday message","Say something you want Jaycee to hear on their birthday."],
+      both:["Song + message","Sing first, then add a short birthday message at the end."],
+      funny:["Make it funny 😂","Do the most unserious birthday performance you can."],
+      dramatic:["Main character performance 🎭","Give Jaycee the most dramatic birthday performance possible."],
+      freestyle:["Freestyle ✨","No rules. Sing, talk, laugh, improvise — make it yours."]
+    }[state.mode];
+    $("boothTitle").textContent=modeText[0];
+    $("boothPrompt").textContent=modeText[1];
+  }
+
+  function resetAll(){
+    if(isRecording)stopRecording();
+    retake();
+    Object.assign(state,{
+      countdown:3,scene:"studio",wave:"bars",mode:"song",reveal:"confetti",
+      ambient:true,chime:true,autoPlay:false,fromName:"Your friend",
+      note:"I recorded this just for you. Happy Birthday! 💗",mobileTab:"record"
+    });
+    sync();
+    renderAmbient();
+  }
+
+  function openPreview(){
+    if(!audioUrl)return;
+    triggerReveal(true);
+    $("previewModalTitle").textContent=`A recording from ${state.fromName || "a friend"} 🎤`;
+    $("previewModalText").textContent=state.note || "A birthday recording made just for you.";
+    $("previewModal").classList.remove("hidden");
+    if(state.autoPlay){
+      setTimeout(()=>$("modalAudio").play().catch(()=>{}),250);
+    }
+  }
+
+  function esc(s){
+    return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+
+  function bindDesktop(){
+    $$("[data-countdown]").forEach(b=>b.onclick=()=>{state.countdown=Number(b.dataset.countdown);sync()});
+    $$("[data-scene]").forEach(b=>b.onclick=()=>{state.scene=b.dataset.scene;sync()});
+    $$("[data-wave]").forEach(b=>b.onclick=()=>{state.wave=b.dataset.wave;sync();if(!isRecording)renderWaveIdle()});
+    $$("[data-mode]").forEach(b=>b.onclick=()=>{state.mode=b.dataset.mode;sync()});
+    $$("[data-reveal]").forEach(b=>b.onclick=()=>{state.reveal=b.dataset.reveal;sync();triggerReveal(false);renderAmbient()});
+
+    $("fromName").oninput=e=>state.fromName=e.target.value;
+    $("noteText").oninput=e=>state.note=e.target.value;
+
+    $("ambientToggle").onclick=()=>{state.ambient=!state.ambient;sync();$("revealLayer").innerHTML="";renderAmbient()};
+    $("chimeToggle").onclick=()=>{state.chime=!state.chime;sync();if(state.chime)playCountTone(660)};
+    $("autoPlayToggle").onclick=()=>{state.autoPlay=!state.autoPlay;sync()};
+
+    $("recordBtn").onclick=()=>isRecording?stopRecording():startRecording();
+    $("pauseBtn").onclick=togglePause;
+    $("stopBtn").onclick=stopRecording;
+    $("retakeBtn").onclick=retake;
+    $("useRecordingBtn").onclick=()=>{setStatus("This recording will be used ✓","ready");triggerReveal(true)};
+
+    $("uploadAudioBtn").onclick=()=>$("audioInput").click();
+    $("audioInput").onchange=e=>{
+      const file=e.target.files?.[0];
+      if(!file)return;
+      if(file.size>5*1024*1024){
+        e.target.value="";setStatus("Audio is too large — max 5 MB");
+        const n=$("micNotice");if(n){n.classList.add("warning");n.textContent="Choose a smaller audio file (maximum 5 MB)."}return;
+      }
+      if(file.type && !file.type.startsWith("audio/")){
+        e.target.value="";setStatus("Please choose an audio file");return;
+      }
+      setAudioBlob(file);
+    };
+
+    $("previewBtn").onclick=openPreview;
+    $("sendBtn").onclick=openPreview;
+    $("resetBtn").onclick=resetAll;
+    $("keepEditing").onclick=()=>{
+      $("previewModal").classList.add("hidden");
+      $("modalAudio").pause();
+    };
+    
+    function jcIntegrated(){ return new URLSearchParams(location.search).get("integrated") === "1"; }
+    function jcSendToMain(payload){
+      if(jcIntegrated() && window.parent && window.parent !== window){
+        window.parent.postMessage({source:"jc-special-mode",action:"submit",giftType:"song",payload},"*");
+        const b=$("fakeSend"); if(b){ b.disabled=true; b.textContent="Sending…"; }
+        return true;
+      }
+      return false;
+    }
+    function jcWireIntegration(){
+      if(!jcIntegrated()) return;
+      document.body.classList.add("integrated");
+      document.querySelectorAll("button").forEach((el,i)=>{
+        if(!el.getAttribute("aria-label") && !el.textContent.trim()){
+          const dataName=Object.values(el.dataset||{}).find(Boolean);
+          el.setAttribute("aria-label",el.title||dataName||`Control ${i+1}`);
+        }
+      });
+      document.querySelectorAll("input,textarea,select").forEach((el,i)=>{
+        const hasLabel=el.id && document.querySelector(`label[for="${el.id}"]`);
+        if(!hasLabel && !el.getAttribute("aria-label")){
+          const readable=(el.placeholder||el.id||`Field ${i+1}`).replace(/([a-z])([A-Z])/g,"$1 $2");
+          el.setAttribute("aria-label",readable);
+        }
+      });
+      const back=document.querySelector(".back");
+      if(back) back.onclick=()=>window.parent.postMessage({source:"jc-special-mode",action:"close"},"*");
+      window.addEventListener("message",e=>{
+        const m=e.data||{};
+        if(m.source!=="jc-main") return;
+        if(m.action==="open-preview" && typeof openPreview==="function") openPreview();
+        if(m.action==="context" && m.context){
+          state.fromName=m.context.giverName||state.fromName; if($("fromName")) $("fromName").value=state.fromName; if(typeof sync==="function") sync();
+        }
+        if(m.action==="submit-result" && !m.ok){
+          const b=$("fakeSend"); if(b){ b.disabled=false; b.textContent="Try sending again"; }
+          const modal=$("previewModal");
+          const p=modal && modal.querySelector("p"); if(p) p.textContent=m.message||"The gift could not be saved. Please try again.";
+        }
+      });
+      window.parent.postMessage({source:"jc-special-mode",action:"ready",giftType:"song"},"*");
+    }
+    jcWireIntegration();
+
+$("fakeSend").onclick=()=>{
+      const payload={
+        countdown:state.countdown,scene:state.scene,wave:state.wave,mode:state.mode,reveal:state.reveal,
+        ambient:state.ambient,chime:state.chime,autoPlay:state.autoPlay,fromName:state.fromName,note:state.note,
+        durationSeconds:Number.isFinite(Number($('audioPlayer').duration)) ? Number($('audioPlayer').duration) : Math.min(MAX_SECONDS,currentElapsed()),
+        audio:audioBlob,audioMime:audioBlob ? audioBlob.type : ''
+      };
+      if(jcSendToMain(payload)) return;
+      const modal=$("previewModal");
+      const h=modal && modal.querySelector("h2");
+      const p=modal && modal.querySelector("p");
+      if(h) h.textContent="Sample sent! 🎤";
+      if(p) p.textContent="This standalone sample is not connected to the main Birthday Box.";
+      $("fakeSend").disabled=true;
+    };
+  }
+
+  function mChoice(label,icon,attr,value,current){
+    return `<button class="m-choice ${String(value)===String(current)?"active":""}" ${attr}="${value}"><span>${icon}</span>${label}</button>`;
+  }
+
+  function renderMobileSheet(tab=state.mobileTab){
+    state.mobileTab=tab;
+    $("mobileSheetTitle").textContent=({record:"Record",style:"Style",message:"Message",reveal:"Reveal"})[tab]||"Customize";
+    $$("[data-mobile-tab]").forEach(b=>b.classList.toggle("active",b.dataset.mobileTab===tab));
+    let content="";
+
+    if(tab==="record"){
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Performance type</b><span>Choose a vibe</span></div>
+          <div class="m-grid">
+            ${mChoice("Song","🎵","data-m-mode","song",state.mode)}
+            ${mChoice("Message","💌","data-m-mode","message",state.mode)}
+            ${mChoice("Both","🎤","data-m-mode","both",state.mode)}
+            ${mChoice("Funny","😂","data-m-mode","funny",state.mode)}
+            ${mChoice("Dramatic","🎭","data-m-mode","dramatic",state.mode)}
+            ${mChoice("Freestyle","✨","data-m-mode","freestyle",state.mode)}
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Countdown</b><span>Before recording</span></div>
+          <div class="m-grid">
+            ${mChoice("3 sec","3","data-m-countdown",3,state.countdown)}
+            ${mChoice("5 sec","5","data-m-countdown",5,state.countdown)}
+            ${mChoice("Instant","⚡","data-m-countdown",0,state.countdown)}
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Audio fallback</b><span>Optional</span></div>
+          <button class="upload-btn" id="mUploadAudioBtn">Upload an audio file</button>
+        </div>`;
+    }
+
+    if(tab==="style"){
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Stage</b><span>Background</span></div>
+          <div class="m-grid">
+            ${mChoice("Studio","◌","data-m-scene","studio",state.scene)}
+            ${mChoice("Party","🎉","data-m-scene","party",state.scene)}
+            ${mChoice("Stage","🎤","data-m-scene","stage",state.scene)}
+            ${mChoice("Dream","☁️","data-m-scene","cloud",state.scene)}
+            ${mChoice("Sunset","🌅","data-m-scene","sunset",state.scene)}
+            ${mChoice("Night","🌙","data-m-scene","night",state.scene)}
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Waveform</b><span>Visualizer</span></div>
+          <div class="m-grid">
+            ${mChoice("Bars","▮▮","data-m-wave","bars",state.wave)}
+            ${mChoice("Line","〰","data-m-wave","line",state.wave)}
+            ${mChoice("Dots","•••","data-m-wave","dots",state.wave)}
+          </div>
+        </div>`;
+    }
+
+    if(tab==="message"){
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Your name</b><span>Shown with recording</span></div>
+          <input class="m-input" id="mFromName" maxlength="36" value="${esc(state.fromName)}">
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Birthday note</b><span>160 characters</span></div>
+          <textarea class="m-input" id="mNoteText" maxlength="160" style="min-height:115px;padding-top:10px">${esc(state.note)}</textarea>
+        </div>`;
+    }
+
+    if(tab==="reveal"){
+      content=`
+        <div class="m-section">
+          <div class="m-title"><b>Reveal animation</b><span>When opened</span></div>
+          <div class="m-grid">
+            ${mChoice("Confetti","🎊","data-m-reveal","confetti",state.reveal)}
+            ${mChoice("Hearts","💗","data-m-reveal","hearts",state.reveal)}
+            ${mChoice("Stars","⭐","data-m-reveal","stars",state.reveal)}
+            ${mChoice("Music notes","🎵","data-m-reveal","notes",state.reveal)}
+            ${mChoice("Spotlight","💡","data-m-reveal","spotlight",state.reveal)}
+            ${mChoice("Simple","✦","data-m-reveal","none",state.reveal)}
+          </div>
+        </div>
+        <div class="m-section">
+          <div class="m-title"><b>Extras</b><span>Optional</span></div>
+          <div class="m-grid">
+            <button class="m-choice ${state.ambient?"active":""}" id="mAmbientToggle"><span>🎵</span>Floating notes</button>
+            <button class="m-choice ${state.chime?"active":""}" id="mChimeToggle"><span>${state.chime?"🔊":"🔇"}</span>Chime</button>
+            <button class="m-choice ${state.autoPlay?"active":""}" id="mAutoPlayToggle"><span>▶️</span>Auto play</button>
+          </div>
+        </div>`;
+    }
+
+    $("mobileSheetContent").innerHTML=content;
+    bindMobileContent();
+  }
+
+  function bindMobileContent(){
+    $$("[data-m-mode]").forEach(b=>b.onclick=()=>{state.mode=b.dataset.mMode;sync();renderMobileSheet("record")});
+    $$("[data-m-countdown]").forEach(b=>b.onclick=()=>{state.countdown=Number(b.dataset.mCountdown);sync();renderMobileSheet("record")});
+    $$("[data-m-scene]").forEach(b=>b.onclick=()=>{state.scene=b.dataset.mScene;sync();renderMobileSheet("style")});
+    $$("[data-m-wave]").forEach(b=>b.onclick=()=>{state.wave=b.dataset.mWave;sync();renderWaveIdle();renderMobileSheet("style")});
+    $$("[data-m-reveal]").forEach(b=>b.onclick=()=>{state.reveal=b.dataset.mReveal;sync();triggerReveal(false);renderAmbient();renderMobileSheet("reveal")});
+
+    if($("mUploadAudioBtn"))$("mUploadAudioBtn").onclick=()=>$("audioInput").click();
+
+    if($("mFromName"))$("mFromName").oninput=e=>{
+      state.fromName=e.target.value;$("fromName").value=state.fromName
+    };
+    if($("mNoteText"))$("mNoteText").oninput=e=>{
+      state.note=e.target.value;$("noteText").value=state.note
+    };
+
+    if($("mAmbientToggle"))$("mAmbientToggle").onclick=()=>{
+      state.ambient=!state.ambient;sync();$("revealLayer").innerHTML="";renderAmbient();renderMobileSheet("reveal")
+    };
+    if($("mChimeToggle"))$("mChimeToggle").onclick=()=>{
+      state.chime=!state.chime;sync();if(state.chime)playCountTone(660);renderMobileSheet("reveal")
+    };
+    if($("mAutoPlayToggle"))$("mAutoPlayToggle").onclick=()=>{
+      state.autoPlay=!state.autoPlay;sync();renderMobileSheet("reveal")
+    };
+  }
+
+  function openMobileSheet(tab=state.mobileTab){
+    if(innerWidth>820)return;
+    renderMobileSheet(tab);
+    const s=$("mobileSheet");
+    s.classList.remove("hidden");
+    requestAnimationFrame(()=>{s.classList.add("open");s.setAttribute("aria-hidden","false")});
+  }
+
+  function closeMobileSheet(){
+    const s=$("mobileSheet");
+    if(s.classList.contains("hidden"))return;
+    s.classList.remove("open");s.setAttribute("aria-hidden","true");
+    setTimeout(()=>s.classList.add("hidden"),220);
+  }
+
+  $$("[data-mobile-tab]").forEach(b=>b.onclick=()=>openMobileSheet(b.dataset.mobileTab));
+  $("mobileCustomizeBtn").onclick=()=>openMobileSheet(state.mobileTab);
+  $("mobileRecordBtn").onclick=()=>isRecording?stopRecording():startRecording();
+  $("mobilePreviewBtn").onclick=openPreview;
+  $("mobileSheetBackdrop").onclick=closeMobileSheet;
+  $("mobileSheetClose").onclick=closeMobileSheet;
+  $("sheetGrabber").onclick=closeMobileSheet;
+  $("mobileDoneBtn").onclick=closeMobileSheet;
+  $("mobileResetBtn").onclick=resetAll;
+
+  bindDesktop();
+  sync();
+  renderWaveIdle();
+  renderAmbient();
+  (()=>{const n=$("micNotice");if(!n)return;if(!window.isSecureContext){n.classList.add("warning");n.textContent=location.protocol==="file:"?"Direct file mode blocks microphone recording in many browsers. Open START-LOCAL-TEST.bat or use GitHub Pages.":"Microphone recording needs HTTPS or localhost."}else if(navigator.mediaDevices?.getUserMedia&&window.MediaRecorder){n.textContent="Microphone is available. Your browser will ask permission when you press Record."}else{n.classList.add("warning");n.textContent="This browser does not expose microphone recording here. Upload Audio is still available."}})();
+
+  window.addEventListener("beforeunload",()=>{
+    if(audioUrl)URL.revokeObjectURL(audioUrl);
+    mediaStream?.getTracks().forEach(t=>t.stop());
+    cleanupAudioGraph();
+  });
+})();
+</script>
+</body>
+</html>

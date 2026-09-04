@@ -1,0 +1,93 @@
+JC's Birthday V22.1 — FINAL PHOTO-RESTORED QA
+
+The missing original homepage portrait has been restored.
+This report re-checks the full HTML/JS structure plus the portrait asset.
+
+PASS: Original portrait asset included — 64775 bytes
+PASS: Homepage uses assets/jaycee.jpg
+PASS: Portrait has accessible alt text
+PASS: Portrait uses responsive object-fit
+PASS: Mobile portrait rule present
+PASS: Very-small-phone portrait rule present
+PASS: Floating birthday icons retained
+PASS: Old generic center-gift placeholder removed
+PASS: index.html: language — en
+PASS: index.html: viewport
+PASS: index.html: unique IDs — 62 IDs
+PASS: index.html: all img tags have alt — 1 images
+PASS: index.html: responsive CSS
+PASS: index.html: reduced-motion
+PASS: index.html: focus-visible
+PASS: index.html: JS syntax
+PASS: modes/bouquet.html: language — en
+PASS: modes/bouquet.html: viewport
+PASS: modes/bouquet.html: unique IDs — 29 IDs
+PASS: modes/bouquet.html: all img tags have alt — 0 images
+PASS: modes/bouquet.html: responsive CSS
+PASS: modes/bouquet.html: reduced-motion
+PASS: modes/bouquet.html: focus-visible
+PASS: modes/bouquet.html: JS syntax
+PASS: modes/cake.html: language — en
+PASS: modes/cake.html: viewport
+PASS: modes/cake.html: unique IDs — 38 IDs
+PASS: modes/cake.html: all img tags have alt — 0 images
+PASS: modes/cake.html: responsive CSS
+PASS: modes/cake.html: reduced-motion
+PASS: modes/cake.html: focus-visible
+PASS: modes/cake.html: JS syntax
+PASS: modes/card.html: language — en
+PASS: modes/card.html: viewport
+PASS: modes/card.html: unique IDs — 43 IDs
+PASS: modes/card.html: all img tags have alt — 2 images
+PASS: modes/card.html: responsive CSS
+PASS: modes/card.html: reduced-motion
+PASS: modes/card.html: focus-visible
+PASS: modes/card.html: JS syntax
+PASS: modes/gift-box.html: language — en
+PASS: modes/gift-box.html: viewport
+PASS: modes/gift-box.html: unique IDs — 35 IDs
+PASS: modes/gift-box.html: all img tags have alt — 0 images
+PASS: modes/gift-box.html: responsive CSS
+PASS: modes/gift-box.html: reduced-motion
+PASS: modes/gift-box.html: focus-visible
+PASS: modes/gift-box.html: JS syntax
+PASS: modes/photo-together.html: language — en
+PASS: modes/photo-together.html: viewport
+PASS: modes/photo-together.html: unique IDs — 34 IDs
+PASS: modes/photo-together.html: all img tags have alt — 0 images
+PASS: modes/photo-together.html: responsive CSS
+PASS: modes/photo-together.html: reduced-motion
+PASS: modes/photo-together.html: focus-visible
+PASS: modes/photo-together.html: JS syntax
+PASS: modes/song.html: language — en
+PASS: modes/song.html: viewport
+PASS: modes/song.html: unique IDs — 43 IDs
+PASS: modes/song.html: all img tags have alt — 0 images
+PASS: modes/song.html: responsive CSS
+PASS: modes/song.html: reduced-motion
+PASS: modes/song.html: focus-visible
+PASS: modes/song.html: JS syntax
+PASS: All static local homepage images exist
+PASS: Exactly six final gift modes — ['cake', 'bouquet', 'card', 'box', 'photoTogether', 'song']
+PASS: Drawing remains removed
+PASS: Custom Money remains removed
+PASS: Public chat remains removed
+PASS: Online Presence retained
+PASS: Shared Birthday Box retained
+PASS: Owner PIN retained
+PASS: Take My Time retained
+PASS: Mic iframe permission retained
+PASS: Responsive phone one-column gifts
+PASS: Small phone breakpoint retained
+PASS: Package contains index.html
+PASS: Package contains supabase-config.js
+PASS: Package contains SUPABASE-SETUP.sql
+PASS: Package contains assets/jaycee.jpg
+PASS: Package contains modes/cake.html
+PASS: Package contains modes/bouquet.html
+PASS: Package contains modes/card.html
+PASS: Package contains modes/gift-box.html
+PASS: Package contains modes/photo-together.html
+PASS: Package contains modes/song.html
+
+FINAL RESULT: 86/86 checks passed.
